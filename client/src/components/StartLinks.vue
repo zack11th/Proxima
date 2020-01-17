@@ -11,5 +11,7 @@
 </template>
 
 <script>
-
+  export default {
+    name: "StartLinks"
+  }
 </script>
