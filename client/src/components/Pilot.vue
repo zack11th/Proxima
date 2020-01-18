@@ -36,18 +36,18 @@
       height: 100vh;
     }
     .orbit-area {
-      width: 50%;
-      height: 70%;
-      background-color: #202020;
+      width: 960px;
+      height: 655px;
+      background-color: #1b1b1b;
     }
     .camera-area {
-      width: 50%;
-      height: 70%;
+      width: calc(100% - 960px);
+      height: 655px;
       background-color: #000
     }
     .controllers {
       width: 100%;
-      height: 30%;
+      height: calc(100% - 655px);
       background-color: #444;
     }
 </style>
