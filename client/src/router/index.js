@@ -5,6 +5,7 @@ import Commander from '@/components/Commander'
 import Pilot from '@/components/Pilot'
 import Medic from '@/components/Medic'
 import Scientist from '@/components/Scientist'
+import Master from '@/components/Master'
 
 Vue.use(Router)
 
@@ -29,6 +30,11 @@ export default new Router({
       path: '/scientist',
       name: 'Scientist',
       component: Scientist
+    },
+    {
+      path: '/master',
+      name: 'Master',
+      component: Master
     },
     {
       path: '/',

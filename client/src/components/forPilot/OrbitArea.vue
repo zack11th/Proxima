@@ -19,6 +19,9 @@
           }
         },
         computed: {
+          planet () {
+            return this.$store.getters.get_planet;
+          }
         },
         methods: {
           BlackHole (ctx) { // отрисовка черной дыры
@@ -32,11 +35,8 @@
             };
           },
           movePlanet (ctx, planetAngle) { // движение планеты
-            let center = { // центр орбиты планеты (в центре черной дыры
-              x: this.fullWidth/2-50,
-              y: this.fullHeight/2-150
-            };
-            let planetRadius = 170; // радицс орбиты планеты
+            let center = this.planet.center;
+            let planetRadius = this.planet.orbitRadius; // радицс орбиты планеты
             ctx.beginPath();
             ctx.setLineDash([3, 8]);
             ctx.strokeStyle = '#8bcd8f';
@@ -67,7 +67,6 @@
           drawMap (ctx) {
             this.BlackHole(ctx);
 
-            let planetAngle = Math.PI / 2.4; // угол планеты относительно системы координат в центре черной дыры
             window.setInterval(() => {
               // очистка области вокруг черной дыры
               ctx.clearRect(0, 0, 390, this.fullHeight);
@@ -75,19 +74,23 @@
               ctx.clearRect(390, 0, 100, 130);
               ctx.clearRect(390, 230, 100, 400);
               // планетв
-              this.movePlanet(ctx, planetAngle);
-              if (planetAngle > 0) {
-                planetAngle -= 0.01
-              } else {
-                planetAngle = Math.PI * 2
-              }
+              this.$store.dispatch('GET_PLANET');
+              this.movePlanet(ctx, this.planet.angle);
             }, 100);
+
 
           }
         },
         mounted() {
           this.canvas = document.getElementById('orbit');
           this.ctx = this.canvas.getContext('2d');
+
+          const orbitArea = {
+            width: this.canvas.width,
+            height: this.canvas.height
+          };
+          this.$store.dispatch('GET_CANVAS', orbitArea);
+
           this.fullWidth = this.canvas.width;
           this.fullHeight = this.canvas.height;
 
