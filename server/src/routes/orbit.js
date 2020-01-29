@@ -4,6 +4,8 @@ const router = express.Router();
 
 // api/orbit
 router.get('/planet', controller.planet);
+router.post('/planet', controller.set_planet);
 router.post('/canvas', controller.canvas);
+router.get('/start', controller.startLARPorbit);
 
 module.exports = router;

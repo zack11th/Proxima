@@ -57,7 +57,7 @@
             let x = planetRadius * Math.cos(planetAngle) + center.x;
             let y = planetRadius * Math.sin(planetAngle) + center.y;
             ctx.fillStyle = '#005dff';
-            ctx.arc(x, y, 10, 0, Math.PI * 2);
+            ctx.arc(x, y, this.planet.radius, 0, Math.PI * 2);
             ctx.fill();
             ctx.beginPath();
             ctx.font = "11px Verdana";

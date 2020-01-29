@@ -22,10 +22,17 @@ export default {
         commit('set_planet', result);
         // console.log(result)
       }, error => {console.error('ОШИБКА!!!', error)});
+    },
+    SET_PLANET ({commit}, planet) {
+      axios.post(`${url}/api/orbit/planet`, planet).then(result => {
+        commit('set_planet', result);
+        // console.log(result)
+      }, error => {console.error('ОШИБКА!!!', error)});
     }
   },
   getters: {
     get_planet (state) {
+      console.log(state.planet)
       return state.planet;
     }
   }
