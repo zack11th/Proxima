@@ -34,20 +34,26 @@
       flex-wrap: wrap;
       width: 100vw;
       height: 100vh;
+      position: relative;
     }
     .orbit-area {
       width: 960px;
-      height: 655px;
+      height: 100vh;
       background-color: #1b1b1b;
     }
     .camera-area {
-      width: calc(100% - 960px);
-      height: 655px;
+      /*width: calc(100% - 960px);*/
+      width: 960px;
+      height: 100vh;
       background-color: #000
     }
     .controllers {
-      width: 100%;
-      height: calc(100% - 655px);
+      width: 35%;
+      height: calc(100% - 800px);
       background-color: #444;
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
     }
 </style>

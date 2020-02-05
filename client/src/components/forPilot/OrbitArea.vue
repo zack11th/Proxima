@@ -1,6 +1,6 @@
 <template>
   <div>
-    <canvas id="orbit" width="960" height="655">Надо найти другой браузер</canvas>
+    <canvas id="orbit" width="960" height="960">Надо найти другой браузер</canvas>
     <!--<img src="../../assets/dark-hole.png" alt="">-->
   </div>
 
@@ -70,9 +70,9 @@
             window.setInterval(() => {
               // очистка области вокруг черной дыры
               ctx.clearRect(0, 0, 390, this.fullHeight);
-              ctx.clearRect(490, 0, 410, this.fullHeight);
-              ctx.clearRect(390, 0, 100, 130);
-              ctx.clearRect(390, 230, 100, 400);
+              ctx.clearRect(490, 0, 470, this.fullHeight);
+              ctx.clearRect(390, 0, 100, 285);
+              ctx.clearRect(390, 380, 470, 580);
               // планетв
               this.$store.dispatch('GET_PLANET');
               this.movePlanet(ctx, this.planet.angle);

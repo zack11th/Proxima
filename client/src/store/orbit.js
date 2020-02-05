@@ -32,7 +32,7 @@ export default {
   },
   getters: {
     get_planet (state) {
-      console.log(state.planet)
+      // console.log(state.planet)
       return state.planet;
     }
   }
