@@ -2,6 +2,7 @@
     <div class="fullscreen">
       <div class="start center">
         <button @click="startLARP">START</button>
+        <button @click="startLARP_socket">START_socket</button>
       </div>
       <hr>
       <div class="flex">
@@ -69,6 +70,9 @@
         }
       },
       methods: {
+        startLARP_socket() {
+          this.$socket.emit('startLarp', {text: 'from client'});
+        },
         startLARP() {
           this.$store.dispatch('START_LARP');
         },
