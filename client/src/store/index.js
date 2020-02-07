@@ -3,13 +3,13 @@ import Vuex from 'vuex';
 import axios from 'axios';
 
 import general from './general';
-import orbit from './orbit';
+import pilot from './pilot';
 
 Vue.use(Vuex);
 Vue.use(axios);
 
 export default new Vuex.Store({
   modules: {
-    orbit, general
+    pilot, general
   }
 });

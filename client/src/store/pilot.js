@@ -3,7 +3,8 @@ import {url} from './server.config'
 
 export default {
   state: {
-    planet: {}
+    planet: {},
+    difficult: 5
   },
   mutations: {
     set_planet (state, payload) {
@@ -34,6 +35,9 @@ export default {
     get_planet (state) {
       // console.log(state.planet)
       return state.planet;
+    },
+    difficult (state) {
+      return state.difficult;
     }
   }
 }
