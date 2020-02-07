@@ -8,6 +8,9 @@ export default {
   mutations: {
     SOCKET_startLarpON(state, data) {
       console.log(data);
+    },
+    SOCKET_return(state, entity) {
+      console.log(entity)
     }
 
   },

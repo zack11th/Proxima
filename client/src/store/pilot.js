@@ -13,6 +13,9 @@ export default {
     }
   },
   actions: {
+    SOCKET_test({commit}) {
+
+    },
     GET_CANVAS ({commit}, data) {
       axios.post(`${url}/api/orbit/canvas`, data).then(result => {
         commit('set_planet', result);

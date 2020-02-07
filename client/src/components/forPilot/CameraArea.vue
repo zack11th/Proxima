@@ -1,6 +1,6 @@
 <template>
   <div class="wrap">
-    <!--<button id="start">start</button>-->
+    <button id="start" @click="test_socket">start</button>
     <div class="main" id="video-cont">
       <div class="video-wrap" v-bind:style="{ left: x + 'px', top: y + 'px'}">
         <video ref="videoRef" muted="muted" src="../../assets/videoplayback.mp4"></video>
@@ -17,6 +17,7 @@
       name: "CameraArea",
       data() {
         return {
+          component: 'pilot',
           gamepad: null,
           gpIndex: null,
           x: 0,
@@ -80,6 +81,9 @@
               (this.y + this.targetSquare > this.targetY)) {
             this.score ++;
           }
+        },
+        test_socket() {
+          this.$socket.emit('onTest', {entity: this.component, method: 'test', number: '1'})
         }
       },
       mounted () {

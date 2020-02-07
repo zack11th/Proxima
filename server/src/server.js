@@ -6,6 +6,8 @@ const app = express();
 // ******* socket
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
+// **** CLASSES
+const Base = require('./controllers/base')
 
 // routes import
 const orbit = require('./routes/orbit');
@@ -23,6 +25,7 @@ app.get("*", (req, res) => {
     res.send([{
         title: "Мы еще ничего не создали"
     }]);
+    console.log('FLSYFLSY!!!')
 });
 
 io.on('connection', socket => {
@@ -36,6 +39,11 @@ io.on('connection', socket => {
                 text: data.text + ' from SERVER'
             });
         }, 500)
+    });
+    socket.on('onTest', data => {
+        console.log('server', data);
+        let entity = new Base().action(data);
+        socket.emit('return', entity);
     })
 });
 
