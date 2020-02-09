@@ -6,18 +6,18 @@ export default {
 
   },
   mutations: {
-    SOCKET_startLarpON(state, data) {
-      console.log(data);
-    }
+    // SOCKET_startLarpON(state, data) {
+    //   console.log(data);
+    // }
 
   },
   actions: {
-    SOCKET_startLarp(ctx, data) {
-      console.log('Message received', data);
-    },
-    START_LARP () {
-      axios.get(`${url}/api/orbit/start`);
-    }
+    // SOCKET_startLarp(ctx, data) {
+    //   console.log('Message received', data);
+    // },
+    // START_LARP () {
+    //   axios.get(`${url}/api/orbit/start`);
+    // }
   },
   getters: {
 

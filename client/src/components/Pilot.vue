@@ -23,6 +23,9 @@
           OrbitArea,
           Controllers,
           CameraArea
+        },
+        mounted() {
+          this.$socket.emit('conn', 'PILOT connected')
         }
 
     }

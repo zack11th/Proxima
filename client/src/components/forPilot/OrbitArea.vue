@@ -74,7 +74,6 @@
               ctx.clearRect(390, 0, 100, 285);
               ctx.clearRect(390, 380, 470, 580);
               // планетв
-              this.$store.dispatch('GET_PLANET');
               this.movePlanet(ctx, this.planet.angle);
             }, 100);
 
@@ -89,7 +88,7 @@
             width: this.canvas.width,
             height: this.canvas.height
           };
-          this.$store.dispatch('GET_CANVAS', orbitArea);
+          this.$socket.emit('canvas', orbitArea);
 
           this.fullWidth = this.canvas.width;
           this.fullHeight = this.canvas.height;

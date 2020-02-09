@@ -2,7 +2,7 @@
     <div class="fullscreen">
       <div class="start center">
         <button @click="startLARP">START</button>
-        <button @click="startLARP_socket">START_socket</button>
+        <!--<button @click="startLARP_socket">START_socket</button>-->
       </div>
       <hr>
       <div class="flex">
@@ -61,7 +61,6 @@
       computed: {
         angle: {
           get(){
-            this.$store.dispatch('GET_PLANET');
             return this.$store.getters.get_planet.angle;
           },
           set(){
@@ -70,14 +69,11 @@
         }
       },
       methods: {
-        startLARP_socket() {
-          this.$socket.emit('startLarp', {text: 'from client'});
-        },
         startLARP() {
-          this.$store.dispatch('START_LARP');
+          console.log('start')
+          this.$socket.emit('startLarp');
         },
         getPlanet() {
-          this.$store.dispatch('GET_PLANET');
           this.planet = this.$store.getters.get_planet;
         },
         setPlanet() {
@@ -88,11 +84,11 @@
           planet.orbitRadius = Number(planet.orbitRadius);
           planet.radius = Number(planet.radius);
           planet.orbitSpeed = Number(planet.orbitSpeed);
-          this.$store.dispatch('SET_PLANET', planet);
+          this.$socket.emit('setPlanet', planet);
         }
       },
       mounted() {
-        // this.$store.dispatch('GET_PLANET')
+        this.$socket.emit('conn', 'MASTER connected')
       }
     }
 </script>
