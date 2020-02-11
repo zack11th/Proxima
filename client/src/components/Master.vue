@@ -7,7 +7,7 @@
       <hr>
       <div class="flex">
         <div class="planet">
-          <h1>Planet</h1>
+          <h2>Planet</h2>
           <div>
             <label for="angle">angle</label>
             <input name="angle" type="text" v-model="angle">
@@ -37,6 +37,25 @@
             <button @click="setPlanet">Задать</button>
           </div>
         </div>
+        <div class="alertPilot">
+          <h2>Pilot Alerts</h2>
+          <div>
+            <label>header</label>
+            <input type="text" v-model="alertPilot.header">
+          </div>
+          <div>
+            <label>message</label>
+            <input type="text" v-model="alertPilot.message">
+          </div>
+          <div>
+            <label>button</label>
+            <input type="checkbox" v-model="alertPilot.button">
+          </div>
+          <div class="alert-in-process" v-if="alertInProcess">ALERT</div>
+          <div class="action">
+            <button @click="clickAlertPilot">Отправить</button>
+          </div>
+        </div>
       </div>
     </div>
 </template>
@@ -55,6 +74,12 @@
             orbitRadius: 0,
             radius: 0,
             orbitSpeed: 0
+          },
+          alertPilot: {
+            header: '',
+            message: 'Примите ручное управление, чтобы начать процедуру посадки',
+            button: false,
+            inProcess: false
           }
         }
       },
@@ -66,6 +91,9 @@
           set(){
             console.log('setter computed')
           }
+        },
+        alertInProcess () {
+          return this.$store.getters.alertPilot.inProcess
         }
       },
       methods: {
@@ -85,6 +113,14 @@
           planet.radius = Number(planet.radius);
           planet.orbitSpeed = Number(planet.orbitSpeed);
           this.$socket.emit('setPlanet', planet);
+        },
+        clickAlertPilot() {
+          if (this.alertPilot.header || this.alertPilot.message || this.alertPilot.button){
+            this.alertPilot.inProcess = true;
+          }else{
+            this.alertPilot.inProcess = false;
+          }
+          this.$socket.emit('alertPilot', this.alertPilot)
         }
       },
       mounted() {
@@ -119,7 +155,7 @@
     display: flex;
     flex-direction: column;
   }
-  .planet > div {
+  .flex > div > div {
     display: flex;
     justify-content: space-between;
   }
@@ -129,5 +165,20 @@
   .fullscreen .action {
     justify-content: space-around;
     margin-top: 10px;
+  }
+  .flex .alert-in-process {
+    justify-content: center;
+    animation: miganie 1s ease-in-out 0s infinite;
+  }
+  @keyframes miganie {
+    0%, 100% {
+      background-color: darkred;
+    }
+    50% {
+      background-color: transparent;
+    }
+  }
+  .alertPilot {
+    margin-left: 10px;
   }
 </style>

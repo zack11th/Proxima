@@ -7,6 +7,7 @@ const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
 const pilot = require('./controllers/pilot');
+const alerts = require('./controllers/alerts');
 
 
 // routes import
@@ -26,6 +27,7 @@ io.on('connection', socket => {
     socket.join('game'); // создание общего id для всех подключенных клиентов
 
     pilot(io, socket);
+    alerts(io, socket);
     // socket.on('startLarp', data => {
     //     setTimeout(() => {
     //         console.log(data.text + ' message');

@@ -9,6 +9,11 @@
       <div class="controllers">
         <controllers></controllers>
       </div>
+      <alert :header="alertPilot.header"
+             :message="alertPilot.message"
+             :button="alertPilot.button"
+             v-if="alertPilot.header || alertPilot.message || alertPilot.button"
+      ></alert>
     </div>
 </template>
 
@@ -16,16 +21,24 @@
     import OrbitArea from './forPilot/OrbitArea'
     import Controllers from './forPilot/Controllers'
     import CameraArea from './forPilot/CameraArea'
+    import Alert from './Other/Alert'
 
     export default {
         name: "Pilot",
         components: {
           OrbitArea,
           Controllers,
-          CameraArea
+          CameraArea,
+          Alert
+        },
+        computed: {
+          alertPilot() {
+            return this.$store.getters.alertPilot
+          }
         },
         mounted() {
           this.$socket.emit('conn', 'PILOT connected')
+          console.log(this.alertPilot)
         }
 
     }

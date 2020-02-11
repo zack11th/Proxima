@@ -3,23 +3,25 @@ import {url} from './server.config'
 
 export default {
   state: {
+    alertPilot: {
+    }
 
   },
   mutations: {
-    // SOCKET_startLarpON(state, data) {
-    //   console.log(data);
-    // }
+    SOCKET_pilotAlert(state, data) {
+      state.alertPilot = data;
+    },
+    clearAlert(state, socket) {
+      state.alertPilot = {};
+      socket.emit('alertPilot', state.alertPilot);
+    }
 
   },
   actions: {
-    // SOCKET_startLarp(ctx, data) {
-    //   console.log('Message received', data);
-    // },
-    // START_LARP () {
-    //   axios.get(`${url}/api/orbit/start`);
-    // }
   },
   getters: {
-
+    alertPilot(state) {
+      return state.alertPilot
+    }
   }
 }

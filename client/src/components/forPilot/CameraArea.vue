@@ -83,8 +83,8 @@
         }
       },
       mounted () {
-        this.video.w = 1200; // равно ширине видео (посмотреть computed)
-        this.video.h = 675; // равно высоте видео (посмотреть computed)
+        this.video.w = 1200; // равно ширине видео (посмотреть computed в браузере)
+        this.video.h = 675; // равно высоте видео (посмотреть computed в браузере)
         this.videoWrap.w = Number(window.getComputedStyle(document.querySelector('#video-cont')).getPropertyValue('width').replace(/\D+/g,""));
         this.videoWrap.h = Number(window.getComputedStyle(document.querySelector('#video-cont')).getPropertyValue('height').replace(/\D+/g,""));
 
@@ -96,7 +96,9 @@
 
         window.addEventListener("gamepadconnected", (e) => {
           this.gpIndex = e.gamepad.index;
-          this.gamepad = navigator.getGamepads()[this.gpIndex];
+          // let interval = setInterval(() => {
+            this.gamepad = navigator.getGamepads()[this.gpIndex];
+          // }, 100);
           console.log('gamepad connected');
           window.setTimeout(() => {
             this.$refs.videoRef.play();
@@ -113,9 +115,6 @@
     top: 50px;
     left: 0;
   }
-  /*p {*/
-    /*color: #00ac00;*/
-  /*}*/
   .wrap {
     position: relative;
     width: 100%;
