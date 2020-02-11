@@ -14,6 +14,9 @@ export default {
     clearAlert(state, socket) {
       state.alertPilot = {};
       socket.emit('alertPilot', state.alertPilot);
+    },
+    setAlert(state, data) {
+      state.alertPilot = data
     }
 
   },

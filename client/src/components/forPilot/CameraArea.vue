@@ -96,14 +96,33 @@
 
         window.addEventListener("gamepadconnected", (e) => {
           this.gpIndex = e.gamepad.index;
-          // let interval = setInterval(() => {
+          let interval = setInterval(() => {
             this.gamepad = navigator.getGamepads()[this.gpIndex];
-          // }, 100);
+            // console.log(this.gamepad)
+
+            if(this.gamepad.buttons[1].value) {
+              clearInterval(interval);
+              this.$store.commit('clearAlert', this.$socket);
+              let countDown = 5;
+              // window.setTimeout(() => {
+              //   console.log(countDown)
+              //
+              // }, countDown * 1000) // время от принятия управления до старта полета
+              let startCount = setInterval(() => {
+                console.log(countDown)
+                if (countDown < 0) {
+                  clearInterval(startCount);
+                  this.$store.commit('clearAlert', this.$socket);
+                  this.$refs.videoRef.play();
+                  this.flight();
+                }
+                this.$store.commit('setAlert', {header: String(countDown)})
+                countDown--;
+              }, 1000);
+            }
+          }, 100);
           console.log('gamepad connected');
-          window.setTimeout(() => {
-            this.$refs.videoRef.play();
-            this.flight();
-          }, 1000) // время от принятия управления до старта полета
+
         });
       }
     }
