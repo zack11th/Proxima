@@ -2,7 +2,7 @@
   <div class="wrap">
     <!--<button id="start">start</button>-->
     <div class="main" id="video-cont">
-      <div class="video-wrap" v-bind:style="{ left: x + 'px', top: y + 'px'}">
+      <div class="video-wrap" v-bind:style="{ left: x + 'px', top: y + 'px', transform: 'rotate('+z+'deg)', transformOrigin: `${centerCameraX}px ${centerCameraY}px`}">
         <video ref="videoRef" muted="muted" src="../../assets/videoplayback.mp4"></video>
         <img class="target" src="../../assets/close.png" alt="">
       </div>
@@ -21,6 +21,7 @@
           gpIndex: null,
           x: 0,
           y: 0,
+          z: 0,
           video: {
             w: 0,
             h: 0
@@ -40,6 +41,12 @@
         difficult() {
           return this.$store.getters.difficult;
         },
+        centerCameraX() {
+          return this.video.w / 2 - this.x + this.targetX
+        },
+        centerCameraY() {
+          return this.video.h / 2 - this.y + this.targetY
+        },
         success: {
           get() {
             return Math.round(this.score * 100 / this.maxScore);
@@ -50,8 +57,12 @@
       methods: {
         flight() {
           this.gamepad = navigator.getGamepads()[this.gpIndex];
-          this.x -= Math.round(this.gamepad.axes[0]*5);
-          this.y += Math.round(this.gamepad.axes[1]*5);
+          this.x -= Math.round(this.gamepad.axes[5]*5); // рыскание
+          this.y += Math.round(this.gamepad.axes[1]*5); // тангаж
+          this.z -= 2 * this.gamepad.axes[0]; // крен
+
+          console.log(this.gamepad)
+          console.log('wpap ', this.videoWrap.w, 'h ', this.videoWrap.h)
 
           // проверки на крайние положения
           this.x = (this.x > 0) ? 0 : this.x;
@@ -104,12 +115,7 @@
               clearInterval(interval);
               this.$store.commit('clearAlert', this.$socket);
               let countDown = 5;
-              // window.setTimeout(() => {
-              //   console.log(countDown)
-              //
-              // }, countDown * 1000) // время от принятия управления до старта полета
               let startCount = setInterval(() => {
-                console.log(countDown)
                 if (countDown < 0) {
                   clearInterval(startCount);
                   this.$store.commit('clearAlert', this.$socket);
@@ -153,6 +159,7 @@
     position: absolute;
     /*top: -115px;*/
     /*left: -300px;*/
+    /*transform-origin: center;*/
   }
   .video-wrap > video {
     width: 100%;
