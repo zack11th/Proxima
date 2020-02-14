@@ -2,21 +2,16 @@
 
 ``` bash
 # install dependencies
-npm install
 
-# install client dependencies
+npm i
 cd client
-npm install
-
-# install server dependencies
+npm i
+cd ..
 cd server
-npm install
+npm i
 
-
+# parallel
 # serve with hot reload at localhost:8080
-cd client
-npm run dev
-
 # start server at localhost:3000
-cd server
-npm run start
+
+npm run game

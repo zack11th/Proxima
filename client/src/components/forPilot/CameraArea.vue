@@ -61,9 +61,6 @@
           this.y += Math.round(this.gamepad.axes[1]*5); // тангаж
           this.z -= 2 * this.gamepad.axes[0]; // крен
 
-          console.log(this.gamepad)
-          console.log('wpap ', this.videoWrap.w, 'h ', this.videoWrap.h)
-
           // проверки на крайние положения
           this.x = (this.x > 0) ? 0 : this.x;
           this.x = (this.x < -(this.video.w - this.videoWrap.w)) ? -(this.video.w - this.videoWrap.w) : this.x;
