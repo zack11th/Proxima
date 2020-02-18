@@ -2,42 +2,11 @@
     <div class="fullscreen">
       <div class="start center">
         <button @click="startLARP">START</button>
-        <!--<button @click="startLARP_socket">START_socket</button>-->
       </div>
       <hr>
+      <h2>ALERTS</h2>
       <div class="flex">
-        <div class="planet">
-          <h2>Planet</h2>
-          <div>
-            <label for="angle">angle</label>
-            <input name="angle" type="text" v-model="angle">
-          </div>
-          <div>
-            <label for="centerX">center x</label>
-            <input type="text" name="centerX" v-model="planet.center.x">
-          </div>
-          <div>
-            <label for="centerY">center y</label>
-            <input type="text" name="centerY" v-model="planet.center.y">
-          </div>
-          <div>
-            <label for="orbitRadius">orbit Radius</label>
-            <input type="text" name="orbitRadius" v-model="planet.orbitRadius">
-          </div>
-          <div>
-            <label for="radius">radius</label>
-            <input type="text" name="radius" v-model="planet.radius">
-          </div>
-          <div>
-            <label for="orbitSpeed">orbit Speed</label>
-            <input type="text" name="orbitSpeed" v-model="planet.orbitSpeed">
-          </div>
-          <div class="action">
-            <button @click="getPlanet">Получить</button>
-            <button @click="setPlanet">Задать</button>
-          </div>
-        </div>
-        <div class="alertPilot">
+        <div class="alert">
           <h2>Pilot Alerts</h2>
           <div>
             <label>header</label>
@@ -45,15 +14,16 @@
           </div>
           <div>
             <label>message</label>
-            <input type="text" v-model="alertPilot.message">
+            <textarea v-model="alertPilot.message"></textarea>
           </div>
           <div>
             <label>button</label>
             <input type="checkbox" v-model="alertPilot.button">
           </div>
-          <div class="alert-in-process" v-if="alertInProcess">ALERT</div>
+          <div class="alert-in-process" v-if="alertInProcess_pilot">ALERT</div>
           <div class="action">
-            <button @click="clickAlertPilot">Отправить</button>
+            <button @click="clearAlert(alertEvents.pilot)">Clear</button>
+            <button @click="clickAlert(alertPilot, alertEvents.pilot)">Отправить</button>
           </div>
         </div>
       </div>
@@ -65,15 +35,8 @@
       name: "Master",
       data () {
         return {
-          planet: {
-            // angle: 0,
-            center: {
-              x: 0,
-              y: 0
-            },
-            orbitRadius: 0,
-            radius: 0,
-            orbitSpeed: 0
+          alertEvents: {
+            pilot: 'alertPilot'
           },
           alertPilot: {
             header: '',
@@ -92,13 +55,12 @@
             console.log('setter computed')
           }
         },
-        alertInProcess () {
-          return this.$store.getters.alertPilot.inProcess
+        alertInProcess_pilot() {
+            return this.$store.getters.alertPilot.inProcess
         }
       },
       methods: {
         startLARP() {
-          console.log('start')
           this.$socket.emit('startLarp');
         },
         getPlanet() {
@@ -114,13 +76,21 @@
           planet.orbitSpeed = Number(planet.orbitSpeed);
           this.$socket.emit('setPlanet', planet);
         },
-        clickAlertPilot() {
-          if (this.alertPilot.header || this.alertPilot.message || this.alertPilot.button){
-            this.alertPilot.inProcess = true;
+        clickAlert(alert, socketEvent) {
+          if (alert.header || alert.message || alert.button){
+            alert.inProcess = true;
           }else{
-            this.alertPilot.inProcess = false;
+            alert.inProcess = false;
           }
-          this.$socket.emit('alertPilot', this.alertPilot)
+          this.$socket.emit(socketEvent, alert)
+        },
+        clearAlert(socketEvent) {
+          this.alertPilot = {
+            header: '',
+            message: '',
+            button: false
+          };
+          this.clickAlert(this.alertPilot, socketEvent);
         }
       },
       mounted() {
@@ -132,6 +102,10 @@
 <style scoped>
   * {
     box-sizing: border-box;
+  }
+  h2 {
+    margin: 5px;
+    text-align: center;
   }
   .fullscreen {
     width: 100%;
@@ -150,10 +124,7 @@
   }
   .flex {
     display: flex;
-  }
-  .planet {
-    display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
   }
   .flex > div > div {
     display: flex;
@@ -178,7 +149,7 @@
       background-color: transparent;
     }
   }
-  .alertPilot {
+  .alert {
     margin-left: 10px;
   }
 </style>

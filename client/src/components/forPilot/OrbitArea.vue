@@ -1,6 +1,6 @@
 <template>
   <div class="orbit-wrap" ref="orbitwrap">
-    <canvas ref="orbit" id="orbit" width="960" height="960">Надо найти другой браузер</canvas>
+    <canvas ref="orbit" id="orbit" width="960" height="1080">Надо найти другой браузер</canvas>
     <div class="hole"><img src="../../assets/blackHole.jpg" alt=""><p class="p">Proxima Centauri</p></div>
   </div>
 
@@ -58,7 +58,7 @@
                 this.planets.forEach((item, i, arr) => {
                     // орбита планеты
                     ctx.lineWidth = 1;
-                    ctx.strokeStyle = "#444444";
+                    ctx.strokeStyle = "#83684e";
                     ctx.setLineDash([1,6]);
                     ctx.beginPath();
                     ctx.ellipse(this.cx, this.cy, item.a/this.scale, item.b/this.scale/3, this.DegToRad(item.F), 0, this.DegToRad(360), true);
@@ -97,7 +97,7 @@
             moveShip(ctx, ship) {
                 // орбита корабля
                 ctx.lineWidth = 1;
-                ctx.strokeStyle = "#626262";
+                ctx.strokeStyle = "#979797";
                 ctx.setLineDash([1,6]);
                 ctx.beginPath();
                 ctx.ellipse(ship.cxs, ship.cys, ship.a/this.scale, ship.b/this.scale/3, this.DegToRad(ship.F), 0, this.DegToRad(360), true);
