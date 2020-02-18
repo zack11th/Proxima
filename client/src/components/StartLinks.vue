@@ -8,6 +8,7 @@
       <li><router-link to="/medic">Медик</router-link></li>
       <hr>
       <li><router-link to="/master">Мастер</router-link></li>
+      <li><router-link to="/gamepad-test">Геймпад Тест</router-link></li>
     </ul>
   </div>
 </template>
