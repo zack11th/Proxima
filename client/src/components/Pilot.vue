@@ -38,7 +38,6 @@
         },
         mounted() {
           this.$socket.emit('conn', 'PILOT connected')
-          console.log(this.alertPilot)
         }
 
     }
@@ -55,13 +54,13 @@
     .orbit-area {
       width: 960px;
       height: 100vh;
-      background-color: #1b1b1b;
+      background-color: #000;
     }
     .camera-area {
       /*width: calc(100% - 960px);*/
       width: 960px;
       height: 100vh;
-      background-color: #000
+      background-color: #272727
     }
     .controllers {
       width: 35%;

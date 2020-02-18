@@ -17,7 +17,7 @@ export default new Router({
       component: Commander
     },
     {
-      path: '/pilot.js',
+      path: '/pilot',
       name: 'Pilot',
       component: Pilot
     },

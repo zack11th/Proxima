@@ -1,20 +1,44 @@
 export default {
   state: {
-    planet: {
-      angle: Math.PI / 2.4,
+    orbit: {
+      scale: 1,
       center: {
-        x: 0,
-        y: 0
+        cx: 0,
+        cy: 0
       },
-      orbitRadius: 170,
-      radius: 10,
-      orbitSpeed: 0.01
+      planets: [
+        {
+          name: 'Proxima A',
+          a: 150, // большая полуось
+          b: 150, // малая полуось
+          F: -20, // наклон
+          P: 0,
+          w: 180, // угол относительно центра (изменяется по интервалу)
+          v: 0, // скорость (считает автоматом)
+          W_speed: 0, // угловая скорость  (считает автоматом)
+          h: 0, // высота  (считает автоматом)
+          shift: 0 // смещение (считает автоматом)
+        }
+      ],
+      ship: {
+        name: 'Aurora',
+        a: 5500000, // большая полуось
+        b: 5500000, // малая полуось
+        F: -20, // наклон
+        P: 0,
+        w: 0, // угол относительно центра (изменяется по интервалу)
+        v: 0, // скорость (устанавливаем)
+        W_speed: 0, // угловая скорость  (считает автоматом)
+        h: 0, // высота  (считает автоматом)
+        cxs: 0, // центр орбиты корабля по х
+        cys: 0 // центр орбиты корабля по у
+      }
     },
     difficult: 5
   },
   mutations: {
     SOCKET_changePlanet(state, data) {
-      state.planet = data.planet;
+      state.orbit = data.orbit;
     }
   },
   actions: {
@@ -38,8 +62,13 @@ export default {
   },
   getters: {
     get_planet (state) {
-      // console.log(state.planet)
-      return state.planet;
+      return state.orbit.planets;
+    },
+    get_scale (state) {
+      return state.orbit.scale;
+    },
+    get_ship_orbit (state) {
+      return state.orbit.ship
     },
     difficult (state) {
       return state.difficult;
