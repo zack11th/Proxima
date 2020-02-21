@@ -27,6 +27,22 @@
           </div>
         </div>
       </div>
+      <hr>
+      <div class="flex">
+        <div class="pilot flex-row">
+          <h3>Пилоты</h3>
+        </div>
+        <div class="scientist flex-row">
+          <h3>Ученый</h3>
+        </div>
+        <div class="commander flex-row">
+          <h3>Командир</h3>
+        </div>
+        <div class="all-chat flex-row">
+          <h3>Общий чат</h3>
+        </div>
+      </div>
+      <hr>
     </div>
 </template>
 
@@ -62,19 +78,6 @@
       methods: {
         startLARP() {
           this.$socket.emit('startLarp');
-        },
-        getPlanet() {
-          this.planet = this.$store.getters.get_planet;
-        },
-        setPlanet() {
-          let planet = this.planet;
-          planet.angle = Number(this.angle);
-          planet.center.x = Number(planet.center.x);
-          planet.center.y = Number(planet.center.y);
-          planet.orbitRadius = Number(planet.orbitRadius);
-          planet.radius = Number(planet.radius);
-          planet.orbitSpeed = Number(planet.orbitSpeed);
-          this.$socket.emit('setPlanet', planet);
         },
         clickAlert(alert, socketEvent) {
           if (alert.header || alert.message || alert.button){
@@ -125,6 +128,10 @@
   .flex {
     display: flex;
     flex-wrap: wrap;
+  }
+  .flex-row {
+    border-right: 2px solid white;
+    width: 25%;
   }
   .flex > div > div {
     display: flex;
