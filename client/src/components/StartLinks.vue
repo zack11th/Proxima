@@ -6,6 +6,8 @@
       <li><router-link to="/pilot">Пилот</router-link></li>
       <li><router-link to="/scientist">Ученый</router-link></li>
       <li><router-link to="/medic">Медик</router-link></li>
+      <li><router-link to="/engineer">Инженер</router-link></li>
+      <li><router-link to="/general">Общий комп</router-link></li>
       <hr>
       <li><router-link to="/master">Мастер</router-link></li>
       <li><router-link to="/gamepad-test">Геймпад Тест</router-link></li>

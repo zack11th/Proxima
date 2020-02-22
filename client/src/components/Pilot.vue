@@ -12,6 +12,7 @@
       <alert :header="alertPilot.header"
              :message="alertPilot.message"
              :button="alertPilot.button"
+             :parent="'alertPilot'"
              v-if="alertPilot.header || alertPilot.message || alertPilot.button"
       ></alert>
     </div>

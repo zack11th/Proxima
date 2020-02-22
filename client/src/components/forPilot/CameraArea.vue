@@ -115,7 +115,7 @@
               let startCount = setInterval(() => {
                 if (countDown < 0) {
                   clearInterval(startCount);
-                  this.$store.commit('clearAlert', this.$socket);
+                  this.$store.commit('clearAlert', 'alertPilot', this.$socket);
                   this.$refs.videoRef.play();
                   this.flight();
                 }

@@ -5,10 +5,12 @@ import Commander from '@/components/Commander'
 import Pilot from '@/components/Pilot'
 import Medic from '@/components/Medic'
 import Scientist from '@/components/Scientist'
+import Engineer from '@/components/Engineer'
+import General from '@/components/General'
 import Master from '@/components/Master'
 import GamepadTest from '@/components/Other/GamepadTest'
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   routes: [
@@ -31,6 +33,16 @@ export default new Router({
       path: '/scientist',
       name: 'Scientist',
       component: Scientist
+    },
+    {
+      path: '/engineer',
+      name: 'Engineer',
+      component: Engineer
+    },
+    {
+      path: '/general',
+      name: 'General',
+      component: General
     },
     {
       path: '/gamepad-test',

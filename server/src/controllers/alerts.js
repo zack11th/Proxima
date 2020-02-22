@@ -1,7 +1,7 @@
 function alerts(io, socket) {
 
-    socket.on('alertPilot', data => {
-        io.emit('pilotAlert', data);
+    socket.on('alert', data => {
+        io.emit(data.event, data.alert);
     })
 }
 
