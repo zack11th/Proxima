@@ -110,12 +110,12 @@
 
             if(this.gamepad.buttons[1].value) {
               clearInterval(interval);
-              this.$store.commit('clearAlert', this.$socket);
+              this.$store.commit('clearAlert', {socket: this.$socket, alert: 'alertPilot'});
               let countDown = 5;
               let startCount = setInterval(() => {
                 if (countDown < 0) {
                   clearInterval(startCount);
-                  this.$store.commit('clearAlert', 'alertPilot', this.$socket);
+                  this.$store.commit('clearAlert', {socket: this.$socket, alert: 'alertPilot'});
                   this.$refs.videoRef.play();
                   this.flight();
                 }

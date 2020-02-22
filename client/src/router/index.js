@@ -6,6 +6,7 @@ import Pilot from '@/components/Pilot'
 import Medic from '@/components/Medic'
 import Scientist from '@/components/Scientist'
 import Engineer from '@/components/Engineer'
+import Engineer2 from '@/components/Engineer2'
 import General from '@/components/General'
 import Master from '@/components/Master'
 import GamepadTest from '@/components/Other/GamepadTest'
@@ -38,6 +39,11 @@ export default new Router({
       path: '/engineer',
       name: 'Engineer',
       component: Engineer
+    },
+    {
+      path: '/engineer2',
+      name: 'Engineer2',
+      component: Engineer2
     },
     {
       path: '/general',

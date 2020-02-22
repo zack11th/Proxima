@@ -6,9 +6,9 @@
       <div class="camera-area">
         <camera-area></camera-area>
       </div>
-      <div class="controllers">
-        <controllers></controllers>
-      </div>
+      <!--<div class="controllers">-->
+        <!--<controllers></controllers>-->
+      <!--</div>-->
       <alert :header="alertPilot.header"
              :message="alertPilot.message"
              :button="alertPilot.button"

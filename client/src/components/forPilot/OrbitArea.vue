@@ -16,9 +16,14 @@
               ctx: null,
               fullWidth: 0,
               fullHeight: 0,
+              arm_nuclear_success: 0, // ручное управление тягой ядерного двигателя
+              landing_success: 0, // флаг указывающий на то, что Аврора приземляется
+              coordinatesPlanet: {x: null, y: null},
+              coordinatesAurora: {x: null, y: null}
           }
         },
         computed: {
+
             cx() {
                 return this.fullWidth / 2;
             },
@@ -33,8 +38,27 @@
             },
             scale() {
                 return this.$store.getters.get_scale;
+            },
+            generalGamepad() {
+              return this.$store.getters.get_gamepad;
+            },
+            nuclearThrust() {
+              return this.generalGamepad.axes ? parseInt(this.generalGamepad.axes[1] * 100) : 0 // тяга ядерного двигателя
             }
         },
+      watch: {
+        nuclearThrust(newValue) {
+          if(this.generalGamepad.buttons[4] && this.generalGamepad.buttons[4]) { // включен режим ручного управления тягой ядерного двигателя
+            this.$socket.emit('changeNuclearThrust', newValue)
+          }
+        },
+        generalGamepad() {
+          if(this.generalGamepad.buttons[4] && this.generalGamepad.buttons[4] && !this.arm_nuclear_success) { // включен режим ручного управления тягой ядерного двигателя)
+            this.$store.commit('clearAlert', {socket: this.$socket, alert: 'alertPilot'});
+            this.arm_nuclear_success = 1;
+          }
+        }
+      },
         methods: {
             drawMap() {
                 window.setInterval(() => {
@@ -55,7 +79,7 @@
                 ctx.fillRect(this.cx, this.cy, 5, 5);
 
                 // пробежим по массиву планет
-                this.planets.forEach((item, i, arr) => {
+                this.planets.forEach((item, index, arr) => {
                     // орбита планеты
                     ctx.lineWidth = 1;
                     ctx.strokeStyle = "#83684e";
@@ -69,6 +93,12 @@
                     let b = (item.b/this.scale/(3-2*Math.sin(this.DegToRad(item.P))));
                     item.x = (a * Math.cos(this.DegToRad(item.w)))*Math.cos(this.DegToRad(item.F))-(b * Math.sin(this.DegToRad(item.w)))*Math.sin(this.DegToRad(item.F))+this.cx;
                     item.y = (a * Math.cos(this.DegToRad(item.w)))*Math.sin(this.DegToRad(item.F))+(b * Math.sin(this.DegToRad(item.w)))*Math.cos(this.DegToRad(item.F))+this.cy;
+
+                    if (index === 1) { // вычисление координат Проксима Б
+                      this.coordinatesPlanet.x = item.x;
+                      this.coordinatesPlanet.y = item.y;
+                    }
+
 
                     ctx.fillStyle = "#fff";
                     ctx.beginPath();
@@ -109,13 +139,27 @@
                 ship.x = (a * Math.cos(this.DegToRad(ship.w)))*Math.cos(this.DegToRad(ship.F))-(b * Math.sin(this.DegToRad(ship.w)))*Math.sin(this.DegToRad(ship.F))+ship.cxs;
                 ship.y = (a * Math.cos(this.DegToRad(ship.w)))*Math.sin(this.DegToRad(ship.F))+(b * Math.sin(this.DegToRad(ship.w)))*Math.cos(this.DegToRad(ship.F))+ship.cys;
 
+                this.coordinatesAurora.x = ship.x;
+                this.coordinatesAurora.y = ship.y;
+
+                // если Аврора сблизилась с Проксима Б
+                if ((this.coordinatesAurora.x < this.coordinatesPlanet.x + 10 &&
+                  this.coordinatesAurora.x > this.coordinatesPlanet.x - 10) &&
+                  (this.coordinatesAurora.y < this.coordinatesPlanet.y + 10 &&
+                  this.coordinatesAurora.y > this.coordinatesPlanet.y - 10) &&
+                  !this.landing_success) {
+                    console.log('asdskljd;alkjsd')
+                    this.$store.commit('startLanding', {planet: this.planets[1], socket: this.$socket})
+                    this.landing_success = 1;
+                }
+
                 ctx.fillStyle = "#00ac00";
                 ctx.beginPath();
                 ctx.arc(ship.x,  ship.y, 3, 0, Math.PI*2, true);
                 ctx.fill();
                 ctx.fillStyle = "#00ac00"
                 ctx.font = "12px Verdana";
-                ctx.fillText(ship.name, ship.x-30, ship.y - 7);
+                ctx.fillText(ship.name, ship.x+3, ship.y+12);
 
                 // трэйсы движения
                 ctx.setLineDash([]);

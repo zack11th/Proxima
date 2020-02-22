@@ -26,7 +26,6 @@ export default {
       state.alertGeneral = data;
     },
     clearAlert(state, data) {
-      console.log(data)
       state[data.alert] = {};
       data.socket.emit('alert', {event: data.alert, alert: state[data.alert]});
     },

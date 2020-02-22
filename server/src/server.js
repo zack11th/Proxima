@@ -8,6 +8,7 @@ const io = require('socket.io')(server);
 
 const pilot = require('./controllers/pilot');
 const alerts = require('./controllers/alerts');
+const gamepad = require('./controllers/gamepad');
 
 
 // routes import
@@ -28,14 +29,7 @@ io.on('connection', socket => {
 
     pilot(io, socket);
     alerts(io, socket);
-    // socket.on('startLarp', data => {
-    //     setTimeout(() => {
-    //         console.log(data.text + ' message');
-    //         io.to('game').emit('startLarpON', {
-    //             text: data.text + ' from SERVER'
-    //         });
-    //     }, 500)
-    // })
+    gamepad(io, socket);
 });
 
 app.get("*", (req, res) => {

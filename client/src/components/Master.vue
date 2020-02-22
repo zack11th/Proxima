@@ -119,7 +119,19 @@
         <!--************** PILOT *************-->
         <div class="pilot flex-row">
           <h3>Пилоты</h3>
-
+          <p>Коэффициенты скоростей</p>
+          <div class="input-block" v-for="(planet, index) in orbit.planets" :key="planet.name">
+            <label>{{planet.name}}:</label>
+            <span>{{planet.K_speed}}</span>
+            <input type="number" ref="planetProxima">
+            <button @click="changeSpeed(index)">ok</button>
+          </div>
+          <div class="input-block">
+            <span>Aurora</span>
+            <span>{{orbit.ship.K_speed}}</span>
+            <input type="number" ref="auroraSpeed">
+            <button @click="changeSpeed(null)">ok</button>
+          </div>
         </div>
         <!--************** end PILOT ************-->
         <div class="scientist flex-row">
@@ -210,6 +222,9 @@
         },
         alertMessage_general() {
           return this.$store.getters.alertGeneral.message
+        },
+        orbit() {
+          return this.$store.getters.get_orbit
         }
       },
       methods: {
@@ -231,6 +246,15 @@
             button: false
           };
           this.clickAlert(alert, socketEvent);
+        },
+        changeSpeed(index) {
+          if(index !== null) {
+            this.orbit.planets[index].K_speed = this.$refs.planetProxima[index].valueAsNumber;
+            console.log(this.orbit.planets[index].K_speed)
+          } else {
+            this.orbit.ship.K_speed = this.$refs.auroraSpeed.valueAsNumber;
+          }
+          this.$socket.emit('setPlanet', this.orbit);
         }
       },
       mounted() {

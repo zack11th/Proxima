@@ -17,7 +17,8 @@ export default {
           v: 0, // скорость (считает автоматом)
           W_speed: 0, // угловая скорость  (считает автоматом)
           h: 0, // высота  (считает автоматом)
-          shift: 0 // смещение (считает автоматом)
+          shift: 0, // смещение (считает автоматом)
+          K_speed: 1 // коэффициент для корректировки скорости
         }
       ],
       ship: {
@@ -30,7 +31,9 @@ export default {
         v: 10000, // скорость (устанавливаем)
         W_speed: 0, // угловая скорость  (считает автоматом)
         cxs: 0, // центр орбиты корабля по х
-        cys: 1080 // центр орбиты корабля по у
+        cys: 1080, // центр орбиты корабля по у
+        K_speed: 1, // коэффициент для корректировки скорости
+        delta_nuclear: 0 // изменение тяги ядерного двигателя для изменения орбиты корабля
       }
     },
     difficult: 5
@@ -38,6 +41,17 @@ export default {
   mutations: {
     SOCKET_changePlanet(state, data) {
       state.orbit = data.orbit;
+    },
+    startLanding(state, data) {
+      state.orbit.ship.a = data.planet.a;
+      state.orbit.ship.b = data.planet.b;
+      state.orbit.ship.F = data.planet.F;
+      state.orbit.ship.P = data.planet.P;
+      state.orbit.ship.w = data.planet.w;
+      state.orbit.ship.v = data.planet.v;
+      state.orbit.ship.cxs = state.orbit.center.cx;
+      state.orbit.ship.cys = state.orbit.center.cy;
+      data.socket.emit('setPlanet', state.orbit)
     }
   },
   actions: {
@@ -60,6 +74,9 @@ export default {
     // }
   },
   getters: {
+    get_orbit (state) {
+      return state.orbit
+    },
     get_planet (state) {
       return state.orbit.planets;
     },

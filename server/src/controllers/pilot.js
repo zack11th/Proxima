@@ -27,7 +27,7 @@ let orbit = {
             b: 3000000, // малая полуось
             F: -20, // наклон
             P: 0,
-            w: 90, // угол относительно центра (изменяется по интервалу)
+            w: 110, // угол относительно центра (изменяется по интервалу)
             v: 0, // скорость (считает автоматом)
             W_speed: 0, // угловая скорость  (считает автоматом)
             h: 0, // высота  (считает автоматом)
@@ -59,7 +59,8 @@ let orbit = {
         W_speed: 0, // угловая скорость  (считает автоматом)
         cxs: 0, // центр орбиты корабля по х
         cys: 1080, // центр орбиты корабля по у
-        K_speed: 1 // коэффициент для корректировки скорости
+        K_speed: 1, // коэффициент для корректировки скорости
+        delta_nuclear: 0 // изменение тяги ядерного двигателя для изменения орбиты корабля
     }
 };
 
@@ -90,6 +91,10 @@ function calcSpeedShip(ship) {
     ship.w -= ship.w_speed;
 }
 
+function calcApogeeShip(ship) {
+    ship.a += ship.delta_nuclear * 100
+}
+
 function pilot(io, socket) {
 
     socket.on('canvas', (data) => {
@@ -108,6 +113,7 @@ function pilot(io, socket) {
         setInterval(() => {
             calcSpeed(orbit.planets);
             calcSpeedShip(orbit.ship);
+            calcApogeeShip(orbit.ship);
             io.to('game').emit('changePlanet', {
                 orbit
             });
@@ -116,6 +122,10 @@ function pilot(io, socket) {
 
     socket.on('setPlanet', (data) => {
         orbit = data;
+    });
+
+    socket.on('changeNuclearThrust', (data) => {
+        orbit.ship.delta_nuclear = data
     });
 }
 
