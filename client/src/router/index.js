@@ -9,6 +9,7 @@ import Engineer from '@/components/Engineer'
 import Engineer2 from '@/components/Engineer2'
 import General from '@/components/General'
 import Master from '@/components/Master'
+import MasterLanding from '@/components/MasterLanding'
 import GamepadTest from '@/components/Other/GamepadTest'
 
 Vue.use(Router);
@@ -59,6 +60,11 @@ export default new Router({
       path: '/master',
       name: 'Master',
       component: Master
+    },
+    {
+      path: '/master-landing',
+      name: 'MasterLanding',
+      component: MasterLanding
     },
     {
       path: '/',

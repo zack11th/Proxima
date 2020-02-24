@@ -11,6 +11,7 @@
       <li><router-link to="/general">Общий комп</router-link></li>
       <hr>
       <li><router-link to="/master">Мастер</router-link></li>
+      <li><router-link to="/master-landing">Мастер Посадки</router-link></li>
       <li><router-link to="/gamepad-test">Геймпад Тест</router-link></li>
     </ul>
   </div>

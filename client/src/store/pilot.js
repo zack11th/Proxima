@@ -1,6 +1,7 @@
 export default {
   state: {
     orbit: {
+      landing: false, // флаг начала приземления Авроры
       scale: 1,
       center: {
         cx: 0,
@@ -51,7 +52,9 @@ export default {
       state.orbit.ship.v = data.planet.v;
       state.orbit.ship.cxs = state.orbit.center.cx;
       state.orbit.ship.cys = state.orbit.center.cy;
-      data.socket.emit('setPlanet', state.orbit)
+      state.orbit.ship.delta_nuclear = 0;
+      data.socket.emit('setPlanet', state.orbit);
+      data.socket.emit('landing');
     }
   },
   actions: {
@@ -85,6 +88,9 @@ export default {
     },
     get_ship_orbit (state) {
       return state.orbit.ship
+    },
+    get_landing (state) {
+      return state.orbit.landing;
     },
     difficult (state) {
       return state.difficult;

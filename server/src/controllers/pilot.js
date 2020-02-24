@@ -2,6 +2,7 @@ const G = 6.67408*Math.pow(10,-11);
 const M = 6.4171*Math.pow(10,23);
 
 let orbit = {
+    landing: false, // флаг начала приземления Авроры
     scale: 10000,
     center: {
         cx: 0,
@@ -126,6 +127,14 @@ function pilot(io, socket) {
 
     socket.on('changeNuclearThrust', (data) => {
         orbit.ship.delta_nuclear = data
+    });
+
+    socket.on('changeNuclearThrustMaster', (data) => {
+        orbit.ship.a += data;
+    });
+
+    socket.on('landing', () => {
+        orbit.landing = true
     });
 }
 

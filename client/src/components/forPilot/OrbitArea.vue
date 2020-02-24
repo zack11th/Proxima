@@ -17,13 +17,11 @@
               fullWidth: 0,
               fullHeight: 0,
               arm_nuclear_success: 0, // ручное управление тягой ядерного двигателя
-              landing_success: 0, // флаг указывающий на то, что Аврора приземляется
               coordinatesPlanet: {x: null, y: null},
               coordinatesAurora: {x: null, y: null}
           }
         },
         computed: {
-
             cx() {
                 return this.fullWidth / 2;
             },
@@ -44,16 +42,19 @@
             },
             nuclearThrust() {
               return this.generalGamepad.axes ? parseInt(this.generalGamepad.axes[1] * 100) : 0 // тяга ядерного двигателя
+            },
+            landing_success() { // флаг указывающий на то, что Аврора приземляется
+              return this.$store.getters.get_landing;
             }
         },
       watch: {
         nuclearThrust(newValue) {
-          if(this.generalGamepad.buttons[4] && this.generalGamepad.buttons[4]) { // включен режим ручного управления тягой ядерного двигателя
+          if(this.generalGamepad.buttons[4] && this.generalGamepad.buttons[6] && !this.landing_success) { // включен режим ручного управления тягой ядерного двигателя
             this.$socket.emit('changeNuclearThrust', newValue)
           }
         },
         generalGamepad() {
-          if(this.generalGamepad.buttons[4] && this.generalGamepad.buttons[4] && !this.arm_nuclear_success) { // включен режим ручного управления тягой ядерного двигателя)
+          if(this.generalGamepad.buttons[4] && this.generalGamepad.buttons[6] && !this.arm_nuclear_success) { // включен режим ручного управления тягой ядерного двигателя в первый раз
             this.$store.commit('clearAlert', {socket: this.$socket, alert: 'alertPilot'});
             this.arm_nuclear_success = 1;
           }
@@ -65,6 +66,9 @@
                     this.clear(this.ctx);
                     this.orbitPlanet(this.ctx);
                     this.moveShip(this.ctx, this.ship);
+                    if(!this.landing_success) {
+                      this.randevuPoint(this.ctx);
+                    }
                 }, 100)
             },
             clear(ctx) {
@@ -99,15 +103,6 @@
                       this.coordinatesPlanet.y = item.y;
                     }
 
-
-                    ctx.fillStyle = "#fff";
-                    ctx.beginPath();
-                    ctx.arc(item.x,  item.y, 2, 0, Math.PI*2, true);
-                    ctx.fill();
-                    ctx.fillStyle = "#ce6e00"
-                    ctx.font = "12px Verdana";
-                    ctx.fillText(item.name, item.x-30, item.y - 7);
-
                     // трэйсы движения
                     ctx.setLineDash([]);
                     ctx.strokeStyle = "#55aaff";
@@ -122,6 +117,15 @@
                     ctx.beginPath();
                     ctx.ellipse(this.cx, this.cy, item.a/this.scale, item.b/this.scale/(3-2*Math.sin(this.DegToRad(item.P))), this.DegToRad(item.F), this.DegToRad(item.w), this.DegToRad(item.w+10),false);
                     ctx.stroke();
+
+                    // названия планет
+                    ctx.fillStyle = "#fff";
+                    ctx.beginPath();
+                    ctx.arc(item.x,  item.y, 2, 0, Math.PI*2, true);
+                    ctx.fill();
+                    ctx.fillStyle = "#ce6e00";
+                    ctx.font = "12px Verdana";
+                    ctx.fillText(item.name, item.x-30, item.y - 7);
                 });
             },
             moveShip(ctx, ship) {
@@ -148,16 +152,14 @@
                   (this.coordinatesAurora.y < this.coordinatesPlanet.y + 10 &&
                   this.coordinatesAurora.y > this.coordinatesPlanet.y - 10) &&
                   !this.landing_success) {
-                    console.log('asdskljd;alkjsd')
-                    this.$store.commit('startLanding', {planet: this.planets[1], socket: this.$socket})
-                    this.landing_success = 1;
+                    this.$store.commit('startLanding', {planet: this.planets[1], socket: this.$socket});
                 }
 
                 ctx.fillStyle = "#00ac00";
                 ctx.beginPath();
                 ctx.arc(ship.x,  ship.y, 3, 0, Math.PI*2, true);
                 ctx.fill();
-                ctx.fillStyle = "#00ac00"
+                ctx.fillStyle = "#00ac00";
                 ctx.font = "12px Verdana";
                 ctx.fillText(ship.name, ship.x+3, ship.y+12);
 
@@ -175,6 +177,13 @@
                 ctx.beginPath();
                 ctx.ellipse(ship.cxs, ship.cys, ship.a/this.scale, ship.b/this.scale/(3-2*Math.sin(this.DegToRad(ship.P))), this.DegToRad(ship.F), this.DegToRad(ship.w), this.DegToRad(ship.w+2),false);
                 ctx.stroke();
+            },
+            randevuPoint(ctx) { // предполагаемая точка рандеву (к сожалению, она захардкожена)
+              ctx.setLineDash([2, 2]);
+              ctx.strokeStyle = "#d11107";
+              ctx.beginPath();
+              ctx.arc(598, 598, 20, 0, 2*Math.PI, false);
+              ctx.stroke();
             }
         },
         mounted() {

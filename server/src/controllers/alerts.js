@@ -16,6 +16,16 @@ function alerts(io, socket) {
         io.emit('alertGeneral', alert);
     });
 
+    socket.on('landing', () => {
+        alert = {
+            header: 'Внимание!',
+            message: 'Выход на траекторию посадки в автоматическом режиме невозможен. Отключите тягу ядерного двигателя. Активируйте ручное управление маневровыми двигателями.',
+            button: false,
+            inProcess: true
+        };
+        io.emit('alertPilot', alert);
+    });
+
 
 }
 

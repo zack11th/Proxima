@@ -38,6 +38,9 @@
         }
       },
       computed: {
+        generalGamepad() {
+          return this.$store.getters.get_gamepad;
+        },
         difficult() {
           return this.$store.getters.difficult;
         },
@@ -47,11 +50,19 @@
         centerCameraY() {
           return this.video.h / 2 - this.y + this.targetY
         },
-        success: {
+        success: { // процент успешности посадки
           get() {
             return Math.round(this.score * 100 / this.maxScore);
           },
           set() {console.log('set success')}
+        }
+      },
+      watch: {
+        generalGamepad() {
+          if(!this.generalGamepad.buttons[4] && !this.generalGamepad.buttons[6] &&
+           this.generalGamepad.buttons[5] && this.generalGamepad.buttons[7]) { // включен режим ручного управления тягой маневрогого двигателя в первый раз
+            this.$store.commit('clearAlert', {socket: this.$socket, alert: 'alertPilot'});
+          }
         }
       },
       methods: {
@@ -67,7 +78,7 @@
           this.y = (this.y > 0) ? 0 : this.y;
           this.y = (this.y < -(this.video.h - this.videoWrap.h)) ? -(this.video.h - this.videoWrap.h) : this.y;
 
-          this.successLanding()
+          this.successLanding();
           window.requestAnimationFrame(this.resistance)
         },
         resistance() {

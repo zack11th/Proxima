@@ -119,7 +119,7 @@
         <!--************** PILOT *************-->
         <div class="pilot flex-row">
           <h3>Пилоты</h3>
-          <p>Коэффициенты скоростей</p>
+          <p>Коэффициенты скоростей (v = 1 / k) </p>
           <div class="input-block" v-for="(planet, index) in orbit.planets" :key="planet.name">
             <label>{{planet.name}}:</label>
             <span>{{planet.K_speed}}</span>
@@ -250,7 +250,6 @@
         changeSpeed(index) {
           if(index !== null) {
             this.orbit.planets[index].K_speed = this.$refs.planetProxima[index].valueAsNumber;
-            console.log(this.orbit.planets[index].K_speed)
           } else {
             this.orbit.ship.K_speed = this.$refs.auroraSpeed.valueAsNumber;
           }
