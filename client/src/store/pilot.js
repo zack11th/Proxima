@@ -57,25 +57,7 @@ export default {
       data.socket.emit('landing');
     }
   },
-  actions: {
-    // GET_CANVAS ({commit}, data) {
-    //   axios.post(`${url}/api/orbit/canvas`, data).then(result => {
-    //     commit('set_planet', result);
-    //   }, error => {console.error('ОШИБКА!!!', error)});
-    // },
-    // GET_PLANET ({commit}) {
-    //   axios.get(`${url}/api/orbit/planet`).then(result => {
-    //     commit('set_planet', result);
-    //     // console.log(result)
-    //   }, error => {console.error('ОШИБКА!!!', error)});
-    // },
-    // SET_PLANET ({commit}, planet) {
-    //   axios.post(`${url}/api/orbit/planet`, planet).then(result => {
-    //     commit('set_planet', result);
-    //     // console.log(result)
-    //   }, error => {console.error('ОШИБКА!!!', error)});
-    // }
-  },
+  actions: {},
   getters: {
     get_orbit (state) {
       return state.orbit

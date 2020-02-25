@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import StartLinks from '@/components/StartLinks'
 import Commander from '@/components/Commander'
 import Pilot from '@/components/Pilot'
+import Pilot2 from '@/components/Pilot2'
 import Medic from '@/components/Medic'
 import Scientist from '@/components/Scientist'
 import Engineer from '@/components/Engineer'
@@ -25,6 +26,11 @@ export default new Router({
       path: '/pilot',
       name: 'Pilot',
       component: Pilot
+    },
+    {
+      path: '/pilot2',
+      name: 'Pilot2',
+      component: Pilot2
     },
     {
       path: '/medic',
