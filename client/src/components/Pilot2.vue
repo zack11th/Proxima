@@ -6,17 +6,17 @@
         <p>Ядерный двигатель</p>
         <div class="trigger">
           <span>Инжекция темной материи</span>
-          <span class="lamp lamp-active"></span>
+          <span class="lamp" :class="{lamp_active: navigator.nuclear.darkMater}"></span>
         </div>
         <div class="trigger">
           <span>Тумблер 1 (придумать красивое название)</span>
-          <span class="lamp"></span>
+          <span class="lamp" :class="{lamp_active: navigator.nuclear.button_1}"></span>
         </div>
         <div class="trigger">
           <span>Тумблер 2 (придумать красивое название)</span>
-          <span class="lamp"></span>
+          <span class="lamp" :class="{lamp_active: navigator.nuclear.button_2}"></span>
         </div>
-        <div class="arm arm-active">
+        <div class="arm" :class="{arm_active: navigator.nuclear.button_1 && navigator.nuclear.button_2}">
           <span>Ручной режим активирован</span>
         </div>
       </div>
@@ -25,35 +25,54 @@
         <p>Маневровые двигатели</p>
         <div class="trigger">
           <span>Тумблер 3 (придумать красивое название)</span>
-          <span class="lamp"></span>
+          <span class="lamp" :class="{lamp_active: navigator.manevr.button_1}"></span>
         </div>
         <div class="trigger">
           <span>Тумблер 4 (придумать красивое название)</span>
-          <span class="lamp"></span>
+          <span class="lamp" :class="{lamp_active: navigator.manevr.button_2}"></span>
         </div>
-        <div class="arm">
+        <div class="arm" :class="{arm_active: navigator.manevr.button_1 && navigator.manevr.button_2}">
           <span>Ручной режим активирован</span>
         </div>
       </div>
 <!--      ****************** ОСНОВНЫЕ ПОКЗАТЕЛИ ***********************-->
-      <div class="speed speed-overload">
+      <div class="speed" :class="{speed_overload: navigator.alarm.speed}">
         <div class="speed-label"> Скорость относительно поверхности: </div>
-        <div class="speed-value">00000 м/с</div>
+        <div class="speed-value">{{navigator.speedSurface}} м/с</div>
       </div>
       <div class="thrust">
         <div>Тяга маневровых двигателей, % :</div>
         <div class="thrust-area">
-          <div class="thrust-value" style="width: 50%"></div>
+          <div class="thrust-value" :style="{width: navigator.manevr.thrust +'%'}"></div>
         </div>
       </div>
       <div class="speed">
         <div class="speed-label"> Скорость относительно центра системы: </div>
-        <div class="speed-value">00000 м/с</div>
+        <div class="speed-value">{{shipSpeed}} м/с</div>
       </div>
       <div class="thrust">
         <div>Тяга ядерного двигателя, % :</div>
         <div class="thrust-area">
-          <div class="thrust-value"></div>
+          <div class="thrust-value" :style="{width: navigator.nuclear.thrust +'%'}"></div>
+        </div>
+      </div>
+      <!--**************** ВЫСОТА и ТРИГГЕРЫ ********************-->
+      <div class="surface">
+        <div class="surface-cell">
+          <div class="trigger">
+            <span>Шасси: </span>
+            <span class="lamp" :class="{lamp_active: navigator.chassis}"></span>
+          </div>
+          <div class="trigger">
+            <span>Тормозная система: </span>
+            <span class="lamp" :class="{lamp_active: heightSurface}"></span>
+          </div>
+        </div>
+        <div class="surface-cell">
+          <div class="speed">
+            <div class="speed-label"> Высота: </div>
+            <div class="speed-value">{{navigator.heightSurface}} км</div>
+          </div>
         </div>
       </div>
     </div>
@@ -66,11 +85,11 @@
       <div class="temperature">
         <div class="speed">
           <div class="speed-label"> Оптимальный уровень крена: </div>
-          <div class="speed-value">00&deg / 00&deg</div>
+          <div class="speed-value">{{navigator.rollOptimal[0]}}&deg / {{navigator.rollOptimal[1]}}&deg</div>
         </div>
         <div class="speed">
           <div class="speed-label"> Температура обшивки корпуса: </div>
-          <div class="speed-value">000&degF</div>
+          <div class="speed-value">{{navigator.temperature}}&degC</div>
         </div>
       </div>
     </div>
@@ -82,6 +101,22 @@
     name: "Pilot2",
     mounted() {
       this.$socket.emit('conn', 'PILOT_2 connected');
+    },
+    computed: {
+      generalGamepad() {
+        return this.$store.getters.get_gamepad;
+      },
+      navigator() {
+        return this.$store.getters.get_navigator;
+      },
+      shipSpeed() {
+        return parseInt(this.$store.getters.get_ship_orbit.a); // белый шум
+      }
+    },
+    watch: {
+      generalGamepad() {
+        this.$socket.emit('changeGeneralGamepad', this.generalGamepad);
+      }
     }
   }
 </script>
@@ -127,7 +162,7 @@
     border-radius: 50%;
     margin-left: 20px;
   }
-  .lamp-active {
+  .lamp_active {
     background-color: #00ac00;
     box-shadow: 0 0 10px 0 #00ac00;
   }
@@ -145,7 +180,7 @@
     padding: 5px 10px;
     border-radius: 5px;
   }
-  .arm-active {
+  .arm_active {
     opacity: 1;
   }
   .speed {
@@ -159,7 +194,7 @@
     padding: 5px;
     border-radius: 10px;
   }
-  .speed-overload .speed-value {
+  .speed_overload .speed-value {
     animation: speedwarning 1s infinite;
   }
   @keyframes speedwarning {
@@ -199,5 +234,15 @@
   }
   .temperature .speed {
     padding-top: 10px;
+  }
+  .surface {
+    display: flex;
+    margin-top: 20px;
+    border-top: 2px solid #444444;
+    padding-top: 10px;
+    justify-content: space-around;
+  }
+  .surface-cell>.trigger {
+    justify-content: center;
   }
 </style>

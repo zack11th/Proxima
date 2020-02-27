@@ -65,6 +65,32 @@ let orbit = {
     }
 };
 
+let navigator = {
+    difficult: 5,
+    nuclear: {
+        darkMater: false,
+        button_1: false,
+        button_2: false,
+        thrust: 0
+    },
+    manevr: {
+        button_1: false,
+        button_2: false,
+        thrust: 0
+    },
+    alarm: {
+        speed: false,
+        temperature: false
+    },
+    speedSurface: 0,
+    roll: 0,
+    rollOptimal: [0, 180],
+    temperature: -273,
+    heightSurface: 0,
+    brakeSystem: false,
+    chassis: false
+};
+
 function DegToRad(deg) {
     return deg/180*Math.PI;
 }
@@ -115,8 +141,9 @@ function pilot(io, socket) {
             calcSpeed(orbit.planets);
             calcSpeedShip(orbit.ship);
             calcApogeeShip(orbit.ship);
-            io.to('game').emit('changePlanet', {
-                orbit
+            io.emit('changePlanet', {
+                orbit,
+                navigator
             });
         }, 100);
     });
@@ -126,7 +153,8 @@ function pilot(io, socket) {
     });
 
     socket.on('changeNuclearThrust', (data) => {
-        orbit.ship.delta_nuclear = data
+        orbit.ship.delta_nuclear = data;
+        navigator.nuclear.thrust = data;
     });
 
     socket.on('changeNuclearThrustMaster', (data) => {
@@ -135,6 +163,24 @@ function pilot(io, socket) {
 
     socket.on('landing', () => {
         orbit.landing = true
+    });
+
+    // navigator
+    socket.on('setGamepad', (data) => {
+        navigator.nuclear.button_1 = !!data.buttons[4];
+        navigator.nuclear.button_2 = !!data.buttons[6];
+        if(navigator.nuclear.button_1 && navigator.nuclear.button_2){
+            navigator.nuclear.thrust = (+data.axes[1] < 0) ? -1 * parseInt(+data.axes[1] * 100) : parseInt(+data.axes[1] * 100);
+        } else {
+            navigator.nuclear.thrust = 0;
+        }
+        navigator.manevr.button_1 = !!data.buttons[5];
+        navigator.manevr.button_2 = !!data.buttons[7];
+        if(navigator.manevr.button_1 && navigator.manevr.button_2) {
+            navigator.manevr.thrust = (+data.axes[3] < 0) ? 0 : parseInt(+data.axes[3] * 100);
+        } else {
+            navigator.manevr.thrust = 0;
+        }
     });
 }
 

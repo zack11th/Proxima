@@ -2,7 +2,7 @@
   <div class="wrap">
     <!--<button id="start">start</button>-->
     <div class="main" id="video-cont">
-      <div class="video-wrap" v-bind:style="{ left: x + 'px', top: y + 'px', transform: 'rotate('+z+'deg)', transformOrigin: `${centerCameraX}px ${centerCameraY}px`}">
+      <div class="video-wrap" :style="{ left: x + 'px', top: y + 'px', transform: 'rotate('+z+'deg)', transformOrigin: `${centerCameraX}px ${centerCameraY}px`}">
         <video ref="videoRef" muted="muted" src="../../assets/videoplayback.mp4"></video>
         <img class="target" src="../../assets/close.png" alt="">
       </div>

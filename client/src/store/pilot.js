@@ -37,11 +37,37 @@ export default {
         delta_nuclear: 0 // изменение тяги ядерного двигателя для изменения орбиты корабля
       }
     },
-    difficult: 5
+    navigator: {
+      difficult: 5,
+      nuclear: {
+        darkMater: false,
+        button_1: false,
+        button_2: false,
+        thrust: 0
+      },
+      manevr: {
+        button_1: false,
+        button_2: false,
+        thrust: 0
+      },
+      alarm: {
+        speed: false,
+        temperature: false
+      },
+      speedSurface: 0,
+      roll: 0,
+      rollOptimal: [0, 180],
+      temperature: 0,
+      heightSurface: 0,
+      brakeSystem: false,
+      chassis: false
+    }
   },
   mutations: {
     SOCKET_changePlanet(state, data) {
       state.orbit = data.orbit;
+      state.navigator = data.navigator;
+      // console.log(data.navigator.nuclear)
     },
     startLanding(state, data) {
       state.orbit.ship.a = data.planet.a;
@@ -74,8 +100,11 @@ export default {
     get_landing (state) {
       return state.orbit.landing;
     },
+    get_navigator (state) {
+      return state.navigator;
+    },
     difficult (state) {
-      return state.difficult;
+      return state.navigator.difficult;
     }
   }
 }
