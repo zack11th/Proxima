@@ -66,7 +66,7 @@ let orbit = {
 };
 
 let navigator = {
-    difficult: 5,
+    difficult: 0,
     nuclear: {
         darkMater: false,
         button_1: false,

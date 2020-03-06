@@ -12,6 +12,7 @@ import General from '@/components/General'
 import Master from '@/components/Master'
 import MasterLanding from '@/components/MasterLanding'
 import GamepadTest from '@/components/Other/GamepadTest'
+import Rotates from '@/components/Other/Rotates'
 
 Vue.use(Router);
 
@@ -61,6 +62,11 @@ export default new Router({
       path: '/gamepad-test',
       name: 'GamepadTest',
       component: GamepadTest
+    },
+    {
+      path: '/rotates',
+      name: 'Rotates',
+      component: Rotates
     },
     {
       path: '/master',

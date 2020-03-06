@@ -14,6 +14,7 @@
       <li><router-link to="/master">Мастер</router-link></li>
       <li><router-link to="/master-landing">Мастер Посадки</router-link></li>
       <li><router-link to="/gamepad-test">Геймпад Тест</router-link></li>
+      <li><router-link to="/rotates">Поворот видосика</router-link></li>
     </ul>
   </div>
 </template>

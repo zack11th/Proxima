@@ -61,7 +61,7 @@
       /*width: calc(100% - 960px);*/
       width: 960px;
       height: 100vh;
-      background-color: #272727
+      background-color: #000;
     }
     .controllers {
       width: 35%;

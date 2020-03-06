@@ -2,11 +2,11 @@
   <div class="wrap">
     <!--<button id="start">start</button>-->
     <div class="main" id="video-cont">
-      <div class="video-wrap" :style="{ left: x + 'px', top: y + 'px', transform: 'rotate('+z+'deg)', transformOrigin: `${centerCameraX}px ${centerCameraY}px`}">
-        <video ref="videoRef" muted="muted" src="../../assets/videoplayback.mp4"></video>
+      <div class="video-wrap" :style="{ left: x + 'px', top: y + 'px'}">
+        <video ref="videoRef" muted="muted" src="../../assets/videoplayback.mp4" :style="{transform: 'rotate('+z+'deg)' , transformOrigin: `${centerCameraX}px ${centerCameraY}px`}"></video>
         <img class="target" src="../../assets/close.png" alt="">
       </div>
-      <img class="aim" src="../../assets/plus.png" alt="">
+      <img class="aim" src="../../assets/plus.png" alt="" >
     </div>
     <div class="success-landing" v-if="success">{{success}} %</div>
   </div>
@@ -99,11 +99,14 @@
               (this.y + this.targetSquare > this.targetY)) {
             this.score ++;
           }
+        },
+        degToRad(z) {
+          return z * Math.PI / 180;
         }
       },
       mounted () {
-        this.video.w = 1200; // равно ширине видео (посмотреть computed в браузере)
-        this.video.h = 675; // равно высоте видео (посмотреть computed в браузере)
+        this.video.w = 1000; //4000; // равно ширине видео (посмотреть computed в браузере)
+        this.video.h = 562.5; //2250; // равно высоте видео (посмотреть computed в браузере)
         this.videoWrap.w = Number(window.getComputedStyle(document.querySelector('#video-cont')).getPropertyValue('width').replace(/\D+/g,""));
         this.videoWrap.h = Number(window.getComputedStyle(document.querySelector('#video-cont')).getPropertyValue('height').replace(/\D+/g,""));
 
@@ -122,7 +125,7 @@
             if(this.gamepad.buttons[1].value) {
               clearInterval(interval);
               this.$store.commit('clearAlert', {socket: this.$socket, alert: 'alertPilot'});
-              let countDown = 5;
+              let countDown = 1;
               let startCount = setInterval(() => {
                 if (countDown < 0) {
                   clearInterval(startCount);
@@ -154,16 +157,18 @@
     height: 100vh;
   }
   .main {
-    width: 600px;
-    height: 450px;
-    overflow: hidden;
+    width: 95%;
+    height: 550px;
+    /*overflow: hidden;*/
     position: absolute;
-    top: 40%;
+    border-radius: 10px;
+    border: 10px solid #ce6e00;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
   }
   .video-wrap {
-    width: 1200px;
+    width: 1000px;/*4000px;*/
     position: absolute;
     /*top: -115px;*/
     /*left: -300px;*/
