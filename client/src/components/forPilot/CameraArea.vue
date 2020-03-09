@@ -1,12 +1,22 @@
 <template>
-  <div class="wrap">
-    <!--<button id="start">start</button>-->
-    <div class="main" id="video-cont">
-      <div class="video-wrap" :style="{ left: x + 'px', top: y + 'px'}">
-        <video ref="videoRef" muted="muted" src="../../assets/videoplayback.mp4" :style="{transform: 'rotate('+z+'deg)' , transformOrigin: `${centerCameraX}px ${centerCameraY}px`}"></video>
-        <img class="target" src="../../assets/close.png" alt="">
+  <div class="main">
+    <div class="wrap" id="video-cont" ref="wrapRef">
+      <div class="wrap-cont" ref="wrapContRef">
+           <!--:style="{top: targetY+'px', left: targetX+'px'}">-->
+        <div class="change-cont">
+          <video class="video" ref="videoRef" muted="muted" src="../../assets/videoplayback.mp4"
+                 :style="{transform: `rotate(${z}deg) translate(${x*Math.cos(degToRad(z)) + y*Math.sin(degToRad(z))}px, ${y*Math.cos(degToRad(z))-x*Math.sin(degToRad(z))}px)`, transformOrigin: `center center`}"
+          ></video>
+        </div>
+        <div class="change-cont"
+             :style="{transform: `rotate(${z}deg) translate(${x*Math.cos(degToRad(z)) + y*Math.sin(degToRad(z))}px, ${y*Math.cos(degToRad(z))-x*Math.sin(degToRad(z))}px)`, transformOrigin: `center center`}"
+        >
+          <img class="target" src="../../assets/close.png" alt="">
+          <span class="deg">{{Math.round(z)}}</span>
+        </div>
       </div>
       <img class="aim" src="../../assets/plus.png" alt="" >
+      <img src="../../assets/cameraSpace.jpg" alt="" class="camera-space" v-if="cameraSpace">
     </div>
     <div class="success-landing" v-if="success">{{success}} %</div>
   </div>
@@ -34,7 +44,8 @@
           targetY: 0,
           targetSquare: 50, // квадрат правильного курса (размер квадрата, за который начисляются очки успешности посадки)
           score: 0,
-          maxScore: 0
+          maxScore: 0,
+          cameraSpace: true
         }
       },
       computed: {
@@ -71,12 +82,14 @@
           this.x -= Math.round(this.gamepad.axes[5]*5); // рыскание
           this.y += Math.round(this.gamepad.axes[1]*5); // тангаж
           this.z -= 2 * this.gamepad.axes[0]; // крен
+          if (this.z > 360) this.z = 0;
+          if (this.z < 0) this.z = 360;
 
           // проверки на крайние положения
-          this.x = (this.x > 0) ? 0 : this.x;
-          this.x = (this.x < -(this.video.w - this.videoWrap.w)) ? -(this.video.w - this.videoWrap.w) : this.x;
-          this.y = (this.y > 0) ? 0 : this.y;
-          this.y = (this.y < -(this.video.h - this.videoWrap.h)) ? -(this.video.h - this.videoWrap.h) : this.y;
+          this.x = (this.x < (this.targetX - this.videoWrap.w / 2)) ? (this.targetX - this.videoWrap.w / 2) : this.x;
+          this.x = (this.x > (this.targetX + this.videoWrap.w / 2)) ? (this.targetX + this.videoWrap.w / 2) : this.x;
+          this.y = (this.y < (this.targetY - this.videoWrap.h / 2)) ? (this.targetY - this.videoWrap.h / 2) : this.y;
+          this.y = (this.y > (this.targetY + this.videoWrap.h / 2)) ? (this.targetY + this.videoWrap.h / 2) : this.y;
 
           this.successLanding();
           window.requestAnimationFrame(this.resistance)
@@ -105,10 +118,16 @@
         }
       },
       mounted () {
-        this.video.w = 1000; //4000; // равно ширине видео (посмотреть computed в браузере)
-        this.video.h = 562.5; //2250; // равно высоте видео (посмотреть computed в браузере)
-        this.videoWrap.w = Number(window.getComputedStyle(document.querySelector('#video-cont')).getPropertyValue('width').replace(/\D+/g,""));
-        this.videoWrap.h = Number(window.getComputedStyle(document.querySelector('#video-cont')).getPropertyValue('height').replace(/\D+/g,""));
+        // this.video.w = 1500; //4000; // равно ширине видео (посмотреть computed в браузере)
+        // this.video.h = 844; // равно высоте видео (посмотреть computed в браузере)
+        // this.videoWrap.w = Number(window.getComputedStyle(document.querySelector('#video-cont')).getPropertyValue('width').replace(/\D+/g,""));
+        // this.videoWrap.h = Number(window.getComputedStyle(document.querySelector('#video-cont')).getPropertyValue('height').replace(/\D+/g,""));
+
+        // размеры wrap-cont
+        this.video.w = Number(window.getComputedStyle(this.$refs.wrapContRef).getPropertyValue('width').replace(/\D+/g,""));
+        this.video.h = Number(window.getComputedStyle(this.$refs.wrapContRef).getPropertyValue('height').replace(/\D+/g,""));
+        this.videoWrap.w = Number(window.getComputedStyle(this.$refs.wrapRef).getPropertyValue('width').replace(/\D+/g,""));
+        this.videoWrap.h = Number(window.getComputedStyle(this.$refs.wrapRef).getPropertyValue('height').replace(/\D+/g,""));
 
         this.targetX = -(this.video.w - this.videoWrap.w) / 2;
         this.targetY = -(this.video.h - this.videoWrap.h) / 2;
@@ -122,18 +141,26 @@
             this.gamepad = navigator.getGamepads()[this.gpIndex];
             // console.log(this.gamepad)
 
-            if(this.gamepad.buttons[1].value) {
+            // включение маневровых, отключение ядерного
+            console.log(!this.generalGamepad.buttons[4].value, !this.generalGamepad.buttons[6].value, this.generalGamepad.buttons[5].value, this.generalGamepad.buttons[7].value)
+            // if(!this.generalGamepad.buttons[4].value &&
+            //   !this.generalGamepad.buttons[6].value &&
+            //   this.generalGamepad.buttons[5].value &&
+            //   this.generalGamepad.buttons[7].value) {
+            if(this.gamepad.buttons[3]) {
+              console.log('i m here!!!!!!')
               clearInterval(interval);
               this.$store.commit('clearAlert', {socket: this.$socket, alert: 'alertPilot'});
-              let countDown = 1;
+              let countDown = 1; // обратный отсчет перед запуском ручного режима посадки
               let startCount = setInterval(() => {
                 if (countDown < 0) {
                   clearInterval(startCount);
                   this.$store.commit('clearAlert', {socket: this.$socket, alert: 'alertPilot'});
                   this.$refs.videoRef.play();
+                  this.cameraSpace = false;
                   this.flight();
                 }
-                this.$store.commit('setAlert', {header: String(countDown)})
+                this.$store.commit('setAlert', {header: String(countDown)});
                 countDown--;
               }, 1000);
             }
@@ -146,20 +173,15 @@
 </script>
 
 <style scoped>
-  #start {
-    position: absolute;
-    top: 50px;
-    left: 0;
-  }
-  .wrap {
+  .main {
     position: relative;
     width: 100%;
     height: 100vh;
   }
-  .main {
+  .wrap {
     width: 95%;
     height: 550px;
-    /*overflow: hidden;*/
+    overflow: hidden;
     position: absolute;
     border-radius: 10px;
     border: 10px solid #ce6e00;
@@ -167,15 +189,23 @@
     left: 50%;
     transform: translate(-50%, -50%);
   }
-  .video-wrap {
-    width: 1000px;/*4000px;*/
+  .wrap-cont {
+    width: 4000px; /* равно ширине видео (посмотреть computed в браузере) */
+    height: 2250px; /* равно высоте видео (посмотреть computed в браузере) ЧИСЛО ДОЛЖНО БЫТЬ ЦЕЛЫМ*/
     position: absolute;
-    /*top: -115px;*/
-    /*left: -300px;*/
-    /*transform-origin: center;*/
   }
-  .video-wrap > video {
+  .change-cont {
     width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .video {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
   }
   .target {
     width: 50px;
@@ -184,6 +214,13 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+  }
+  .deg {
+    position: absolute;
+    top: calc(50% - 5px);
+    left: calc(50% + 20px);
+    color: #ce6e00;
+    text-shadow: 0 0 1px black;
   }
   .aim {
     position: absolute;
@@ -194,11 +231,18 @@
     height: 50px;
   }
   .success-landing {
-    color: #00ac00;
+    color: #ce6e00;
     font-size: 2rem;
     position: absolute;
     top: 10px;
     left: 50%;
     transform: translateX(-50%);
+  }
+  .camera-space {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
   }
 </style>

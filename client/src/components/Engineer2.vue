@@ -34,6 +34,7 @@
     mounted() {
       this.$socket.emit('conn', 'ENGINEER_2 connected')
 
+      // подключение ОБЩЕГО геймпада (окно должно быть в фокусе, чтобы геймпад передавался)
       window.addEventListener("gamepadconnected", (e) => {
         this.genGpIndex = e.gamepad.index;
         let interval = setInterval(() => {
