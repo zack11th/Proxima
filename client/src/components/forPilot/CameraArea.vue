@@ -23,6 +23,8 @@
 </template>
 
 <script>
+  let log = console.log;
+
     export default {
       name: "CameraArea",
       data() {
@@ -72,7 +74,22 @@
         generalGamepad() {
           if(!this.generalGamepad.buttons[4] && !this.generalGamepad.buttons[6] &&
            this.generalGamepad.buttons[5] && this.generalGamepad.buttons[7]) { // включен режим ручного управления тягой маневрогого двигателя в первый раз
-            this.$store.commit('clearAlert', {socket: this.$socket, alert: 'alertPilot'});
+
+            if(this.cameraSpace) {
+              this.cameraSpace = false;
+              this.$store.commit('clearAlert', {socket: this.$socket, alert: 'alertPilot'});
+              let countDown = 10; // обратный отсчет перед запуском ручного режима посадки
+              let startCount = setInterval(() => {
+                if (countDown < 0) {
+                  clearInterval(startCount);
+                  this.$store.commit('clearAlert', {socket: this.$socket, alert: 'alertPilot'});
+                  this.$refs.videoRef.play();
+                  this.flight();
+                }
+                this.$store.commit('setAlert', {header: String(countDown)});
+                countDown--;
+              }, 1000);
+            }
           }
         }
       },
@@ -142,28 +159,7 @@
             // console.log(this.gamepad)
 
             // включение маневровых, отключение ядерного
-            console.log(!this.generalGamepad.buttons[4].value, !this.generalGamepad.buttons[6].value, this.generalGamepad.buttons[5].value, this.generalGamepad.buttons[7].value)
-            // if(!this.generalGamepad.buttons[4].value &&
-            //   !this.generalGamepad.buttons[6].value &&
-            //   this.generalGamepad.buttons[5].value &&
-            //   this.generalGamepad.buttons[7].value) {
-            if(this.gamepad.buttons[3]) {
-              console.log('i m here!!!!!!')
-              clearInterval(interval);
-              this.$store.commit('clearAlert', {socket: this.$socket, alert: 'alertPilot'});
-              let countDown = 1; // обратный отсчет перед запуском ручного режима посадки
-              let startCount = setInterval(() => {
-                if (countDown < 0) {
-                  clearInterval(startCount);
-                  this.$store.commit('clearAlert', {socket: this.$socket, alert: 'alertPilot'});
-                  this.$refs.videoRef.play();
-                  this.cameraSpace = false;
-                  this.flight();
-                }
-                this.$store.commit('setAlert', {header: String(countDown)});
-                countDown--;
-              }, 1000);
-            }
+
           }, 100);
           console.log('gamepad connected');
 
