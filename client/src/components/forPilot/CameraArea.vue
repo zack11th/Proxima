@@ -2,9 +2,8 @@
   <div class="main">
     <div class="wrap" id="video-cont" ref="wrapRef">
       <div class="wrap-cont" ref="wrapContRef">
-           <!--:style="{top: targetY+'px', left: targetX+'px'}">-->
         <div class="change-cont">
-          <video class="video" ref="videoRef" muted="muted" src="../../assets/videoplayback.mp4"
+          <video class="video" ref="videoRef" muted="muted" src="../../assets/videoplayback-bcam.mp4"
                  :style="{transform: `rotate(${z}deg) translate(${x*Math.cos(degToRad(z)) + y*Math.sin(degToRad(z))}px, ${y*Math.cos(degToRad(z))-x*Math.sin(degToRad(z))}px)`, transformOrigin: `center center`}"
           ></video>
         </div>
@@ -83,7 +82,10 @@
                 if (countDown < 0) {
                   clearInterval(startCount);
                   this.$store.commit('clearAlert', {socket: this.$socket, alert: 'alertPilot'});
+
                   this.$refs.videoRef.play();
+// ************** УСКОРЕНИЕ тестового ВИДЕО **************** УБРАТЬ одну строку ниже
+                  this.$refs.videoRef.playbackRate = 1.5;
                   this.flight();
                 }
                 this.$store.commit('setAlert', {header: String(countDown)});
@@ -101,6 +103,7 @@
           this.z -= 2 * this.gamepad.axes[0]; // крен
           if (this.z > 360) this.z = 0;
           if (this.z < 0) this.z = 360;
+          this.$socket.emit('roll', this.z);
 
           // проверки на крайние положения
           this.x = (this.x < (this.targetX - this.videoWrap.w / 2)) ? (this.targetX - this.videoWrap.w / 2) : this.x;
@@ -135,11 +138,6 @@
         }
       },
       mounted () {
-        // this.video.w = 1500; //4000; // равно ширине видео (посмотреть computed в браузере)
-        // this.video.h = 844; // равно высоте видео (посмотреть computed в браузере)
-        // this.videoWrap.w = Number(window.getComputedStyle(document.querySelector('#video-cont')).getPropertyValue('width').replace(/\D+/g,""));
-        // this.videoWrap.h = Number(window.getComputedStyle(document.querySelector('#video-cont')).getPropertyValue('height').replace(/\D+/g,""));
-
         // размеры wrap-cont
         this.video.w = Number(window.getComputedStyle(this.$refs.wrapContRef).getPropertyValue('width').replace(/\D+/g,""));
         this.video.h = Number(window.getComputedStyle(this.$refs.wrapContRef).getPropertyValue('height').replace(/\D+/g,""));
@@ -156,13 +154,8 @@
           this.gpIndex = e.gamepad.index;
           let interval = setInterval(() => {
             this.gamepad = navigator.getGamepads()[this.gpIndex];
-            // console.log(this.gamepad)
-
-            // включение маневровых, отключение ядерного
-
           }, 100);
           console.log('gamepad connected');
-
         });
       }
     }

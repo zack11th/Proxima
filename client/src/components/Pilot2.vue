@@ -79,7 +79,11 @@
     <div class="right">
 <!--    ***************** УГОЛ КРЕНА *****************-->
       <div class="wind-area">
-
+        <div class="roll-area">
+          <div class="rolled-ship"
+            :style="{transform: `rotate(${navigator.roll}deg)`, transformOrigin: `center center`}"
+          ></div>
+        </div>
       </div>
 <!--      **************** КОНТРОЛЛЕРЫ СНИЗУ ***************-->
       <div class="temperature">
@@ -244,5 +248,29 @@
   }
   .surface-cell>.trigger {
     justify-content: center;
+  }
+  .wind-area {
+    position: relative;
+  }
+  .roll-area {
+    background-color: #444;
+    width: 450px;
+    height: 450px;
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .rolled-ship {
+    width: 400px;
+    height: 100px;
+    background-color: #ce6e00;
+    /*position: absolute;*/
+    /*top: 50%;*/
+    /*left: 50%;*/
+    /*transform: translate(-50%, -50%);*/
   }
 </style>

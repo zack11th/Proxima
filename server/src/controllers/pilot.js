@@ -164,6 +164,9 @@ function pilot(io, socket) {
     socket.on('landing', () => {
         orbit.landing = true
     });
+    socket.on('roll', (data) => {
+        navigator.roll = data;
+    });
 
     // navigator
     socket.on('setGamepad', (data) => {
