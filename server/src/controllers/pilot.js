@@ -84,11 +84,12 @@ let navigator = {
     },
     speedSurface: 0,
     roll: 0,
-    rollOptimal: [0, 180],
-    temperature: -273,
-    heightSurface: 0,
+    rollOptimal: [0, 180], // оптимальный угол крена
+    temperature: -273, // температура обшивки
+    heightSurface: 0, // высота
     brakeSystem: false,
-    chassis: false
+    chassis: false,
+    noise: {}
 };
 
 function DegToRad(deg) {

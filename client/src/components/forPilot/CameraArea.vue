@@ -53,8 +53,14 @@
         generalGamepad() {
           return this.$store.getters.get_gamepad;
         },
+        navigator() {
+          return this.$store.getters.get_navigator;
+        },
         difficult() {
           return this.$store.getters.difficult;
+        },
+        landing_success() { // флаг указывающий на то, что Аврора приземляется
+          return this.$store.getters.get_landing;
         },
         centerCameraX() {
           return this.video.w / 2 - this.x + this.targetX
@@ -70,9 +76,10 @@
         }
       },
       watch: {
-        generalGamepad() {
-          if(!this.generalGamepad.buttons[4] && !this.generalGamepad.buttons[6] &&
-           this.generalGamepad.buttons[5] && this.generalGamepad.buttons[7]) { // включен режим ручного управления тягой маневрогого двигателя в первый раз
+        navigator() {
+          if(!this.navigator.nuclear.button_1 && !this.navigator.nuclear.button_2 &&
+            this.navigator.manevr.button_1 && this.navigator.manevr.button_2 &&
+            this.landing_success) { // включен режим ручного управления тягой маневрогого двигателя в первый раз
 
             if(this.cameraSpace) {
               this.cameraSpace = false;
@@ -82,7 +89,6 @@
                 if (countDown < 0) {
                   clearInterval(startCount);
                   this.$store.commit('clearAlert', {socket: this.$socket, alert: 'alertPilot'});
-
                   this.$refs.videoRef.play();
 // ************** УСКОРЕНИЕ тестового ВИДЕО **************** УБРАТЬ одну строку ниже
                   this.$refs.videoRef.playbackRate = 1.5;
