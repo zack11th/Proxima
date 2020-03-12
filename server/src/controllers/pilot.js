@@ -71,25 +71,28 @@ let navigator = {
         darkMater: false,
         button_1: false,
         button_2: false,
-        thrust: 0
+        thrust: 0 // от 0 до 100
     },
     manevr: {
         button_1: false,
         button_2: false,
-        thrust: 0
+        thrust: 0 // от 0 до 100
     },
     alarm: { // подсвечивание не оптимальных параметров
         speed: false,
         temperature: false
     },
     speedSurface: 0, // скоросто относительно поверхности
+    acceleration: 0, // ускорение при посадке
     roll: 0, // угол крена
     rollOptimal: [0, 180], // оптимальный угол крена
     temperature: -273, // температура обшивки
-    heightSurface: 0, // высота
+    heightSurface: 500000, // высота
+    deltaHeightSurface: [2857, 3556, 389, 83], // скорость изменения высоты в зависимости от стадии посадки в метрах
+    distance: 1253810, // расстояние до точки посадки в метрах
     brakeSystem: false, // тормозная система
     chassis: false, // выпущенные шасси
-
+    stage: null, // стадия посадки 0 - подлет к планете, 1 - верхние слои атмосферы, 2 - плотные слои атмосферы, 3 - приземление, 4 - сели
     noise: {}
 };
 
@@ -186,6 +189,10 @@ function pilot(io, socket) {
         } else {
             navigator.manevr.thrust = 0;
         }
+    });
+
+    socket.on('startVideoLanding', () => {
+        console.log('******* startVideoLanding *******')
     });
 }
 

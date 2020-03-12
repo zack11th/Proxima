@@ -92,6 +92,7 @@
                   this.$refs.videoRef.play();
 // ************** УСКОРЕНИЕ тестового ВИДЕО **************** УБРАТЬ одну строку ниже
                   this.$refs.videoRef.playbackRate = 1.5;
+                  this.$socket.emit('startVideoLanding');
                   this.flight();
                 }
                 this.$store.commit('setAlert', {header: String(countDown)});
