@@ -38,7 +38,11 @@
 <!--      ****************** ОСНОВНЫЕ ПОКЗАТЕЛИ ***********************-->
       <div class="speed" :class="{speed_overload: navigator.alarm.speed}">
         <div class="speed-label"> Скорость относительно поверхности: </div>
-        <div class="speed-value">{{navigator.speedSurface}} м/с</div>
+        <div class="speed-value">{{navigator.speedSurface}} : {{navigator.speedSurfaceOptimal}} м/с</div>
+      </div>
+      <div class="speed" :class="{speed_overload: navigator.alarm.speed}">
+        <div class="speed-label"> Ускорение УБРАТЬ: </div>
+        <div class="speed-value">{{navigator.acceleration}} : {{navigator.accelerationOptimal}} м/с</div>
       </div>
       <div class="thrust">
         <div>Тяга маневровых двигателей, % :</div>
@@ -65,13 +69,17 @@
           </div>
           <div class="trigger">
             <span>Тормозная система: </span>
-            <span class="lamp" :class="{lamp_active: heightSurface}"></span>
+            <span class="lamp" :class="{lamp_active: navigator.brakeSystem}"></span>
           </div>
         </div>
         <div class="surface-cell">
           <div class="speed">
             <div class="speed-label"> Высота: </div>
             <div class="speed-value">{{navigator.heightSurface}} км</div>
+          </div>
+          <div class="speed" v-if="navigator.distance">
+            <div class="speed-label"> Дистанция до места посадки: </div>
+            <div class="speed-value">{{navigator.distance}} км</div>
           </div>
         </div>
       </div>
@@ -248,6 +256,10 @@
   }
   .surface-cell>.trigger {
     justify-content: center;
+  }
+  .surface-cell>.speed {
+    padding-top: 5px;
+    padding-bottom: 5px;
   }
   .wind-area {
     position: relative;

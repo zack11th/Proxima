@@ -38,29 +38,37 @@ export default {
       }
     },
     navigator: {
-      difficult: 5,
+      difficult: 0,
       nuclear: {
         darkMater: false,
         button_1: false,
         button_2: false,
-        thrust: 0
+        thrust: 0 // от 0 до 100
       },
       manevr: {
         button_1: false,
         button_2: false,
-        thrust: 0
+        thrust: 0 // от 0 до 100
       },
-      alarm: {
+      alarm: { // подсвечивание не оптимальных параметров
         speed: false,
         temperature: false
       },
-      speedSurface: 0,
-      roll: 0,
-      rollOptimal: [0, 180],
-      temperature: 0,
-      heightSurface: 0,
-      brakeSystem: false,
-      chassis: false
+      speedSurface: 0, // скоросто относительно поверхности
+      speedSurfaceOptimal: 0, // оптимальная скорость относительно поверхности
+      acceleration: 0, // ускорение при посадке
+      accelerationOptimal: [38.1, -44, -61.1, -8.3], // оптимальное ускоренин в зависимости от стадии
+      accelerationSystem: [38.1, -66, -90, -12], // системное ускорение, которое будет в случае, если ничего не делать
+      roll: 0, // угол крена
+      rollOptimal: [0, 180], // оптимальный угол крена
+      temperature: -273, // температура обшивки
+      heightSurface: '-', // высота
+      deltaHeightSurface: [2857, 3556, 389, 83], // скорость изменения высоты в зависимости от стадии посадки в метрах в секунду
+      distance: 0, // расстояние до точки посадки в метрах
+      brakeSystem: false, // тормозная система
+      chassis: false, // выпущенные шасси
+      stage: null, // стадия посадки 0 - подлет к планете, 1 - верхние слои атмосферы, 2 - плотные слои атмосферы, 3 - приземление, 4 - сели
+      noise: {}
     }
   },
   mutations: {
