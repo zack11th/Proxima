@@ -14,6 +14,16 @@ function alerts(io, socket) {
         io.emit('alertPilot', alert);
         io.emit('alertCommand', alert);
         io.emit('alertGeneral', alert);
+
+        setTimeout(() => {
+            let alertCommand = {
+                header: '',
+                message: 'Обнаружен сигнал маяка. Координаты внесены в систему маневрирования для высадки.',
+                button: true,
+                inProcess: true
+            };
+            io.emit('alertCommand', alertCommand);
+        }, 120000)
     });
 
     socket.on('landing', () => {
