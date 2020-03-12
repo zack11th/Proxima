@@ -78,17 +78,18 @@ let navigator = {
         button_2: false,
         thrust: 0
     },
-    alarm: {
+    alarm: { // подсвечивание не оптимальных параметров
         speed: false,
         temperature: false
     },
-    speedSurface: 0,
-    roll: 0,
+    speedSurface: 0, // скоросто относительно поверхности
+    roll: 0, // угол крена
     rollOptimal: [0, 180], // оптимальный угол крена
     temperature: -273, // температура обшивки
     heightSurface: 0, // высота
-    brakeSystem: false,
-    chassis: false,
+    brakeSystem: false, // тормозная система
+    chassis: false, // выпущенные шасси
+
     noise: {}
 };
 

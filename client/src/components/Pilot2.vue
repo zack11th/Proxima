@@ -9,11 +9,11 @@
           <span class="lamp" :class="{lamp_active: navigator.nuclear.darkMater}"></span>
         </div>
         <div class="trigger">
-          <span>Тумблер 1 (придумать красивое название)</span>
+          <span>Ручное управление топливной заслонкой</span>
           <span class="lamp" :class="{lamp_active: navigator.nuclear.button_1}"></span>
         </div>
         <div class="trigger">
-          <span>Тумблер 2 (придумать красивое название)</span>
+          <span>Ручное управление клапанами тяги</span>
           <span class="lamp" :class="{lamp_active: navigator.nuclear.button_2}"></span>
         </div>
         <div class="arm" :class="{arm_active: navigator.nuclear.button_1 && navigator.nuclear.button_2}">
@@ -24,11 +24,11 @@
       <div class="engine-block">
         <p>Маневровые двигатели</p>
         <div class="trigger">
-          <span>Тумблер 3 (придумать красивое название)</span>
+          <span>Ручное управление гидравликой рулей</span>
           <span class="lamp" :class="{lamp_active: navigator.manevr.button_1}"></span>
         </div>
         <div class="trigger">
-          <span>Тумблер 4 (придумать красивое название)</span>
+          <span>Ручное управление клапанами впрыска</span>
           <span class="lamp" :class="{lamp_active: navigator.manevr.button_2}"></span>
         </div>
         <div class="arm" :class="{arm_active: navigator.manevr.button_1 && navigator.manevr.button_2}">
