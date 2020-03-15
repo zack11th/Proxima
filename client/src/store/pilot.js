@@ -38,9 +38,9 @@ export default {
       }
     },
     navigator: {
-      difficult: 0,
+      difficult: 5,
       nuclear: {
-        darkMater: false,
+        darkMater: true,
         button_1: false,
         button_2: false,
         thrust: 0 // от 0 до 100

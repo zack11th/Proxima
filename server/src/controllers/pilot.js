@@ -66,9 +66,9 @@ let orbit = {
 };
 
 let navigator = {
-    difficult: 1,
+    difficult: 5,
     nuclear: {
-        darkMater: false,
+        darkMater: true,
         button_1: false,
         button_2: false,
         thrust: 0 // от 0 до 100
@@ -86,7 +86,7 @@ let navigator = {
     speedSurfaceOptimal: 0, // оптимальная скорость относительно поверхности
     acceleration: 38.1, // ускорение при посадке
     accelerationOptimal: [38.1, -44, -61.1, -8.3], // оптимальное ускоренин в зависимости от стадии
-    accelerationSystem: [38.1, -66, -90, -12], // системное ускорение, которое будет в случае, если ничего не делать
+    accelerationSystem: [38.1, -44, -61.1, -8.3], // системное ускорение, которое будет в случае, если ничего не делать
     roll: 0, // угол крена
     rollOptimal: [0, 180], // оптимальный угол крена
     temperature: -273, // температура обшивки
@@ -149,7 +149,7 @@ function checkStageLanding(n) {
 
 function calcLanding(n) { // вызывается при старте видео посадки каждые 100мс n = navigator
     // ускорение корабля фактическое
-    n.acceleration = n.accelerationSystem[n.stage] + Math.abs(n.accelerationSystem[n.stage] / 2) * n.manevr.thrust / 100;
+    n.acceleration = n.accelerationSystem[n.stage] + Math.abs(n.accelerationSystem[n.stage] / 1.7) * n.manevr.thrust / 100;
     // фактическая скорость корабля
     n.speedSurface = Math.round(n.speedSurface + n.acceleration / 10);
     // оптимальная скорость корабля
@@ -178,6 +178,7 @@ function pilot(io, socket) {
     });
 
     socket.on('startLarp', () => {
+        navigator.nuclear.darkMater = false;
         // вычисление автоматических стартовых параметров
         orbit.planets.forEach((item, i, arr) => {
             item.shift = item.a - item.b
@@ -236,10 +237,10 @@ function pilot(io, socket) {
     socket.on('startVideoLanding', () => {
         console.log('******* start VideoLanding *******');
         navigator.stage = 0;
-        navigator.speedSurface = 4000;
-        navigator.speedSurfaceOptimal = 4000;
+        navigator.speedSurface = 3581;
+        navigator.speedSurfaceOptimal = 3581;
         navigator.heightSurface = 500000;
-        navigator.distance = 1253810;
+        navigator.distance = 1218722;
         let interval = setInterval(() => {
             if (navigator.stage > 3) {
                 clearInterval(interval);
