@@ -257,6 +257,7 @@
         }
       },
       mounted() {
+        document.title = 'Мастер';
         this.$socket.emit('conn', 'MASTER connected')
       }
     }

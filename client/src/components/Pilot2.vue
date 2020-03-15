@@ -112,6 +112,7 @@
   export default {
     name: "Pilot2",
     mounted() {
+      document.title = 'Штурман';
       this.$socket.emit('conn', 'PILOT_2 connected');
     },
     computed: {

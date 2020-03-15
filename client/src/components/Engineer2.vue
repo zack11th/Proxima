@@ -32,6 +32,7 @@
     },
     methods: {},
     mounted() {
+      document.title = 'Инженер_2';
       this.$socket.emit('conn', 'ENGINEER_2 connected')
 
       // подключение ОБЩЕГО геймпада (окно должно быть в фокусе, чтобы геймпад передавался)

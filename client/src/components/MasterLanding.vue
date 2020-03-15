@@ -11,6 +11,9 @@
 <script>
     export default {
         name: "MasterLanding",
+        mounted() {
+          document.title = 'Мастер-Посадка';
+        },
         methods: {
           apogeeChange(value) {
             this.$socket.emit('changeNuclearThrustMaster', value)

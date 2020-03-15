@@ -38,6 +38,7 @@
           }
         },
         mounted() {
+          document.title = 'Пилот';
           this.$socket.emit('conn', 'PILOT connected')
         }
 
