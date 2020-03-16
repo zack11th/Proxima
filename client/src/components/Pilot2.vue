@@ -36,13 +36,21 @@
         </div>
       </div>
 <!--      ****************** ОСНОВНЫЕ ПОКЗАТЕЛИ ***********************-->
-      <div class="speed" :class="{speed_overload: navigator.alarm.speed}">
+      <div class="speed" :class="{speed_overload: navigator.alarm.speed_over || navigator.alarm.speed_less}">
         <div class="speed-label"> Скорость относительно поверхности: </div>
-        <div class="speed-value">{{navigator.speedSurface}} : {{navigator.speedSurfaceOptimal}} м/с</div>
+        <div class="speed-value">
+          {{Math.round(navigator.speedSurface)}} м/с
+          <span class="marker marker__over" v-if="navigator.alarm.speed_over">высокая</span>
+          <span class="marker marker__less" v-if="navigator.alarm.speed_less">низкая</span>
+        </div>
+      </div>
+      <div class="speed">
+        <div class="speed-label"> Оптимальная скорость посадки: </div>
+        <div class="speed-value">{{Math.round(navigator.speedSurfaceOptimal)}} м/с</div>
       </div>
       <div class="speed" :class="{speed_overload: navigator.alarm.speed}">
         <div class="speed-label"> Ускорение УБРАТЬ: </div>
-        <div class="speed-value">{{navigator.acceleration}} : {{navigator.accelerationOptimal}} м/с :: stage {{navigator.stage}}</div>
+        <div class="speed-value">{{navigator.acceleration}} : {{navigator.accelerationOptimal}} м/с^2 :: stage {{navigator.stage}}</div>
       </div>
       <div class="thrust">
         <div>Тяга маневровых двигателей, % :</div>
@@ -109,11 +117,16 @@
 </template>
 
 <script>
+  let log = console.log;
+
   export default {
     name: "Pilot2",
     mounted() {
       document.title = 'Штурман';
       this.$socket.emit('conn', 'PILOT_2 connected');
+      setInterval(()=>{
+        log(`difficult: ${this.navigator.difficult}`)
+      },1000)
     },
     computed: {
       generalGamepad() {
@@ -221,6 +234,19 @@
       box-shadow: none;
       color: #ce6e00;
     }
+  }
+  .marker {
+    color: #bebebe;
+    margin-left: 5px;
+    border-radius: 5px;
+    padding: 0 5px 2px;
+    font-size: 1rem;
+  }
+  .marker__over {
+    background-color: #990000;
+  }
+  .marker__less {
+    background-color: #00ac00;
   }
   .thrust {
     text-align: center;

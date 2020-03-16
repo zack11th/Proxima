@@ -38,7 +38,7 @@ export default {
       }
     },
     navigator: {
-      difficult: 5,
+      difficult: 1,
       nuclear: {
         darkMater: true,
         button_1: false,
@@ -51,14 +51,17 @@ export default {
         thrust: 0 // от 0 до 100
       },
       alarm: { // подсвечивание не оптимальных параметров
-        speed: false,
+        speed_less: false,
+        speed_over: false,
         temperature: false
       },
-      speedSurface: 0, // скоросто относительно поверхности
+      speedSurface: 0, // скорость относительно поверхности
       speedSurfaceOptimal: 0, // оптимальная скорость относительно поверхности
-      acceleration: 0, // ускорение при посадке
+      deltaVmin: 0, // нижний порог отклонения скорости до алерта
+      deltaVmax: 0, // верхний порог отклонения скорости до алерта
+      acceleration: 38.1, // ускорение при посадке
       accelerationOptimal: [38.1, -44, -61.1, -8.3], // оптимальное ускоренин в зависимости от стадии
-      accelerationSystem: [38.1, -66, -90, -12], // системное ускорение, которое будет в случае, если ничего не делать
+      accelerationSystem: [38.1, -60, -110, -10], // системное ускорение, которое будет в случае, если ничего не делать
       roll: 0, // угол крена
       rollOptimal: [0, 180], // оптимальный угол крена
       temperature: -273, // температура обшивки
@@ -68,6 +71,8 @@ export default {
       brakeSystem: false, // тормозная система
       chassis: false, // выпущенные шасси
       stage: null, // стадия посадки 0 - подлет к планете, 1 - верхние слои атмосферы, 2 - плотные слои атмосферы, 3 - приземление, 4 - сели
+      singletoneStage: true, // флаг одноразовых расчетов для стадий
+      timeStage: [105, 45, 90, 60], // время каждой стадии в секундах
       noise: {}
     }
   },
@@ -75,7 +80,6 @@ export default {
     SOCKET_changePlanet(state, data) {
       state.orbit = data.orbit;
       state.navigator = data.navigator;
-      // console.log(data.navigator.nuclear)
     },
     startLanding(state, data) {
       state.orbit.ship.a = data.planet.a;
@@ -88,7 +92,7 @@ export default {
       state.orbit.ship.cys = state.orbit.center.cy;
       state.orbit.ship.delta_nuclear = 0;
       data.socket.emit('setPlanet', state.orbit);
-      data.socket.emit('landing');
+      if (!state.orbit.landing) data.socket.emit('landing');
     }
   },
   actions: {},

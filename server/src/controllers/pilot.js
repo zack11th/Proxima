@@ -66,7 +66,7 @@ let orbit = {
 };
 
 let navigator = {
-    difficult: 5,
+    difficult: 1, // сложность посадки
     nuclear: {
         darkMater: true,
         button_1: false,
@@ -79,14 +79,17 @@ let navigator = {
         thrust: 0 // от 0 до 100
     },
     alarm: { // подсвечивание не оптимальных параметров
-        speed: false,
+        speed_less: false,
+        speed_over: false,
         temperature: false
     },
     speedSurface: 0, // скорость относительно поверхности
     speedSurfaceOptimal: 0, // оптимальная скорость относительно поверхности
+    deltaVmin: 0, // нижний порог отклонения скорости до алерта
+    deltaVmax: 0, // верхний порог отклонения скорости до алерта
     acceleration: 38.1, // ускорение при посадке
     accelerationOptimal: [38.1, -44, -61.1, -8.3], // оптимальное ускоренин в зависимости от стадии
-    accelerationSystem: [38.1, -44, -61.1, -8.3], // системное ускорение, которое будет в случае, если ничего не делать
+    accelerationSystem: [38.1, -60, -110, -10], // системное ускорение, которое будет в случае, если ничего не делать
     roll: 0, // угол крена
     rollOptimal: [0, 180], // оптимальный угол крена
     temperature: -273, // температура обшивки
@@ -96,6 +99,8 @@ let navigator = {
     brakeSystem: false, // тормозная система
     chassis: false, // выпущенные шасси
     stage: null, // стадия посадки 0 - подлет к планете, 1 - верхние слои атмосферы, 2 - плотные слои атмосферы, 3 - приземление, 4 - сели
+    singletoneStage: true, // флаг одноразовых расчетов для стадий
+    timeStage: [105, 45, 90, 60], // время каждой стадии в секундах
     noise: {}
 };
 
@@ -136,10 +141,28 @@ function checkStageLanding(n) {
             n.manevr.thrust = 0;
             break;
         case 1:
+            if(n.singletoneStage) {
+                n.deltaVmin = 270;
+                n.deltaVmax = 300;
+                n.difficult = 5;
+                n.singletoneStage = false;
+            }
             break;
         case 2:
+            if(!n.singletoneStage) {
+                n.deltaVmin = 100;
+                n.deltaVmax = 154;
+                n.singletoneStage = true;
+            }
             break;
         case 3:
+            if(n.singletoneStage) {
+                n.acceleration = 2 * (n.distance - n.speedSurface * n.timeStage[n.stage]) / (n.timeStage[n.stage] * n.timeStage[n.stage]);
+                console.log(n.distance)
+                console.log(n.speedSurface)
+                console.log(n.timeStage[n.stage])
+                n.singletoneStage = false;
+            }
             break;
         default:
             console.log('unknown stage');
@@ -148,16 +171,18 @@ function checkStageLanding(n) {
 }
 
 function calcLanding(n) { // вызывается при старте видео посадки каждые 100мс n = navigator
-    // ускорение корабля фактическое
-    n.acceleration = n.accelerationSystem[n.stage] + Math.abs(n.accelerationSystem[n.stage] / 1.7) * n.manevr.thrust / 100;
+    if (n.stage !== 3) {
+        // ускорение корабля фактическое
+        n.acceleration = n.accelerationSystem[n.stage] + Math.abs(n.accelerationSystem[n.stage] / 1.7) * n.manevr.thrust / 100;
+    }
     // фактическая скорость корабля
-    n.speedSurface = Math.round(n.speedSurface + n.acceleration / 10);
+    n.speedSurface = n.speedSurface + n.acceleration / 10;
     // оптимальная скорость корабля
-    n.speedSurfaceOptimal = Math.round(n.speedSurfaceOptimal + n.accelerationOptimal[n.stage] / 10);
+    n.speedSurfaceOptimal = n.speedSurfaceOptimal + n.accelerationOptimal[n.stage] / 10;
     // высота
-    n.heightSurface = Math.round(n.heightSurface - n.deltaHeightSurface[n.stage] / 10);
+    n.heightSurface = n.heightSurface - n.deltaHeightSurface[n.stage] / 10;
     // расстояние до места посадки
-    n.distance = Math.round(n.distance - n.speedSurface / 10);
+    n.distance = n.distance - n.speedSurfaceOptimal / 10;
     // температура
     // сложность относительно оптимального угла крена
     // проверка на смену стадии
@@ -166,6 +191,8 @@ function calcLanding(n) { // вызывается при старте видео
     if(n.heightSurface < 5000 && n.heightSurface > 0) n.stage = 3;
     if(n.heightSurface <= 0) n.stage = 4;
     // проверка на оптимум скорости
+    n.alarm.speed_less = n.speedSurface < n.speedSurfaceOptimal - n.deltaVmin;
+    n.alarm.speed_over = n.speedSurface > n.speedSurfaceOptimal + n.deltaVmax;
     // проверка на превышение температуры
 }
 
@@ -174,7 +201,7 @@ function pilot(io, socket) {
     socket.on('canvas', (data) => {
         orbit.center.cx = data.width / 2;
         orbit.center.cy = data.height / 2;
-        io.to('game').emit('changePlanet', {orbit});
+        io.to('game').emit('changePlanet', {orbit, navigator});
     });
 
     socket.on('startLarp', () => {
@@ -237,14 +264,15 @@ function pilot(io, socket) {
     socket.on('startVideoLanding', () => {
         console.log('******* start VideoLanding *******');
         navigator.stage = 0;
-        navigator.speedSurface = 3581;
-        navigator.speedSurfaceOptimal = 3581;
+        navigator.speedSurface = 3929;
+        navigator.speedSurfaceOptimal = 3929;
         navigator.heightSurface = 500000;
-        navigator.distance = 1218722;
+        navigator.distance = 1238512;
         let interval = setInterval(() => {
             if (navigator.stage > 3) {
                 clearInterval(interval);
                 console.log('******* END VideoLanding *******');
+                navigator.heightSurface = 0;
                 return false;
             }
             checkStageLanding(navigator)
