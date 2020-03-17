@@ -97,7 +97,7 @@
       <div class="wind-area">
         <div class="roll-area">
           <div class="rolled-ship"
-            :style="{transform: `rotate(${navigator.roll}deg)`, transformOrigin: `center center`}"
+            :style="{transform: `rotate(-${navigator.roll}deg)`, transformOrigin: `center center`}"
           ></div>
         </div>
       </div>
@@ -124,9 +124,6 @@
     mounted() {
       document.title = 'Штурман';
       this.$socket.emit('conn', 'PILOT_2 connected');
-      setInterval(()=>{
-        log(`difficult: ${this.navigator.difficult}`)
-      },1000)
     },
     computed: {
       generalGamepad() {

@@ -145,6 +145,10 @@
         }
       },
       mounted () {
+        // setInterval(()=>{
+        //   log(`difficult: ${this.difficult}`)
+        // },1000)
+
         // размеры wrap-cont
         this.video.w = Number(window.getComputedStyle(this.$refs.wrapContRef).getPropertyValue('width').replace(/\D+/g,""));
         this.video.h = Number(window.getComputedStyle(this.$refs.wrapContRef).getPropertyValue('height').replace(/\D+/g,""));
