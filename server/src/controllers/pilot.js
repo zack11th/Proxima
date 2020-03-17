@@ -157,10 +157,7 @@ function checkStageLanding(n) {
             break;
         case 3:
             if(n.singletoneStage) {
-                n.acceleration = 2 * (n.distance - n.speedSurface * n.timeStage[n.stage]) / (n.timeStage[n.stage] * n.timeStage[n.stage]);
-                console.log(n.distance)
-                console.log(n.speedSurface)
-                console.log(n.timeStage[n.stage])
+                n.acceleration = -1 * n.speedSurface / n.timeStage[n.stage];
                 n.singletoneStage = false;
             }
             break;
@@ -273,6 +270,8 @@ function pilot(io, socket) {
                 clearInterval(interval);
                 console.log('******* END VideoLanding *******');
                 navigator.heightSurface = 0;
+                navigator.speedSurface = 0;
+                navigator.distance = 0;
                 return false;
             }
             checkStageLanding(navigator)
