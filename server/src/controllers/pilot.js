@@ -102,10 +102,13 @@ let navigator = {
     singletoneStage: true, // флаг одноразовых расчетов для стадий
     timeStage: [105, 45, 90, 60], // время каждой стадии в секундах
     wind: {
-        inProcess: false
+        inProcess: false,
+        deg: 0
     },
     noise: {}
 };
+
+let log = console.log;
 
 function DegToRad(deg) {
     return deg/180*Math.PI;
@@ -138,6 +141,10 @@ function calcApogeeShip(ship) {
     ship.a += ship.delta_nuclear * 100
 }
 
+function onChangeStage(n) {
+    n.singletoneStage = true;
+}
+
 function checkStageLanding(n) {
     switch (n.stage) {
         case 0:
@@ -152,10 +159,10 @@ function checkStageLanding(n) {
             }
             break;
         case 2:
-            if(!n.singletoneStage) {
+            if(n.singletoneStage) {
                 n.deltaVmin = 100;
                 n.deltaVmax = 154;
-                n.singletoneStage = true;
+                n.singletoneStage = false;
             }
             break;
         case 3:
@@ -170,7 +177,12 @@ function checkStageLanding(n) {
     calcLanding(n);
 }
 
+function setWind() {
+    log('WETEEEER!')
+}
+
 function calcLanding(n) { // вызывается при старте видео посадки каждые 100мс n = navigator
+    let oldStage = n.stage;
     if (n.stage !== 3) {
         // ускорение корабля фактическое
         n.acceleration = n.accelerationSystem[n.stage] + Math.abs(n.accelerationSystem[n.stage] / 1.7) * n.manevr.thrust / 100;
@@ -190,6 +202,8 @@ function calcLanding(n) { // вызывается при старте видео
     if(n.heightSurface < 40000 && n.heightSurface >= 5000) n.stage = 2;
     if(n.heightSurface < 5000 && n.heightSurface > 0) n.stage = 3;
     if(n.heightSurface <= 0) n.stage = 4;
+
+    if (oldStage !== n.stage) onChangeStage(n);
     // проверка на оптимум скорости
     n.alarm.speed_less = n.speedSurface < n.speedSurfaceOptimal - n.deltaVmin;
     n.alarm.speed_over = n.speedSurface > n.speedSurfaceOptimal + n.deltaVmax;
@@ -287,6 +301,7 @@ function pilot(io, socket) {
 
     socket.on('changeWind', (wind) => {
         navigator.wind.inProcess = wind;
+        if(wind) setWind();
     });
 }
 
