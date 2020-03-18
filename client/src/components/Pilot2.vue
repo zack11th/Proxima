@@ -49,8 +49,8 @@
         <div class="speed-value">{{Math.round(navigator.speedSurfaceOptimal)}} м/с</div>
       </div>
       <div class="speed" :class="{speed_overload: navigator.alarm.speed}">
-        <div class="speed-label"> Ускорение УБРАТЬ: </div>
-        <div class="speed-value">{{navigator.acceleration}} : {{navigator.accelerationOptimal}} м/с^2 :: stage {{navigator.stage}}</div>
+        <div class="speed-label"> Ускорение: </div>
+        <div class="speed-value">{{Math.round(navigator.acceleration)}} м/с^2</div>
       </div>
       <div class="thrust">
         <div>Тяга маневровых двигателей, % :</div>
@@ -83,7 +83,7 @@
         <div class="surface-cell">
           <div class="speed">
             <div class="speed-label"> Высота: </div>
-            <div class="speed-value">{{Math.floor(navigator.heightSurface)/1000}} км</div>
+            <div class="speed-value">{{Math.floor(navigator.heightSurface)/1000 || '--'}} км</div>
           </div>
           <div class="speed" v-if="navigator.distance || true">
             <div class="speed-label"> Дистанция до места посадки: </div>

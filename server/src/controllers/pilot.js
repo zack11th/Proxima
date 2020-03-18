@@ -101,6 +101,9 @@ let navigator = {
     stage: null, // стадия посадки 0 - подлет к планете, 1 - верхние слои атмосферы, 2 - плотные слои атмосферы, 3 - приземление, 4 - сели
     singletoneStage: true, // флаг одноразовых расчетов для стадий
     timeStage: [105, 45, 90, 60], // время каждой стадии в секундах
+    wind: {
+        inProcess: false
+    },
     noise: {}
 };
 
@@ -243,7 +246,7 @@ function pilot(io, socket) {
         navigator = data;
     });
 
-    // navigator
+    // ЗАДАНИЕ КНОПОК ОБЩЕГО ГЕЙМПАДА navigator
     socket.on('setGamepad', (data) => {
         navigator.nuclear.button_1 = !!data.buttons[4];
         navigator.nuclear.button_2 = !!data.buttons[6];
@@ -280,6 +283,10 @@ function pilot(io, socket) {
             }
             checkStageLanding(navigator)
         }, 100);
+    });
+
+    socket.on('changeWind', (wind) => {
+        navigator.wind.inProcess = wind;
     });
 }
 

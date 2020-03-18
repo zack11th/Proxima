@@ -133,7 +133,12 @@
             <button @click="changeSpeed(null)">ok</button>
           </div>
           <hr>
-          <p>Посадка</p>
+          <p>Посадка <span style="text-decoration: underline">Стадия №: {{navigator.stage}}</span></p>
+          <div class="action">
+            <button @click="toggleWind(true)">Включить ветер</button>
+            <span>{{navigator.wind.inProcess}}</span>
+            <button @click="toggleWind(false)">Отключить ветер</button>
+          </div>
           <div class="flex">
             <div class="">
               <p>Тумблер 1: {{navigator.nuclear.button_1}}</p>
@@ -146,27 +151,27 @@
           </div>
           <div class="input-block">
             <span>Скорость</span>
-            <span>{{navigator.speedSurface}}</span>
+            <span>{{Math.round(navigator.speedSurface)}}</span>
             <input type="number" ref="speedInput">
           </div>
           <div class="input-block">
             <span>Скорость оптимал</span>
-            <span>{{navigator.speedSurfaceOptimal}}</span>
+            <span>{{Math.round(navigator.speedSurfaceOptimal)}}</span>
             <input type="number" ref="optimalInput">
           </div>
           <div class="input-block">
             <span>Ускорение</span>
-            <span>{{navigator.acceleration}}</span>
+            <span>{{Math.round(navigator.acceleration)}}</span>
             <input type="number" ref="accelerInput">
           </div>
           <div class="input-block">
             <span>Высота</span>
-            <span>{{navigator.heightSurface}}</span>
+            <span>{{Math.round(navigator.heightSurface)}}</span>
             <input type="number" ref="heightInput">
           </div>
           <div class="input-block">
             <span>Дистанция</span>
-            <span>{{navigator.distance}}</span>
+            <span>{{Math.round(navigator.distance)}}</span>
             <input type="number" ref="distanceInput">
           </div>
           <div class="action">
@@ -308,6 +313,9 @@
           let distance = (!isNaN(this.$refs.distanceInput.valueAsNumber)) ? this.$refs.distanceInput.valueAsNumber : this.navigator.distance;
 
           this.$store.commit('changeNavigator', {speed, speedOptimal, acceleration, height, distance, socket: this.$socket});
+        },
+        toggleWind(wind) {
+          this.$socket.emit('changeWind', wind);
         }
       },
       mounted() {
