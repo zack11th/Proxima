@@ -93,6 +93,15 @@ export default {
       state.orbit.ship.delta_nuclear = 0;
       data.socket.emit('setPlanet', state.orbit);
       if (!state.orbit.landing) data.socket.emit('landing');
+    },
+    changeNavigator(state, data) {
+      state.navigator.speedSurface = data.speed;
+      state.navigator.speedSurfaceOptimal = data.speedOptimal;
+      state.navigator.acceleration = data.acceleration;
+      state.navigator.heightSurface = data.height;
+      state.navigator.distance = data.distance;
+
+      data.socket.emit('changeNavigator', state.navigator);
     }
   },
   actions: {},

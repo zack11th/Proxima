@@ -132,6 +132,46 @@
             <input type="number" ref="auroraSpeed">
             <button @click="changeSpeed(null)">ok</button>
           </div>
+          <hr>
+          <p>Посадка</p>
+          <div class="flex">
+            <div class="">
+              <p>Тумблер 1: {{navigator.nuclear.button_1}}</p>
+              <p>Тумблер 2: {{navigator.nuclear.button_2}}</p>
+            </div>
+            <div class="">
+              <p>Тумблер 3: {{navigator.manevr.button_1}}</p>
+              <p>Тумблер 4: {{navigator.manevr.button_2}}</p>
+            </div>
+          </div>
+          <div class="input-block">
+            <span>Скорость</span>
+            <span>{{navigator.speedSurface}}</span>
+            <input type="number" ref="speedInput">
+          </div>
+          <div class="input-block">
+            <span>Скорость оптимал</span>
+            <span>{{navigator.speedSurfaceOptimal}}</span>
+            <input type="number" ref="optimalInput">
+          </div>
+          <div class="input-block">
+            <span>Ускорение</span>
+            <span>{{navigator.acceleration}}</span>
+            <input type="number" ref="accelerInput">
+          </div>
+          <div class="input-block">
+            <span>Высота</span>
+            <span>{{navigator.heightSurface}}</span>
+            <input type="number" ref="heightInput">
+          </div>
+          <div class="input-block">
+            <span>Дистанция</span>
+            <span>{{navigator.distance}}</span>
+            <input type="number" ref="distanceInput">
+          </div>
+          <div class="action">
+            <button @click="changeNavigator">Задать значения</button>
+          </div>
         </div>
         <!--************** end PILOT ************-->
         <div class="scientist flex-row">
@@ -149,6 +189,8 @@
 </template>
 
 <script>
+  let log = console.log;
+
     export default {
       name: "Master",
       data () {
@@ -225,6 +267,9 @@
         },
         orbit() {
           return this.$store.getters.get_orbit
+        },
+        navigator() {
+          return this.$store.getters.get_navigator
         }
       },
       methods: {
@@ -254,6 +299,15 @@
             this.orbit.ship.K_speed = this.$refs.auroraSpeed.valueAsNumber;
           }
           this.$socket.emit('setPlanet', this.orbit);
+        },
+        changeNavigator() {
+          let speed = (!isNaN(this.$refs.speedInput.valueAsNumber)) ? this.$refs.speedInput.valueAsNumber : this.navigator.speedSurface;
+          let speedOptimal = (!isNaN(this.$refs.optimalInput.valueAsNumber)) ? this.$refs.optimalInput.valueAsNumber : this.navigator.speedSurfaceOptimal;
+          let acceleration = (!isNaN(this.$refs.accelerInput.valueAsNumber)) ? this.$refs.accelerInput.valueAsNumber : this.navigator.acceleration;
+          let height = (!isNaN(this.$refs.heightInput.valueAsNumber)) ? this.$refs.heightInput.valueAsNumber : this.navigator.heightSurface;
+          let distance = (!isNaN(this.$refs.distanceInput.valueAsNumber)) ? this.$refs.distanceInput.valueAsNumber : this.navigator.distance;
+
+          this.$store.commit('changeNavigator', {speed, speedOptimal, acceleration, height, distance, socket: this.$socket});
         }
       },
       mounted() {
@@ -266,6 +320,9 @@
 <style scoped>
   * {
     box-sizing: border-box;
+  }
+  p {
+    margin: 0
   }
   h2 {
     margin: 5px;
@@ -289,6 +346,7 @@
   .flex {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
   }
   .flex.no-wrap {
     flex-wrap: nowrap;

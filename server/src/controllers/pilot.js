@@ -87,7 +87,7 @@ let navigator = {
     speedSurfaceOptimal: 0, // оптимальная скорость относительно поверхности
     deltaVmin: 0, // нижний порог отклонения скорости до алерта
     deltaVmax: 0, // верхний порог отклонения скорости до алерта
-    acceleration: 38.1, // ускорение при посадке
+    acceleration: 0, // ускорение при посадке
     accelerationOptimal: [38.1, -44, -61.1, -8.3], // оптимальное ускоренин в зависимости от стадии
     accelerationSystem: [38.1, -60, -110, -10], // системное ускорение, которое будет в случае, если ничего не делать
     roll: 0, // угол крена
@@ -239,6 +239,9 @@ function pilot(io, socket) {
     socket.on('roll', (data) => {
         navigator.roll = data;
     });
+    socket.on('changeNavigator', (data) => {
+        navigator = data;
+    });
 
     // navigator
     socket.on('setGamepad', (data) => {
@@ -272,6 +275,7 @@ function pilot(io, socket) {
                 navigator.heightSurface = 0;
                 navigator.speedSurface = 0;
                 navigator.distance = 0;
+                navigator.acceleration = 0;
                 return false;
             }
             checkStageLanding(navigator)
