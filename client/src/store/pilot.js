@@ -38,7 +38,7 @@ export default {
       }
     },
     navigator: {
-      difficult: 1,
+      difficult: 1, // сложность посадки
       nuclear: {
         darkMater: true,
         button_1: false,
@@ -59,11 +59,11 @@ export default {
       speedSurfaceOptimal: 0, // оптимальная скорость относительно поверхности
       deltaVmin: 0, // нижний порог отклонения скорости до алерта
       deltaVmax: 0, // верхний порог отклонения скорости до алерта
-      acceleration: 38.1, // ускорение при посадке
+      acceleration: 0, // ускорение при посадке
       accelerationOptimal: [38.1, -44, -61.1, -8.3], // оптимальное ускоренин в зависимости от стадии
       accelerationSystem: [38.1, -60, -110, -10], // системное ускорение, которое будет в случае, если ничего не делать
       roll: 0, // угол крена
-      rollOptimal: [0, 180], // оптимальный угол крена
+      rollOptimal: ['--', '--'], // оптимальный угол крена
       temperature: -273, // температура обшивки
       heightSurface: '-', // высота
       deltaHeightSurface: [2857, 3556, 389, 83], // скорость изменения высоты в зависимости от стадии посадки в метрах в секунду
@@ -74,7 +74,8 @@ export default {
       singletoneStage: true, // флаг одноразовых расчетов для стадий
       timeStage: [105, 45, 90, 60], // время каждой стадии в секундах
       wind: {
-        inProcess: false
+        inProcess: false,
+        deg: 0
       },
       noise: {}
     }

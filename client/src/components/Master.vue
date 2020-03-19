@@ -138,6 +138,7 @@
             <button @click="toggleWind(true)">Включить ветер</button>
             <span>{{navigator.wind.inProcess}}</span>
             <button @click="toggleWind(false)">Отключить ветер</button>
+            <span>{{navigator.wind.deg}}</span>
           </div>
           <div class="flex">
             <div class="">

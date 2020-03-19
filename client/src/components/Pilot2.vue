@@ -96,6 +96,10 @@
 <!--    ***************** УГОЛ КРЕНА *****************-->
       <div class="wind-area">
         <div class="roll-area">
+          <div class="wind"
+               v-if="navigator.wind.inProcess"
+               :style="{transform: `rotate(-${navigator.wind.deg}deg)`}">
+          </div>
           <div class="rolled-ship"
             :style="{transform: `rotate(-${navigator.roll}deg)`, transformOrigin: `center center`}"
           ></div>
@@ -106,6 +110,10 @@
         <div class="speed">
           <div class="speed-label"> Оптимальный уровень крена: </div>
           <div class="speed-value">{{navigator.rollOptimal[0]}}&deg / {{navigator.rollOptimal[1]}}&deg</div>
+        </div>
+        <div class="speed">
+          <div class="speed-label"> Угол крена: </div>
+          <div class="speed-value">{{Math.round(navigator.roll)}}&deg</div>
         </div>
         <div class="speed">
           <div class="speed-label"> Температура обшивки корпуса: </div>
@@ -122,6 +130,9 @@
   export default {
     name: "Pilot2",
     mounted() {
+      setInterval(()=>{
+        log(`difficult: ${this.navigator.difficult}`)
+      },1000)
       document.title = 'Штурман';
       this.$socket.emit('conn', 'PILOT_2 connected');
     },
@@ -304,9 +315,33 @@
     width: 400px;
     height: 100px;
     background-color: #ce6e00;
-    /*position: absolute;*/
-    /*top: 50%;*/
-    /*left: 50%;*/
-    /*transform: translate(-50%, -50%);*/
+  }
+  .wind {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    transform-origin: center center;
+  }
+  .wind::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 50%;
+    right: -50px;
+    transform: translateY(-50%);
+    border: 20px solid transparent;
+    border-right: 40px solid #990000;
+    animation: windwarning 1s infinite;
+  }
+  @keyframes windwarning {
+    0%, 100% {
+      border-right-color: #990000;
+    }
+    50% {
+      border-right-color: #ce6e00;
+    }
   }
 </style>

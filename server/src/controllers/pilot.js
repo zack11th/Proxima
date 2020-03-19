@@ -91,7 +91,7 @@ let navigator = {
     accelerationOptimal: [38.1, -44, -61.1, -8.3], // оптимальное ускоренин в зависимости от стадии
     accelerationSystem: [38.1, -60, -110, -10], // системное ускорение, которое будет в случае, если ничего не делать
     roll: 0, // угол крена
-    rollOptimal: [0, 180], // оптимальный угол крена
+    rollOptimal: ['--', '--'], // оптимальный угол крена
     temperature: -273, // температура обшивки
     heightSurface: '-', // высота
     deltaHeightSurface: [2857, 3556, 389, 83], // скорость изменения высоты в зависимости от стадии посадки в метрах в секунду
@@ -177,8 +177,10 @@ function checkStageLanding(n) {
     calcLanding(n);
 }
 
-function setWind() {
-    log('WETEEEER!')
+function setWind(n) {
+    n.wind.deg = Math.round(Math.random() * 360);
+    n.rollOptimal[0] = n.wind.deg;
+    n.rollOptimal[1] = (n.rollOptimal[0] < 180) ? n.rollOptimal[0] + 180 : n.rollOptimal[0] - 180;
 }
 
 function calcLanding(n) { // вызывается при старте видео посадки каждые 100мс n = navigator
@@ -197,6 +199,19 @@ function calcLanding(n) { // вызывается при старте видео
     n.distance = n.distance - n.speedSurfaceOptimal / 10;
     // температура
     // сложность относительно оптимального угла крена
+    if(n.wind.inProcess){
+        if ((n.roll < n.rollOptimal[0] + 15 && n.roll > n.rollOptimal[0] - 15) ||
+            (n.roll <n.rollOptimal[1] + 15 && n.roll > n.rollOptimal[1] - 15)) {
+            n.difficult = 5;
+        }else if((n.roll < n.rollOptimal[0] + 45 && n.roll > n.rollOptimal[0] - 45) ||
+            (n.roll < n.rollOptimal[1] + 45 && n.roll > n.rollOptimal[1] - 45)) {
+            n.difficult = 9;
+        }else {
+            n.difficult = 12;
+        }
+    }else if(n.stage !== 0) {
+        n.difficult = 5;
+    }
     // проверка на смену стадии
     if(n.heightSurface < 200000 && n.heightSurface >= 40000) n.stage = 1;
     if(n.heightSurface < 40000 && n.heightSurface >= 5000) n.stage = 2;
@@ -301,7 +316,7 @@ function pilot(io, socket) {
 
     socket.on('changeWind', (wind) => {
         navigator.wind.inProcess = wind;
-        if(wind) setWind();
+        if(wind) setWind(navigator);
     });
 }
 
