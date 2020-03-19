@@ -9,48 +9,48 @@
           <span class="lamp" :class="{lamp_active: navigator.nuclear.darkMater}"></span>
         </div>
         <div class="trigger">
-          <span>Ручное управление топливной заслонкой</span>
+          <span>Топливная заслонка</span>
           <span class="lamp" :class="{lamp_active: navigator.nuclear.button_1}"></span>
         </div>
         <div class="trigger">
-          <span>Ручное управление клапанами тяги</span>
+          <span>Клапаны тяги</span>
           <span class="lamp" :class="{lamp_active: navigator.nuclear.button_2}"></span>
         </div>
         <div class="arm" :class="{arm_active: navigator.nuclear.button_1 && navigator.nuclear.button_2}">
-          <span>Ручной режим активирован</span>
+          <span>Ручное управление активировано</span>
         </div>
       </div>
 <!--      ******************* МАНЕВРОВЫЕ ДВИГАТЕЛИ ********************-->
       <div class="engine-block">
         <p>Маневровые двигатели</p>
         <div class="trigger">
-          <span>Ручное управление гидравликой рулей</span>
+          <span>Гидравликой рулей</span>
           <span class="lamp" :class="{lamp_active: navigator.manevr.button_1}"></span>
         </div>
         <div class="trigger">
-          <span>Ручное управление клапанами впрыска</span>
+          <span>Клапаны впрыска</span>
           <span class="lamp" :class="{lamp_active: navigator.manevr.button_2}"></span>
         </div>
         <div class="arm" :class="{arm_active: navigator.manevr.button_1 && navigator.manevr.button_2}">
-          <span>Ручной режим активирован</span>
+          <span>Ручное управление активировано</span>
         </div>
       </div>
 <!--      ****************** ОСНОВНЫЕ ПОКЗАТЕЛИ ***********************-->
       <div class="speed" :class="{speed_overload: navigator.alarm.speed_over || navigator.alarm.speed_less}">
         <div class="speed-label"> Скорость относительно поверхности: </div>
         <div class="speed-value">
-          {{Math.round(navigator.speedSurface)}} м/с
+          {{Math.round(navigator.speedSurface) || '--'}} м/с
           <span class="marker marker__over" v-if="navigator.alarm.speed_over">высокая</span>
           <span class="marker marker__less" v-if="navigator.alarm.speed_less">низкая</span>
         </div>
       </div>
       <div class="speed">
         <div class="speed-label"> Оптимальная скорость посадки: </div>
-        <div class="speed-value">{{Math.round(navigator.speedSurfaceOptimal)}} м/с</div>
+        <div class="speed-value">{{Math.round(navigator.speedSurfaceOptimal) || '--'}} м/с</div>
       </div>
       <div class="speed" :class="{speed_overload: navigator.alarm.speed}">
         <div class="speed-label"> Ускорение: </div>
-        <div class="speed-value">{{Math.round(navigator.acceleration)}} м/с^2</div>
+        <div class="speed-value">{{Math.round(navigator.acceleration) || '--'}} м/с^2</div>
       </div>
       <div class="thrust">
         <div>Тяга маневровых двигателей, % :</div>
@@ -85,7 +85,7 @@
             <div class="speed-label"> Высота: </div>
             <div class="speed-value">{{Math.floor(navigator.heightSurface)/1000 || '--'}} км</div>
           </div>
-          <div class="speed" v-if="navigator.distance || true">
+          <div class="speed" v-if="navigator.distance !== null">
             <div class="speed-label"> Дистанция до места посадки: </div>
             <div class="speed-value">{{Math.floor(navigator.distance)/1000}} км</div>
           </div>

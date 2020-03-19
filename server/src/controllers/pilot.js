@@ -96,7 +96,7 @@ let navigator = {
     K_temp: 0.00002, // коэффициент изменения температуры
     heightSurface: '-', // высота
     deltaHeightSurface: [2857, 3556, 389, 83], // скорость изменения высоты в зависимости от стадии посадки в метрах в секунду
-    distance: 0, // расстояние до точки посадки в метрах
+    distance: null, // расстояние до точки посадки в метрах
     brakeSystem: false, // тормозная система
     chassis: false, // выпущенные шасси
     stage: null, // стадия посадки 0 - подлет к планете, 1 - верхние слои атмосферы, 2 - плотные слои атмосферы, 3 - приземление, 4 - сели
@@ -238,6 +238,40 @@ function calcLanding(n) { // вызывается при старте видео
     n.alarm.temperature = n.temperature > 800;
 }
 
+function takeOffPlanet(n) {
+    // УДАЛИТЬ, для тестов
+    navigator.heightSurface = 0;
+    navigator.speedSurface = 0;
+    // end УДАЛИТЬ
+
+    let time = 10; // время видоса взлета в секундах
+    let count = time * 10;
+    n.distance = null;
+    let deltaHeight = 500000 / (time);
+    n.acceleration = 7000 / (time);
+    n.speedSurfaceOptimal = '--';
+    let deltaTemp = 801 / (time / 2);
+
+    let interval = setInterval(() => {
+        if(count <= 0) {
+            clearInterval(interval);
+            n.speedSurface = '--';
+            n.heightSurface = '--';
+            n.acceleration = '--';
+            log('vzleteli')
+            return;
+        }
+        n.heightSurface = n.heightSurface + deltaHeight / 10;
+        n.speedSurface = n.speedSurface + n.acceleration / 10;
+        n.temperature = n.temperature + deltaTemp / 10;
+        n.alarm.temperature = n.temperature > 800;
+        if (count / 10 < time / 2 + 1 && count / 10 > time / 2 - 1) {
+            deltaTemp = -1 * (n.temperature + 261) / (time / 2);
+        }
+        count--;
+    }, 100);
+}
+
 function pilot(io, socket) {
 
     socket.on('canvas', (data) => {
@@ -344,6 +378,7 @@ function pilot(io, socket) {
 
     socket.on('liftOff', () => {
         navigator.liftOff = true;
+        takeOffPlanet(navigator);
     });
 }
 

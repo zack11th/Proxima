@@ -3,11 +3,23 @@
     <div class="wrap" id="video-cont" ref="wrapRef">
       <div class="wrap-cont" ref="wrapContRef">
         <div class="change-cont">
-          <video class="video" ref="videoRef" muted="muted" src="../../assets/videoplayback-bcam.mp4"
+          <video class="video"
+                 v-show="!navigator.liftOff"
+                 ref="videoRef"
+                 muted="muted"
+                 src="../../assets/videoplayback-bcam.mp4"
                  :style="{transform: `rotate(${z}deg) translate(${x*Math.cos(degToRad(z)) + y*Math.sin(degToRad(z))}px, ${y*Math.cos(degToRad(z))-x*Math.sin(degToRad(z))}px)`, transformOrigin: `center center`}"
+          ></video>
+          <video src="../../assets/videoplayback.mp4"
+                 class="video"
+                 v-show="navigator.liftOff"
+                 ref="videoLiftOff"
+                 muted="muted"
+                 :style="{transform: `rotate(${0}deg) translate(${x*Math.cos(degToRad(0)) + y*Math.sin(degToRad(0))}px, ${y*Math.cos(degToRad(0))-x*Math.sin(degToRad(0))}px)`, transformOrigin: `center center`}"
           ></video>
         </div>
         <div class="change-cont"
+             v-if="!navigator.liftOff"
              :style="{transform: `rotate(${z}deg) translate(${x*Math.cos(degToRad(z)) + y*Math.sin(degToRad(z))}px, ${y*Math.cos(degToRad(z))-x*Math.sin(degToRad(z))}px)`, transformOrigin: `center center`}"
         >
           <img class="target" src="../../assets/close.png" alt="">
@@ -46,7 +58,8 @@
           targetSquare: 50, // квадрат правильного курса (размер квадрата, за который начисляются очки успешности посадки)
           score: 0,
           maxScore: 0,
-          cameraSpace: true
+          cameraSpace: true,
+          liftOffVideo: true // флаг для запуска видео взлета
         }
       },
       computed: {
@@ -100,6 +113,10 @@
               }, 1000);
             }
           }
+          if (this.liftOffVideo && this.navigator.liftOff) {
+            this.liftOffVideo = false;
+            this.$refs.videoLiftOff.play();
+          }
         }
       },
       methods: {
@@ -131,8 +148,6 @@
           random = Math.random();
           let directY = (random > 0.6) ? 1 : (random < 0.4) ? -1 : 0;
 
-          log('i`m here, absolutley')
-
           this.x = this.x + directX * this.difficult;
           this.y = this.y + directY * this.difficult;
           window.requestAnimationFrame(this.flight)
@@ -147,7 +162,6 @@
           }
         },
         endLanding() {
-          log('end landing')
           this.$refs.videoRef.pause();
           this.$socket.emit('endLanding', {
             success: this.success,
