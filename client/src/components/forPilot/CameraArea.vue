@@ -118,6 +118,10 @@
           this.y = (this.y < (this.targetY - this.videoWrap.h / 2)) ? (this.targetY - this.videoWrap.h / 2) : this.y;
           this.y = (this.y > (this.targetY + this.videoWrap.h / 2)) ? (this.targetY + this.videoWrap.h / 2) : this.y;
 
+          if (this.navigator.stage > 3) {
+            this.endLanding();
+            return;
+          }
           this.successLanding();
           window.requestAnimationFrame(this.resistance)
         },
@@ -126,6 +130,8 @@
           let directX = (random > 0.6) ? 1 : (random < 0.4) ? -1 : 0;
           random = Math.random();
           let directY = (random > 0.6) ? 1 : (random < 0.4) ? -1 : 0;
+
+          log('i`m here, absolutley')
 
           this.x = this.x + directX * this.difficult;
           this.y = this.y + directY * this.difficult;
@@ -139,6 +145,15 @@
               (this.y + this.targetSquare > this.targetY)) {
             this.score ++;
           }
+        },
+        endLanding() {
+          log('end landing')
+          this.$refs.videoRef.pause();
+          this.$socket.emit('endLanding', {
+            success: this.success,
+            chassis: this.navigator.chassis,
+            roll: this.navigator.roll
+          });
         },
         degToRad(z) {
           return z * Math.PI / 180;

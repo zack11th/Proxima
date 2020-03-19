@@ -78,12 +78,22 @@ export default {
         deg: 0
       },
       noise: {}
+    },
+    onSurface: {
+      success: '-',
+      chassis: '-',
+      roll: '-'
     }
   },
   mutations: {
     SOCKET_changePlanet(state, data) {
       state.orbit = data.orbit;
       state.navigator = data.navigator;
+    },
+    SOCKET_onSurface(state, data) {
+      state.onSurface.success = data.success;
+      state.onSurface.chassis = data.chassis;
+      state.onSurface.roll = data.roll;
     },
     startLanding(state, data) {
       state.orbit.ship.a = data.planet.a;
@@ -130,6 +140,9 @@ export default {
     },
     difficult (state) {
       return state.navigator.difficult;
+    },
+    get_surface (state) {
+      return state.onSurface;
     }
   }
 }

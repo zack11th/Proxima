@@ -178,6 +178,11 @@
           <div class="action">
             <button @click="changeNavigator">Задать значения</button>
           </div>
+          <div class="on_surface">
+            <p>Успешность: {{onSurface.success}}%</p>
+            <p>Шасси: {{onSurface.chassis}}</p>
+            <p>Угол: {{Math.round(onSurface.roll)}}&deg</p>
+          </div>
         </div>
         <!--************** end PILOT ************-->
         <div class="scientist flex-row">
@@ -242,40 +247,43 @@
       },
       computed: {
         alertInProcess_pilot() {
-            return this.$store.getters.alertPilot.inProcess
+          return this.$store.getters.alertPilot.inProcess;
         },
         alertInProcess_engineer() {
-          return this.$store.getters.alertEng.inProcess
+          return this.$store.getters.alertEng.inProcess;
         },
         alertInProcess_medic() {
-          return this.$store.getters.alertMedic.inProcess
+          return this.$store.getters.alertMedic.inProcess;
         },
         alertInProcess_commander() {
-          return this.$store.getters.alertCommand.inProcess
+          return this.$store.getters.alertCommand.inProcess;
         },
         alertInProcess_general() {
-          return this.$store.getters.alertGeneral.inProcess
+          return this.$store.getters.alertGeneral.inProcess;
         },
         alertMessage_pilot() {
-          return this.$store.getters.alertPilot.message
+          return this.$store.getters.alertPilot.message;
         },
         alertMessage_engineer() {
-          return this.$store.getters.alertEng.message
+          return this.$store.getters.alertEng.message;
         },
         alertMessage_medic() {
-          return this.$store.getters.alertMedic.message
+          return this.$store.getters.alertMedic.message;
         },
         alertMessage_commander() {
-          return this.$store.getters.alertCommand.message
+          return this.$store.getters.alertCommand.message;
         },
         alertMessage_general() {
-          return this.$store.getters.alertGeneral.message
+          return this.$store.getters.alertGeneral.message;
         },
         orbit() {
-          return this.$store.getters.get_orbit
+          return this.$store.getters.get_orbit;
         },
         navigator() {
-          return this.$store.getters.get_navigator
+          return this.$store.getters.get_navigator;
+        },
+        onSurface() {
+          return this.$store.getters.get_surface;
         }
       },
       methods: {
@@ -389,5 +397,8 @@
   }
   .alert {
     margin-left: 10px;
+  }
+  .on_surface {
+    background-color: #008d00;
   }
 </style>

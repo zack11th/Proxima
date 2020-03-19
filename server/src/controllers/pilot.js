@@ -170,6 +170,7 @@ function checkStageLanding(n) {
                 n.acceleration = -1 * n.speedSurface / n.timeStage[n.stage];
                 n.singletoneStage = false;
             }
+            n.rollOptimal = [0, 0];
             break;
         default:
             console.log('unknown stage');
@@ -197,7 +198,6 @@ function calcLanding(n) { // вызывается при старте видео
     n.heightSurface = n.heightSurface - n.deltaHeightSurface[n.stage] / 10;
     // расстояние до места посадки
     n.distance = n.distance - n.speedSurfaceOptimal / 10;
-    // температура
     // сложность относительно оптимального угла крена
     if(n.wind.inProcess){
         if ((n.roll < n.rollOptimal[0] + 15 && n.roll > n.rollOptimal[0] - 15) ||
@@ -222,6 +222,7 @@ function calcLanding(n) { // вызывается при старте видео
     // проверка на оптимум скорости
     n.alarm.speed_less = n.speedSurface < n.speedSurfaceOptimal - n.deltaVmin;
     n.alarm.speed_over = n.speedSurface > n.speedSurfaceOptimal + n.deltaVmax;
+    // температура
     // проверка на превышение температуры
 }
 
@@ -277,20 +278,22 @@ function pilot(io, socket) {
 
     // ЗАДАНИЕ КНОПОК ОБЩЕГО ГЕЙМПАДА navigator
     socket.on('setGamepad', (data) => {
-        navigator.nuclear.button_1 = !!data.buttons[4];
-        navigator.nuclear.button_2 = !!data.buttons[6];
+        navigator.nuclear.button_1 = !!data.buttons[4]; // тумблер 1 ядерного двигателя
+        navigator.nuclear.button_2 = !!data.buttons[6]; // тумблер 2 ядерного двигателя
         if(navigator.nuclear.button_1 && navigator.nuclear.button_2){
             navigator.nuclear.thrust = (+data.axes[1] < 0) ? -1 * parseInt(+data.axes[1] * 100) : parseInt(+data.axes[1] * 100);
         } else {
             navigator.nuclear.thrust = 0;
         }
-        navigator.manevr.button_1 = !!data.buttons[5];
-        navigator.manevr.button_2 = !!data.buttons[7];
+        navigator.manevr.button_1 = !!data.buttons[5]; // тумблер 1 маневрового двигателя
+        navigator.manevr.button_2 = !!data.buttons[7]; // тумблер 2 маневрового двигателя
         if(navigator.manevr.button_1 && navigator.manevr.button_2) {
             navigator.manevr.thrust = (+data.axes[3] < 0) ? 0 : parseInt(+data.axes[3] * 100);
         } else {
             navigator.manevr.thrust = 0;
         }
+        navigator.chassis = !!data.buttons[2]; // шасси
+        navigator.brakeSystem = !!data.buttons[1]; // тормозная система
     });
 
     socket.on('startVideoLanding', () => {
@@ -316,8 +319,16 @@ function pilot(io, socket) {
 
     socket.on('changeWind', (wind) => {
         navigator.wind.inProcess = wind;
-        if(wind) setWind(navigator);
+        if(wind) {
+            setWind(navigator);
+        } else {
+            navigator.rollOptimal = ['--', '--'];
+        }
     });
+
+    socket.on('endLanding', (data) => {
+        io.emit('onSurface', data);
+    })
 }
 
 module.exports = pilot;

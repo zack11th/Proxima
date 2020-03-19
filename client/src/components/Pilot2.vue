@@ -72,11 +72,11 @@
       <div class="surface">
         <div class="surface-cell">
           <div class="trigger">
-            <span>Шасси: </span>
+            <span :class="{active: !navigator.chassis && navigator.heightSurface < 2000}">Шасси: </span>
             <span class="lamp" :class="{lamp_active: navigator.chassis}"></span>
           </div>
           <div class="trigger">
-            <span>Тормозная система: </span>
+            <span :class="{active: !navigator.brakeSystem && navigator.stage === 3}">Тормозная система: </span>
             <span class="lamp" :class="{lamp_active: navigator.brakeSystem}"></span>
           </div>
         </div>
@@ -103,6 +103,7 @@
           <div class="rolled-ship"
             :style="{transform: `rotate(-${navigator.roll}deg)`, transformOrigin: `center center`}"
           ></div>
+          <div class="ground" v-if="navigator.stage === 3"></div>
         </div>
       </div>
 <!--      **************** КОНТРОЛЛЕРЫ СНИЗУ ***************-->
@@ -186,6 +187,9 @@
   .trigger {
     padding: 5px 0;
     display: flex;
+  }
+  .trigger>.active {
+    animation: speedwarning 1s infinite;
   }
   .lamp {
     display: inline-block;
@@ -300,7 +304,7 @@
     position: relative;
   }
   .roll-area {
-    background-color: #444;
+    background-color: #272727;
     width: 450px;
     height: 450px;
     position: absolute;
@@ -343,5 +347,16 @@
     50% {
       border-right-color: #ce6e00;
     }
+  }
+  .ground {
+    position: absolute;
+    width: 350px;
+    height: 20px;
+    bottom: 130px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: space-between;
+    animation: speedwarning 1s infinite;
   }
 </style>
