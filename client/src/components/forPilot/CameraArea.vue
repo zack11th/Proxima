@@ -3,7 +3,7 @@
     <div class="wrap" id="video-cont" ref="wrapRef">
       <div class="wrap-cont" ref="wrapContRef">
         <div class="change-cont">
-          <video class="video" ref="videoRef" muted="muted" src="../../assets/videoplayback.mp4"
+          <video class="video" ref="videoRef" muted="muted" src="../../assets/videoplayback-bcam.mp4"
                  :style="{transform: `rotate(${z}deg) translate(${x*Math.cos(degToRad(z)) + y*Math.sin(degToRad(z))}px, ${y*Math.cos(degToRad(z))-x*Math.sin(degToRad(z))}px)`, transformOrigin: `center center`}"
           ></video>
         </div>

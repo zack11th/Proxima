@@ -2,6 +2,7 @@
     <div class="fullscreen">
       <div class="start center">
         <button @click="startLARP">START</button>
+        <div class="clock">{{clock.h}} : {{clock.m}} : {{clock.s}}</div>
       </div>
       <hr>
       <!--************ALERTS***********-->
@@ -183,6 +184,10 @@
             <p>Шасси: {{onSurface.chassis}}</p>
             <p>Угол: {{Math.round(onSurface.roll)}}&deg</p>
           </div>
+          <div>
+            <button @click="liftOff">Взлетаем!</button>
+            <span>LiftOff: {{navigator.liftOff}}</span>
+          </div>
         </div>
         <!--************** end PILOT ************-->
         <div class="scientist flex-row">
@@ -206,6 +211,11 @@
       name: "Master",
       data () {
         return {
+          clock: {
+            h: 0,
+            m: 0,
+            s: 0
+          },
           alertEvents: {
             pilot: 'alertPilot',
             engineer: 'alertEng',
@@ -288,8 +298,23 @@
       },
       methods: {
         startLARP() {
+          this.onClock();
           this.$socket.emit('startLarp');
         },
+        onClock() {
+          setInterval(() => {
+            this.clock.s++;
+            if(this.clock.s >= 60) {
+              this.clock.s = 0;
+              this.clock.m++;
+              if(this.clock.m >= 60) {
+                this.clock.m = 0;
+                this.clock.h++;
+              }
+            }
+          }, 1000);
+        },
+        // *** АЛЕРТЫ *************************************
         clickAlert(alert, socketEvent) {
           if (alert.header || alert.message || alert.button){
             alert.inProcess = true;
@@ -306,6 +331,7 @@
           };
           this.clickAlert(alert, socketEvent);
         },
+        // *** ПИЛОТЫ *********************************
         changeSpeed(index) {
           if(index !== null) {
             this.orbit.planets[index].K_speed = this.$refs.planetProxima[index].valueAsNumber;
@@ -325,7 +351,13 @@
         },
         toggleWind(wind) {
           this.$socket.emit('changeWind', wind);
+        },
+        liftOff() {
+          this.$socket.emit('liftOff');
         }
+        // *** УЧЕНЫЙ *****************************
+        // *** КОМАНДОР ***************************
+        // *** ОБЩИЙ КОМП *************************
       },
       mounted() {
         document.title = 'Мастер';
@@ -356,9 +388,19 @@
   .center {
     text-align: center;
   }
+  .start {
+    position: relative;
+  }
   .start > button {
     font-size: 2rem;
     color: black;
+  }
+  .clock {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2rem;
   }
   .flex {
     display: flex;

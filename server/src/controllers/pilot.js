@@ -106,6 +106,7 @@ let navigator = {
         inProcess: false,
         deg: 0
     },
+    liftOff: false, // флаг взлета с поверхности
     noise: {}
 };
 
@@ -339,7 +340,11 @@ function pilot(io, socket) {
 
     socket.on('endLanding', (data) => {
         io.emit('onSurface', data);
-    })
+    });
+
+    socket.on('liftOff', () => {
+        navigator.liftOff = true;
+    });
 }
 
 module.exports = pilot;
