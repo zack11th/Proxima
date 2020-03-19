@@ -3,6 +3,7 @@
       <div class="start center">
         <button @click="startLARP">START</button>
         <div class="clock">{{clock.h}} : {{clock.m}} : {{clock.s}}</div>
+        <div class="go-home" v-if="orbit.ship.goHome">GO HOME</div>
       </div>
       <hr>
       <!--************ALERTS***********-->
@@ -401,6 +402,16 @@
     top: 50%;
     transform: translateY(-50%);
     font-size: 2rem;
+  }
+  .go-home {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2rem;
+    background-color: #ce6e00;
+    padding: 5px;
+    border-radius: 5px;
   }
   .flex {
     display: flex;

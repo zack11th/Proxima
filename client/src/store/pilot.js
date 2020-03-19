@@ -2,7 +2,7 @@ export default {
   state: {
     orbit: {
       landing: false, // флаг начала приземления Авроры
-      scale: 1,
+      scale: 10000,
       center: {
         cx: 0,
         cy: 0
@@ -34,7 +34,8 @@ export default {
         cxs: 0, // центр орбиты корабля по х
         cys: 1080, // центр орбиты корабля по у
         K_speed: 1, // коэффициент для корректировки скорости
-        delta_nuclear: 0 // изменение тяги ядерного двигателя для изменения орбиты корабля
+        delta_nuclear: 0, // изменение тяги ядерного двигателя для изменения орбиты корабля
+        goHome: false // флаг вылета Авроры с Проксима Б
       }
     },
     navigator: {
@@ -68,7 +69,7 @@ export default {
       K_temp: 0.00002, // коэффициент изменения температуры
       heightSurface: '-', // высота
       deltaHeightSurface: [2857, 3556, 389, 83], // скорость изменения высоты в зависимости от стадии посадки в метрах в секунду
-      distance: 0, // расстояние до точки посадки в метрах
+      distance: null, // расстояние до точки посадки в метрах
       brakeSystem: false, // тормозная система
       chassis: false, // выпущенные шасси
       stage: null, // стадия посадки 0 - подлет к планете, 1 - верхние слои атмосферы, 2 - плотные слои атмосферы, 3 - приземление, 4 - сели
@@ -118,6 +119,18 @@ export default {
       state.navigator.distance = data.distance;
 
       data.socket.emit('changeNavigator', state.navigator);
+    },
+    takeOff(state, data) {
+      state.orbit.ship.a = data.coordinates.x * state.orbit.scale;
+      state.orbit.ship.b = 7000000;
+      state.orbit.ship.F = 0;
+      state.orbit.ship.P = 0;
+      state.orbit.ship.w = 0;
+      state.orbit.ship.v = 5000;
+      state.orbit.ship.cxs = 0;
+      state.orbit.ship.cys = data.coordinates.y;
+
+      data.socket.emit('setPlanet', state.orbit);
     }
   },
   actions: {},

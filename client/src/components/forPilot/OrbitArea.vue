@@ -7,6 +7,7 @@
 </template>
 
 <script>
+  let log = console.log;
 
     export default {
         name: "OrbitArea",
@@ -18,7 +19,8 @@
               fullHeight: 0,
               arm_nuclear_success: 0, // ручное управление тягой ядерного двигателя
               coordinatesPlanet: {x: null, y: null},
-              coordinatesAurora: {x: null, y: null}
+              coordinatesAurora: {x: null, y: null},
+              lastOrbit: false // флаг пересчета орбиты Авроры после вылета с Проксима Б
           }
         },
         computed: {
@@ -68,6 +70,13 @@
                     this.moveShip(this.ctx, this.ship);
                     if(!this.landing_success) {
                       this.randevuPoint(this.ctx);
+                    }
+                    if(this.ship.goHome && !this.lastOrbit) {
+                      this.lastOrbit = true;
+                      this.$store.commit('takeOff', {
+                        coordinates: this.coordinatesAurora,
+                        socket: this.$socket
+                      });
                     }
                 }, 100)
             },
@@ -129,6 +138,7 @@
                 });
             },
             moveShip(ctx, ship) {
+              // log(ship.F)
                 // орбита корабля
                 ctx.lineWidth = 1;
                 ctx.strokeStyle = "#979797";
@@ -145,6 +155,8 @@
 
                 this.coordinatesAurora.x = ship.x;
                 this.coordinatesAurora.y = ship.y;
+
+
 
                 // если Аврора сблизилась с Проксима Б
                 if ((this.coordinatesAurora.x < this.coordinatesPlanet.x + 10 &&

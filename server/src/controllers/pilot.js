@@ -61,7 +61,8 @@ let orbit = {
         cxs: 0, // центр орбиты корабля по х
         cys: 1080, // центр орбиты корабля по у
         K_speed: 1, // коэффициент для корректировки скорости
-        delta_nuclear: 0 // изменение тяги ядерного двигателя для изменения орбиты корабля
+        delta_nuclear: 0, // изменение тяги ядерного двигателя для изменения орбиты корабля
+        goHome: false // флаг вылета Авроры с Проксима Б
     }
 };
 
@@ -238,13 +239,8 @@ function calcLanding(n) { // вызывается при старте видео
     n.alarm.temperature = n.temperature > 800;
 }
 
-function takeOffPlanet(n) {
-    // УДАЛИТЬ, для тестов
-    navigator.heightSurface = 0;
-    navigator.speedSurface = 0;
-    // end УДАЛИТЬ
-
-    let time = 10; // время видоса взлета в секундах
+function takeOffPlanet(n, io) {
+    let time = 60; // время видоса взлета в секундах
     let count = time * 10;
     n.distance = null;
     let deltaHeight = 500000 / (time);
@@ -255,10 +251,11 @@ function takeOffPlanet(n) {
     let interval = setInterval(() => {
         if(count <= 0) {
             clearInterval(interval);
+            // сброс параметров Штурмана
             n.speedSurface = '--';
             n.heightSurface = '--';
             n.acceleration = '--';
-            log('vzleteli')
+            orbit.ship.goHome = true;
             return;
         }
         n.heightSurface = n.heightSurface + deltaHeight / 10;
@@ -301,6 +298,7 @@ function pilot(io, socket) {
 
     socket.on('setPlanet', (data) => {
         orbit = data;
+        console.log(orbit.ship)
     });
 
     socket.on('changeNuclearThrust', (data) => {
@@ -378,7 +376,7 @@ function pilot(io, socket) {
 
     socket.on('liftOff', () => {
         navigator.liftOff = true;
-        takeOffPlanet(navigator);
+        takeOffPlanet(navigator, io);
     });
 }
 
