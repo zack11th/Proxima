@@ -93,6 +93,7 @@ let navigator = {
     roll: 0, // угол крена
     rollOptimal: ['--', '--'], // оптимальный угол крена
     temperature: -273, // температура обшивки
+    K_temp: 0.00002, // коэффициент изменения температуры
     heightSurface: '-', // высота
     deltaHeightSurface: [2857, 3556, 389, 83], // скорость изменения высоты в зависимости от стадии посадки в метрах в секунду
     distance: 0, // расстояние до точки посадки в метрах
@@ -156,6 +157,7 @@ function checkStageLanding(n) {
                 n.deltaVmax = 300;
                 n.difficult = 5;
                 n.singletoneStage = false;
+                n.K_temp = 0.00034;
             }
             break;
         case 2:
@@ -163,12 +165,19 @@ function checkStageLanding(n) {
                 n.deltaVmin = 100;
                 n.deltaVmax = 154;
                 n.singletoneStage = false;
+                n.K_temp = -0.00029;
+            }
+            if (n.temperature < 24) {
+                n.K_temp = 0.0001;
             }
             break;
         case 3:
             if(n.singletoneStage) {
                 n.acceleration = -1 * n.speedSurface / n.timeStage[n.stage];
                 n.singletoneStage = false;
+            }
+            if (n.temperature < 24) {
+                n.K_temp = 0.0001;
             }
             n.rollOptimal = [0, 0];
             break;
@@ -223,7 +232,9 @@ function calcLanding(n) { // вызывается при старте видео
     n.alarm.speed_less = n.speedSurface < n.speedSurfaceOptimal - n.deltaVmin;
     n.alarm.speed_over = n.speedSurface > n.speedSurfaceOptimal + n.deltaVmax;
     // температура
+    n.temperature = n.temperature + n.speedSurface * n.K_temp;
     // проверка на превышение температуры
+    n.alarm.temperature = n.temperature > 800;
 }
 
 function pilot(io, socket) {
