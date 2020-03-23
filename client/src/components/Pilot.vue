@@ -39,7 +39,7 @@
         },
         mounted() {
           document.title = 'Пилот';
-          this.$socket.emit('conn', 'PILOT connected')
+          this.$socket.emit('conn', 'pilot')
         }
 
     }

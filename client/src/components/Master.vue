@@ -362,7 +362,7 @@
       },
       mounted() {
         document.title = 'Мастер';
-        this.$socket.emit('conn', 'MASTER connected')
+        this.$socket.emit('conn', 'master')
       }
     }
 </script>

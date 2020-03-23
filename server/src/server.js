@@ -24,8 +24,11 @@ app.use(cors());
 
 
 io.on('connection', socket => {
-    socket.on('conn', data => {console.log(data)});
-    socket.join('game'); // создание общего id для всех подключенных клиентов
+    socket.on('conn', data => {
+        socket.join(data);
+        console.log(data + ' connection')
+    });
+    // socket.join('game'); // создание общего id для всех подключенных клиентов
 
     pilot(io, socket);
     alerts(io, socket);

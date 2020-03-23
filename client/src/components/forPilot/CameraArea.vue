@@ -4,7 +4,7 @@
       <div class="wrap-cont" ref="wrapContRef">
         <div class="change-cont">
           <video class="video"
-                 v-show="!navigator.liftOff"
+                 v-show="!navigator.on_surface"
                  ref="videoRef"
                  muted="muted"
                  src="../../assets/videoplayback-bcam.mp4"
@@ -12,14 +12,14 @@
           ></video>
           <video src="../../assets/videoplayback.mp4"
                  class="video"
-                 v-show="navigator.liftOff"
+                 v-show="navigator.on_surface"
                  ref="videoLiftOff"
                  muted="muted"
                  :style="{transform: `rotate(${0}deg) translate(${x*Math.cos(degToRad(0)) + y*Math.sin(degToRad(0))}px, ${y*Math.cos(degToRad(0))-x*Math.sin(degToRad(0))}px)`, transformOrigin: `center center`}"
           ></video>
         </div>
         <div class="change-cont"
-             v-if="!navigator.liftOff"
+             v-if="!navigator.on_surface"
              :style="{transform: `rotate(${z}deg) translate(${x*Math.cos(degToRad(z)) + y*Math.sin(degToRad(z))}px, ${y*Math.cos(degToRad(z))-x*Math.sin(degToRad(z))}px)`, transformOrigin: `center center`}"
         >
           <img class="target" src="../../assets/close.png" alt="">
@@ -59,7 +59,7 @@
           score: 0,
           maxScore: 0,
           cameraSpace: true,
-          liftOffVideo: true // флаг для запуска видео взлета
+          liftOffVideo: true, // флаг для запуска видео взлета
         }
       },
       computed: {

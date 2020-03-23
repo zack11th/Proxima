@@ -49,7 +49,7 @@
         <div class="speed-value">{{Math.round(navigator.speedSurfaceOptimal) || '--'}} м/с</div>
       </div>
       <div class="speed" :class="{speed_overload: navigator.alarm.speed}">
-        <div class="speed-label"> Ускорение: </div>
+        <div class="speed-label"> Вектор ускорения: </div>
         <div class="speed-value">{{Math.round(navigator.acceleration) || '--'}} м/с^2</div>
       </div>
       <div class="thrust">
@@ -135,7 +135,7 @@
         log(`difficult: ${this.navigator.difficult}`)
       },1000)
       document.title = 'Штурман';
-      this.$socket.emit('conn', 'PILOT_2 connected');
+      this.$socket.emit('conn', 'nav');
     },
     computed: {
       generalGamepad() {

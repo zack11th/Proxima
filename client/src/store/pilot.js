@@ -80,6 +80,7 @@ export default {
         deg: 0
       },
       liftOff: false, // флаг взлета с поверхности
+      on_surface: false, // флаг окончания приземления Аврооры
       noise: {}
     },
     onSurface: {

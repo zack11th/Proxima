@@ -108,6 +108,7 @@ let navigator = {
         deg: 0
     },
     liftOff: false, // флаг взлета с поверхности
+    on_surface: false, // флаг окончания приземления Аврооры
     noise: {}
 };
 
@@ -274,7 +275,8 @@ function pilot(io, socket) {
     socket.on('canvas', (data) => {
         orbit.center.cx = data.width / 2;
         orbit.center.cy = data.height / 2;
-        io.to('game').emit('changePlanet', {orbit, navigator});
+        // io.to('game').emit('changePlanet', {orbit, navigator});
+        io.emit('changePlanet', {orbit, navigator});
     });
 
     socket.on('startLarp', () => {
@@ -298,7 +300,6 @@ function pilot(io, socket) {
 
     socket.on('setPlanet', (data) => {
         orbit = data;
-        console.log(orbit.ship)
     });
 
     socket.on('changeNuclearThrust', (data) => {
@@ -371,6 +372,7 @@ function pilot(io, socket) {
     });
 
     socket.on('endLanding', (data) => {
+        navigator.on_surface = true;
         io.emit('onSurface', data);
     });
 
