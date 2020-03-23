@@ -29,18 +29,22 @@
       <img class="aim" src="../../assets/plus.png" alt="" >
       <img src="../../assets/cameraSpace.jpg" alt="" class="camera-space" v-if="cameraSpace">
     </div>
-    <div class="success-landing center" v-if="!success">Вероятность успешной посадки: {{success}} %</div>
+    <div class="success-landing center" v-if="success">Вероятность успешной посадки: {{success}} %</div>
     <div class="controllers">
       <div class="flex-col">
         <div class="center">Тяга, %</div>
         <div class="flex">
           <div class="ml">
             <p class="center">Я.Д.</p>
-            <div class="thrust"></div>
+            <div class="thrust">
+              <div class="thrust-value" :style="{height: navigator.nuclear.thrust +'%'}"></div>
+            </div>
           </div>
           <div class="ml">
             <p class="center">М.Д.</p>
-            <div class="thrust"></div>
+            <div class="thrust">
+              <div class="thrust-value" :style="{height: navigator.manevr.thrust +'%'}"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -49,9 +53,9 @@
           <p class="center">Скорость:</p>
           <p class="center">{{Math.round(navigator.speedSurface) || '--'}} м/с</p>
         </div>
-        <div class="item">Отклонение курса: крен </div>
-        <div class="item">Отклонение курса: тангаж </div>
-        <div class="item">Отклонение курса: рыскание </div>
+        <div class="item">Отклонение курса: крен {{Math.round(z)}}</div>
+        <div class="item">Отклонение курса: тангаж {{y}}</div>
+        <div class="item">Отклонение курса: рыскание {{x}}</div>
       </div>
       <div class="flex-col other-col">
         <div class="item">Состояние предкрылков:</div>
@@ -201,6 +205,9 @@
         },
         degToRad(z) {
           return z * Math.PI / 180;
+        },
+        getRandom(min, max) {
+          return Math.random() * (max - min) + min;
         }
       },
       mounted () {
@@ -336,6 +343,7 @@
     width: 30px;
     height: 150px;
     border: 2px solid #ce6e00;
+    position: relative;
   }
   .other-col {
     width: 30%;
@@ -343,5 +351,11 @@
   }
   .big {
     font-size: 1.5rem;
+  }
+  .thrust-value {
+    width: 100%;
+    background-color: #aa5500;
+    position: absolute;
+    bottom: 0;
   }
 </style>

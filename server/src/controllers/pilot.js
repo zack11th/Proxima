@@ -217,9 +217,9 @@ function calcLanding(n) { // вызывается при старте видео
             n.difficult = 5;
         }else if((n.roll < n.rollOptimal[0] + 45 && n.roll > n.rollOptimal[0] - 45) ||
             (n.roll < n.rollOptimal[1] + 45 && n.roll > n.rollOptimal[1] - 45)) {
-            n.difficult = 9;
-        }else {
             n.difficult = 12;
+        }else {
+            n.difficult = 18;
         }
     }else if(n.stage !== 0) {
         n.difficult = 5;
