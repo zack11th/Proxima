@@ -29,7 +29,37 @@
       <img class="aim" src="../../assets/plus.png" alt="" >
       <img src="../../assets/cameraSpace.jpg" alt="" class="camera-space" v-if="cameraSpace">
     </div>
-    <div class="success-landing" v-if="success">{{success}} %</div>
+    <div class="success-landing center" v-if="!success">Вероятность успешной посадки: {{success}} %</div>
+    <div class="controllers">
+      <div class="flex-col">
+        <div class="center">Тяга, %</div>
+        <div class="flex">
+          <div class="ml">
+            <p class="center">Я.Д.</p>
+            <div class="thrust"></div>
+          </div>
+          <div class="ml">
+            <p class="center">М.Д.</p>
+            <div class="thrust"></div>
+          </div>
+        </div>
+      </div>
+      <div class="flex-col other-col">
+        <div class="item big">
+          <p class="center">Скорость:</p>
+          <p class="center">{{Math.round(navigator.speedSurface) || '--'}} м/с</p>
+        </div>
+        <div class="item">Отклонение курса: крен </div>
+        <div class="item">Отклонение курса: тангаж </div>
+        <div class="item">Отклонение курса: рыскание </div>
+      </div>
+      <div class="flex-col other-col">
+        <div class="item">Состояние предкрылков:</div>
+        <div class="item">Состояние закрылков:</div>
+        <div class="item">Тензодатчик правого крыла:</div>
+        <div class="item">Тензодатчик левого крыла:</div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -263,7 +293,7 @@
     color: #ce6e00;
     font-size: 2rem;
     position: absolute;
-    top: 10px;
+    top: 130px;
     left: 50%;
     transform: translateX(-50%);
   }
@@ -273,5 +303,45 @@
     left: 0;
     width: 100%;
     height: 100%;
+  }
+  .controllers {
+    box-sizing: border-box;
+    width: 100%;
+    height: 250px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: row-reverse;
+    color: #ce6e00;
+    padding: 10px 30px 10px 10px;
+  }
+  .flex {
+    display: flex;
+  }
+  .flex-col {
+    display: flex;
+    flex-direction: column;
+  }
+  .item {
+    margin-bottom: 20px;
+  }
+  .center {
+    text-align: center;
+  }
+  .ml {
+    margin-left: 10px;
+  }
+  .thrust {
+    width: 30px;
+    height: 150px;
+    border: 2px solid #ce6e00;
+  }
+  .other-col {
+    width: 30%;
+    justify-content: flex-end;
+  }
+  .big {
+    font-size: 1.5rem;
   }
 </style>

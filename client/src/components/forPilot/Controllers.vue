@@ -26,7 +26,23 @@
           <div class="item">Давление наддува Бак 3: {{noise.t}}</div>
         </div>
       </div>
-      <div class="bottom"></div>
+      <div class="bottom">
+        <div class="flex-col down-col">
+          <div class="item">Обороты гиродина: {{noise.l}}</div>
+          <div class="item">Давление в системе точного маневрирования (правый борт): {{noise.j}}МПа</div>
+          <div class="item">Давление в системе точного маневрирования (левый борт): {{noise.k}}МПа</div>
+          <div class="item">Состояние заслонки сопла: {{noise.i}}</div>
+        </div>
+        <div class="flex-col">
+          <div class="item">Ускорение продольное: {{noise.u}} g</div>
+          <div class="item">Ускорение поперечное: {{noise.v}} g</div>
+          <div class="item">Ускорение вертикальное: {{noise.w}} g</div>
+          <div class="item">Вектор ускорения: {{Math.round(navigator.acceleration) || '--'}} м/с^2</div>
+        </div>
+      </div>
+      <div class="time">
+        Продолжительность миссии: 10 лет 0 д. 0 : 0 : 0
+      </div>
     </div>
 </template>
 
@@ -77,8 +93,15 @@
     position: relative;
     color: #ce6e00;
   }
-  .bottom {
-    background-color: #444;
+  .time {
+    width: 850px;
+    height: 110px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 2.5rem;
   }
   .top {
     width: 50%;
@@ -87,22 +110,30 @@
     padding: 15px;
   }
   .bottom {
+    box-sizing: border-box;
     position: absolute;
-    right: 50%;
+    left: 25%;
     bottom: 0;
-    width: 25%;
+    width: 40%;
     height: 250px;
     display: flex;
+    padding: 10px;
   }
   .flex-col {
     display: flex;
     flex-direction: column;
+  }
+  .bottom .flex-col {
+    justify-content: flex-end;
   }
   .first-col {
     width: 45%;
   }
   .other-col {
     width: 30%;
+  }
+  .down-col {
+    width: 70%;
   }
   .item {
     margin-bottom: 20px;
