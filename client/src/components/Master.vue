@@ -6,6 +6,18 @@
         <div class="go-home" v-if="orbit.ship.goHome">GO HOME</div>
       </div>
       <hr>
+      <!--************** REBUTS *************-->
+      <div class="flex">
+        <h2>Перезагрузка</h2>
+        <button @click="reboot('pilot')" :class="{down: !clients.pilot}">Пилот</button>
+        <button @click="reboot('nav')" :class="{down: !clients.nav}">Штурман</button>
+        <button @click="">Инженер</button>
+        <button @click="reboot('eng_2')" :class="{down: !clients.eng_2}">Инженер_2</button>
+        <button @click="">Медики</button>
+        <button @click="">Командир</button>
+        <button @click="">Общий</button>
+      </div>
+      <hr>
       <!--************ALERTS***********-->
       <h2>ALERTS</h2>
       <div class="flex no-wrap">
@@ -257,6 +269,9 @@
         }
       },
       computed: {
+        clients() {
+          return this.$store.getters.getClients;
+        },
         alertInProcess_pilot() {
           return this.$store.getters.alertPilot.inProcess;
         },
@@ -301,6 +316,9 @@
         startLARP() {
           this.onClock();
           this.$socket.emit('startLarp');
+        },
+        reboot(target) {
+          this.$socket.emit('rebootThat', target);
         },
         onClock() {
           setInterval(() => {
@@ -412,6 +430,9 @@
     background-color: #ce6e00;
     padding: 5px;
     border-radius: 5px;
+  }
+  .down {
+    background: red;
   }
   .flex {
     display: flex;

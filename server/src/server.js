@@ -9,6 +9,7 @@ const io = require('socket.io')(server);
 const pilot = require('./controllers/pilot');
 const alerts = require('./controllers/alerts');
 const gamepad = require('./controllers/gamepad');
+const base = require('./controllers/base');
 
 
 // routes import
@@ -30,6 +31,7 @@ io.on('connection', socket => {
     });
     // socket.join('game'); // создание общего id для всех подключенных клиентов
 
+    base(io, socket);
     pilot(io, socket);
     alerts(io, socket);
     gamepad(io, socket);

@@ -5,12 +5,13 @@ import axios from 'axios';
 import alert from './alerts';
 import pilot from './pilot';
 import gamepad from './gamepad';
+import base from './base';
 
 Vue.use(Vuex);
 Vue.use(axios);
 
 export default new Vuex.Store({
   modules: {
-    pilot, alert, gamepad
+    pilot, alert, gamepad, base
   }
 });

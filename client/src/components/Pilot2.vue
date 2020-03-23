@@ -131,9 +131,6 @@
   export default {
     name: "Pilot2",
     mounted() {
-      setInterval(()=>{
-        log(`difficult: ${this.navigator.difficult}`)
-      },1000)
       document.title = 'Штурман';
       this.$socket.emit('conn', 'nav');
     },
