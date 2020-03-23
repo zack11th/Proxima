@@ -20,4 +20,8 @@ export default {
     margin: 0;
     padding: 0;
   }
+  html {
+    font-size: 14px;
+    font-family: "Microsoft Sans Serif", sans-serif;
+  }
 </style>

@@ -117,7 +117,7 @@
           <div class="speed-value">{{Math.round(navigator.roll)}}&deg</div>
         </div>
         <div class="speed" :class="{speed_overload: navigator.alarm.temperature}">
-          <div class="speed-label"> Температура обшивки корпуса: </div>
+          <div class="speed-label"> Температура внешней обшивки: </div>
           <div class="speed-value">{{Math.round(navigator.temperature)}}&degC</div>
         </div>
       </div>

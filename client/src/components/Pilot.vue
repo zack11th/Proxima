@@ -6,9 +6,9 @@
       <div class="camera-area">
         <camera-area></camera-area>
       </div>
-      <!--<div class="controllers">-->
-        <!--<controllers></controllers>-->
-      <!--</div>-->
+      <div class="controllers">
+        <controllers></controllers>
+      </div>
       <alert :header="alertPilot.header"
              :message="alertPilot.message"
              :button="alertPilot.button"
@@ -65,12 +65,9 @@
       background-color: #000;
     }
     .controllers {
-      width: 35%;
-      height: calc(100% - 800px);
-      background-color: #444;
+      background-color: transparent;
       position: absolute;
-      left: 50%;
-      bottom: 0;
-      transform: translateX(-50%);
+      left: 0;
+      top: 0;
     }
 </style>
