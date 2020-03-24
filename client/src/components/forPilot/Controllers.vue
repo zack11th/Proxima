@@ -117,11 +117,10 @@
 
           items.y = Math.floor(this.navigator.heightSurface + 1173 + this.getRandom(-750, 750));
 
-          if (this.navigator.stage < 3) {
+          if (this.navigator.stage !== 3) {
             items.aa += this.getRandom(0.6, 0.9);
             items.bb += this.getRandom(0.6, 0.9);
-          }
-          if (this.navigator.stage === 3) {
+          }else {
             items.aa -= this.getRandom(0.6, 0.9);
             items.bb -= this.getRandom(0.6, 0.9);
           }
@@ -135,21 +134,31 @@
           }
         },
         setControllers(items) {
-          console.log('set')
           items.l = 0;
           items.u = 0;
           items.v = 0;
           items.w = 0;
-          items.aa = this.navigator.temperature + this.getRandom(-50, 100);
-          items.bb = this.navigator.temperature + this.getRandom(-50, 100);
-          items.cc = this.navigator.temperature + this.getRandom(-50, 0);
-          items.dd = this.navigator.temperature + this.getRandom(-50, 0);
+          items.aa = this.navigator.temperature + this.getRandom(-10, 100);
+          items.bb = this.navigator.temperature + this.getRandom(-10, 100);
+          items.cc = this.navigator.temperature + this.getRandom(-10, 10);
+          items.dd = this.navigator.temperature + this.getRandom(-10, 10);
+          if (this.navigator.heightSurface === '--') items.y = '--'
         }
       },
       mounted() {
         document.addEventListener('startLanding', () => {
           let interv = setInterval(() => {
             if(this.navigator.stage > 3) {
+              clearInterval(interv);
+              this.setControllers(this.noise);
+              return false;
+            }
+            this.changeControllers(this.noise);
+          }, 100);
+        });
+        document.addEventListener('liftOff', () => {
+          let interv = setInterval(() => {
+            if(this.navigator.heightSurface === '--') {
               clearInterval(interv);
               this.setControllers(this.noise);
               return false;

@@ -153,6 +153,7 @@
           }
           if (this.liftOffVideo && this.navigator.liftOff) {
             this.liftOffVideo = false;
+            document.dispatchEvent(new Event('liftOff', {bubbles: true}));
             this.$refs.videoLiftOff.play();
           }
         }
@@ -233,7 +234,7 @@
 
         window.addEventListener("gamepadconnected", (e) => {
           this.gpIndex = e.gamepad.index;
-          let interval = setInterval(() => {
+          setInterval(() => {
             this.gamepad = navigator.getGamepads()[this.gpIndex];
           }, 100);
           console.log('gamepad connected');
