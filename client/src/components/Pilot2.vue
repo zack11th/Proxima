@@ -82,7 +82,7 @@
         </div>
         <div class="surface-cell">
           <div class="speed">
-            <div class="speed-label"> Высота: </div>
+            <div class="speed-label"> Высота над поверхностью: </div>
             <div class="speed-value">{{Math.floor(navigator.heightSurface)/1000 || '--'}} км</div>
           </div>
           <div class="speed" v-if="navigator.distance !== null">

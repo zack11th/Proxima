@@ -7,7 +7,7 @@
                  v-show="!navigator.on_surface"
                  ref="videoRef"
                  muted="muted"
-                 src="../../assets/videoplayback-bcam.mp4"
+                 src="../../assets/videoplayback.mp4"
                  :style="{transform: `rotate(${z}deg) translate(${x*Math.cos(degToRad(z)) + y*Math.sin(degToRad(z))}px, ${y*Math.cos(degToRad(z))-x*Math.sin(degToRad(z))}px)`, transformOrigin: `center center`}"
           ></video>
           <video src="../../assets/videoplayback.mp4"
@@ -53,15 +53,15 @@
           <p class="center">Скорость:</p>
           <p class="center">{{Math.round(navigator.speedSurface) || '--'}} м/с</p>
         </div>
-        <div class="item">Отклонение курса: крен {{Math.round(z)}}</div>
-        <div class="item">Отклонение курса: тангаж {{y}}</div>
-        <div class="item">Отклонение курса: рыскание {{x}}</div>
+        <div class="item">Отклонение курса: крен {{Math.round(gamepad.axes[0]*100)/100 || '0.00'}}</div>
+        <div class="item">Отклонение курса: тангаж {{Math.round(gamepad.axes[1]*100)/100 || '0.00'}}</div>
+        <div class="item">Отклонение курса: рыскание {{Math.round(gamepad.axes[5]*100)/100 || '0.00'}}</div>
       </div>
       <div class="flex-col other-col">
-        <div class="item">Состояние предкрылков:</div>
-        <div class="item">Состояние закрылков:</div>
-        <div class="item">Тензодатчик правого крыла:</div>
-        <div class="item">Тензодатчик левого крыла:</div>
+        <div class="item">Состояние предкрылков: {{flaps}}</div>
+        <div class="item">Состояние закрылков: {{flaps}}</div>
+        <div class="item">Тензодатчик правого крыла: {{Math.round(gamepad.axes[0]*7000) || '0'}}</div>
+        <div class="item">Тензодатчик левого крыла: {{-1 * Math.round(gamepad.axes[0]*7000) || '0'}}</div>
       </div>
     </div>
   </div>
@@ -74,7 +74,7 @@
       name: "CameraArea",
       data() {
         return {
-          gamepad: null,
+          gamepad: {axes:[]},
           gpIndex: null,
           x: 0,
           y: 0,
@@ -94,6 +94,7 @@
           maxScore: 0,
           cameraSpace: true,
           liftOffVideo: true, // флаг для запуска видео взлета
+          flaps: 'убраны' // состояние закрылков и предкрылков
         }
       },
       computed: {
@@ -172,6 +173,9 @@
           if (this.navigator.stage > 3) {
             this.endLanding();
             return;
+          }
+          if (this.navigator.stage === 2) {
+            this.flaps = 'выпущены';
           }
           this.successLanding();
           window.requestAnimationFrame(this.resistance)
