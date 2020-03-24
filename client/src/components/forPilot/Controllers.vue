@@ -41,7 +41,7 @@
         </div>
       </div>
       <div class="time">
-        Продолжительность миссии: 10 лет 0 д. 0 : 0 : 0
+        Продолжительность миссии: 10 лет 0 д. {{timeMission.h}} : {{timeMission.m}} : {{timeMission.s}}
       </div>
     </div>
 </template>
@@ -81,6 +81,9 @@
       computed: {
         navigator() {
           return this.$store.getters.get_navigator;
+        },
+        timeMission() {
+          return this.$store.getters.getTimeMission;
         }
       },
       methods: {

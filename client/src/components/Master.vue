@@ -2,7 +2,7 @@
     <div class="fullscreen">
       <div class="start center">
         <button @click="startLARP">START</button>
-        <div class="clock">{{clock.h}} : {{clock.m}} : {{clock.s}}</div>
+        <div class="clock">{{time.h}} : {{time.m}} : {{time.s}}</div>
         <div class="go-home" v-if="orbit.ship.goHome">GO HOME</div>
       </div>
       <hr>
@@ -230,11 +230,6 @@
       name: "Master",
       data () {
         return {
-          clock: {
-            h: 0,
-            m: 0,
-            s: 0
-          },
           alertEvents: {
             pilot: 'alertPilot',
             engineer: 'alertEng',
@@ -275,6 +270,9 @@
         }
       },
       computed: {
+        time() {
+          return this.$store.getters.getTime;
+        },
         clients() {
           return this.$store.getters.getClients;
         },
@@ -320,24 +318,10 @@
       },
       methods: {
         startLARP() {
-          this.onClock();
           this.$socket.emit('startLarp');
         },
         reboot(target) {
           this.$socket.emit('rebootThat', target);
-        },
-        onClock() {
-          setInterval(() => {
-            this.clock.s++;
-            if(this.clock.s >= 60) {
-              this.clock.s = 0;
-              this.clock.m++;
-              if(this.clock.m >= 60) {
-                this.clock.m = 0;
-                this.clock.h++;
-              }
-            }
-          }, 1000);
         },
         // *** АЛЕРТЫ *************************************
         clickAlert(alert, socketEvent) {

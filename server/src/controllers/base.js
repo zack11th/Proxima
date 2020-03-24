@@ -4,6 +4,9 @@ const clients = {
     eng_2: false
 };
 
+let time = 0;
+let timeMission = 4684;
+
 function base(io, socket) {
     socket.on('rebootThat', (target) => {
         io.to(target).emit('reboot');
@@ -20,6 +23,14 @@ function base(io, socket) {
         clients.eng_2 = io.sockets.adapter.rooms.hasOwnProperty('eng_2');
 
         io.to('master').emit('alive', clients);
+    });
+
+    socket.on('startLarp', () => {
+        setInterval(() => {
+            time++;
+            timeMission++;
+            io.emit('time', {time, timeMission});
+        }, 1000);
     });
 }
 
