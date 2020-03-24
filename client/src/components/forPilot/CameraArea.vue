@@ -51,7 +51,9 @@
       <div class="flex-col other-col">
         <div class="item big">
           <p class="center">Скорость:</p>
-          <p class="center">{{Math.round(navigator.speedSurface) || '--'}} м/с</p>
+          <p class="center" :class="{speed_overload: navigator.alarm.speed_over || navigator.alarm.speed_less}">
+            {{Math.round(navigator.speedSurface) || '--'}} м/с
+          </p>
         </div>
         <div class="item">Отклонение курса: крен {{Math.round(gamepad.axes[0]*100)/100 || '0.00'}}</div>
         <div class="item">Отклонение курса: тангаж {{Math.round(gamepad.axes[1]*100)/100 || '0.00'}}</div>
@@ -141,6 +143,7 @@
 // ************** УСКОРЕНИЕ тестового ВИДЕО **************** УБРАТЬ одну строку ниже
                   this.$refs.videoRef.playbackRate = 1.5;
                   this.$socket.emit('startVideoLanding');
+                  document.dispatchEvent(new Event('startLanding', {bubbles: true}));
                   this.flight();
                 }
                 this.$store.commit('setAlert', {header: String(countDown)});
@@ -209,9 +212,6 @@
         },
         degToRad(z) {
           return z * Math.PI / 180;
-        },
-        getRandom(min, max) {
-          return Math.random() * (max - min) + min;
         }
       },
       mounted () {
@@ -361,5 +361,20 @@
     background-color: #aa5500;
     position: absolute;
     bottom: 0;
+  }
+  .speed_overload {
+    animation: speedwarning 1s infinite;
+  }
+  @keyframes speedwarning {
+    0%, 100% {
+      background-color: #990000;
+      box-shadow: 0 0 10px 0 #990000;
+      color: white;
+    }
+    50% {
+      background-color: transparent;
+      box-shadow: none;
+      color: #ce6e00;
+    }
   }
 </style>

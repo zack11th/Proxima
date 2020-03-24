@@ -153,6 +153,7 @@
             <span>{{navigator.wind.inProcess}}</span>
             <button @click="toggleWind(false)">Отключить ветер</button>
             <span>{{navigator.wind.deg}}</span>
+            <span>|угол: {{navigator.roll}}</span>
           </div>
           <div class="flex">
             <div class="">
@@ -163,6 +164,11 @@
               <p>Тумблер 3: {{navigator.manevr.button_1}}</p>
               <p>Тумблер 4: {{navigator.manevr.button_2}}</p>
             </div>
+          </div>
+          <div class="input-block">
+            <span>Температура</span>
+            <span>{{Math.round(navigator.temperature)}}</span>
+            <input type="number" ref="temperInput">
           </div>
           <div class="input-block">
             <span>Скорость</span>
@@ -365,8 +371,9 @@
           let acceleration = (!isNaN(this.$refs.accelerInput.valueAsNumber)) ? this.$refs.accelerInput.valueAsNumber : this.navigator.acceleration;
           let height = (!isNaN(this.$refs.heightInput.valueAsNumber)) ? this.$refs.heightInput.valueAsNumber : this.navigator.heightSurface;
           let distance = (!isNaN(this.$refs.distanceInput.valueAsNumber)) ? this.$refs.distanceInput.valueAsNumber : this.navigator.distance;
+          let temperature = (!isNaN(this.$refs.temperInput.valueAsNumber)) ? this.$refs.temperInput.valueAsNumber : this.navigator.temperature;
 
-          this.$store.commit('changeNavigator', {speed, speedOptimal, acceleration, height, distance, socket: this.$socket});
+          this.$store.commit('changeNavigator', {speed, speedOptimal, acceleration, height, distance, temperature, socket: this.$socket});
         },
         toggleWind(wind) {
           this.$socket.emit('changeWind', wind);

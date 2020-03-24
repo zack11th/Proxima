@@ -118,6 +118,7 @@ export default {
       state.navigator.acceleration = data.acceleration;
       state.navigator.heightSurface = data.height;
       state.navigator.distance = data.distance;
+      state.navigator.temperature = data.temperature;
 
       data.socket.emit('changeNavigator', state.navigator);
     },
