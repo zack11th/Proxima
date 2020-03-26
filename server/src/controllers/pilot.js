@@ -68,6 +68,7 @@ let orbit = {
 
 let navigator = {
     difficult: 1, // сложность посадки
+    hardLanding: false, // флаг для принудительного старта посадки
     nuclear: {
         darkMater: true,
         button_1: false,
@@ -366,6 +367,10 @@ function pilot(io, socket) {
         navigator.brakeSystem = !!data.buttons[1]; // тормозная система
     });
 
+    socket.on('hardLanding', () => {
+        navigator.hardLanding = true;
+    });
+
     socket.on('startVideoLanding', () => {
         console.log('******* start VideoLanding *******');
         navigator.stage = 0;
@@ -373,6 +378,7 @@ function pilot(io, socket) {
         navigator.speedSurfaceOptimal = 3929;
         navigator.heightSurface = 500000;
         navigator.distance = 1238512;
+        navigator.hardLanding = false;
         let interval = setInterval(() => {
             if (navigator.stage > 3) {
                 clearInterval(interval);

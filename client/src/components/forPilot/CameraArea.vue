@@ -27,7 +27,7 @@
         </div>
       </div>
       <img class="aim" src="../../assets/plus.png" alt="" >
-      <img src="../../assets/cameraSpace.jpg" alt="" class="camera-space" v-if="cameraSpace">
+      <img src="../../assets/cameraSpace.jpg" alt="" class="camera-space" v-if="cameraSpace && !navigator.on_surface">
     </div>
     <div class="success-landing center" v-if="success">Вероятность успешной посадки: {{success}} %</div>
     <div class="controllers">
@@ -127,11 +127,12 @@
       },
       watch: {
         navigator() {
-          if(!this.navigator.nuclear.button_1 && !this.navigator.nuclear.button_2 &&
+          if((!this.navigator.nuclear.button_1 && !this.navigator.nuclear.button_2 &&
             this.navigator.manevr.button_1 && this.navigator.manevr.button_2 &&
-            this.landing_success) { // включен режим ручного управления тягой маневрогого двигателя в первый раз
+            this.landing_success) || this.navigator.hardLanding) { // включен режим ручного управления тягой маневрогого двигателя в первый раз
 
             if(this.cameraSpace) {
+              console.log(this.cameraSpace)
               this.cameraSpace = false;
               this.$store.commit('clearAlert', {socket: this.$socket, alert: 'alertPilot'});
               let countDown = 10; // обратный отсчет перед запуском ручного режима посадки
@@ -217,7 +218,7 @@
       },
       mounted () {
         // setInterval(()=>{
-        //   log(`difficult: ${this.difficult}`)
+        //   log(this.navigator.on_surface)
         // },1000)
 
         // размеры wrap-cont

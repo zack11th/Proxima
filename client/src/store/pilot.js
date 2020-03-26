@@ -40,6 +40,7 @@ export default {
     },
     navigator: {
       difficult: 1, // сложность посадки
+      hardLanding: false, // флаг для принудительного старта посадки
       nuclear: {
         darkMater: true,
         button_1: false,

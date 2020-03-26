@@ -147,6 +147,7 @@
             <button @click="changeSpeed(null)">ok</button>
           </div>
           <hr>
+          <button @click="hardLanding">Принудительная посадка</button>
           <p>Посадка <span style="text-decoration: underline">Стадия №: {{navigator.stage}}</span></p>
           <div class="action">
             <button @click="toggleWind(true)">Включить ветер</button>
@@ -341,6 +342,9 @@
           this.clickAlert(alert, socketEvent);
         },
         // *** ПИЛОТЫ *********************************
+        hardLanding() {
+          this.$socket.emit('hardLanding');
+        },
         changeSpeed(index) {
           if(index !== null) {
             this.orbit.planets[index].K_speed = this.$refs.planetProxima[index].valueAsNumber;
