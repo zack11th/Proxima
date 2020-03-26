@@ -35,15 +35,15 @@
       <!--*** НОИЗ ***-->
       <div class="noise">
         <p class="noise-head">ТОПЛИВО</p>
-        <p class="item">Количество: 0кг</p>
-        <p class="item">Давление: 0МПа</p>
-        <p class="item">Температура: 0&deg C</p>
+        <p class="item">Количество: {{fuel.quantity}}кг</p>
+        <p class="item">Давление: {{fuel.pressure}}МПа</p>
+        <p class="item">Температура: {{fuel.temperature}}&deg C</p>
       </div>
       <div class="noise">
         <p class="noise-head">ОКИСЛИТЕЛЬ</p>
-        <p class="item">Количество: 0кг</p>
-        <p class="item">Давление: 0МПа</p>
-        <p class="item">Температура: 0&deg C</p>
+        <p class="item">Количество: {{oxygen.quantity}}кг</p>
+        <p class="item">Давление: {{oxygen.pressure}}МПа</p>
+        <p class="item">Температура: {{oxygen.temperature}}&deg C</p>
       </div>
       <div class="noise">
         <p class="item">Плотность атмосферы: {{Math.floor(navigator.noise.q)}}кПа</p>
@@ -185,7 +185,16 @@
     name: "Pilot2",
     data() {
       return {
-
+        fuel: {
+          quantity: 0,
+          temperature: 0,
+          pressure: 0
+        },
+        oxygen: {
+          quantity: 0,
+          temperature: 0,
+          pressure: 0
+        }
       };
     },
     mounted() {
@@ -207,6 +216,9 @@
       generalGamepad() {
         this.$socket.emit('changeGeneralGamepad', this.generalGamepad);
       }
+    },
+    methods: {
+
     }
   }
 </script>
