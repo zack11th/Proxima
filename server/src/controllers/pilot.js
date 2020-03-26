@@ -153,6 +153,7 @@ function checkStageLanding(n) {
     switch (n.stage) {
         case 0:
             n.manevr.thrust = 0;
+            if(n.heightSurface < 400000 && n.heightSurface > 380000) n.difficult = 5;
             break;
         case 1:
             if(n.singletoneStage) {
