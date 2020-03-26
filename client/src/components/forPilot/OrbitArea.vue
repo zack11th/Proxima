@@ -144,6 +144,7 @@
                 ctx.strokeStyle = "#979797";
                 ctx.setLineDash([1,6]);
                 ctx.beginPath();
+
                 ctx.ellipse(ship.cxs, ship.cys, ship.a/this.scale, ship.b/this.scale/3, this.DegToRad(ship.F), 0, this.DegToRad(360), true);
                 ctx.stroke();
 
