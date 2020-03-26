@@ -1,5 +1,6 @@
 <template>
   <div class="fullscreen">
+<!--*********************************************************************************************************************    -->
     <div class="left">
 <!--      *************** ЯДЕРНЫЙ ДВИГАТЕЛЬ *****************-->
       <div class="engine-block">
@@ -17,10 +18,53 @@
           <span class="lamp" :class="{lamp_active: navigator.nuclear.button_2}"></span>
         </div>
         <div class="arm" :class="{arm_active: navigator.nuclear.button_1 && navigator.nuclear.button_2}">
-          <span>Ручное управление активировано</span>
+          <span>Ручное управление</span>
         </div>
       </div>
-<!--      ******************* МАНЕВРОВЫЕ ДВИГАТЕЛИ ********************-->
+      <!--*** ТЯГА и СКОРОСТЬ ЯД ***-->
+      <div class="speed">
+        <div class="speed-label"> Скорость отн. центра системы: </div>
+        <div class="speed-value">{{shipSpeed}} м/с</div>
+      </div>
+      <div class="thrust">
+        <div>Тяга ядерного двигателя, % :</div>
+        <div class="thrust-area">
+          <div class="thrust-value" :style="{width: navigator.nuclear.thrust +'%'}"></div>
+        </div>
+      </div>
+      <!--*** НОИЗ ***-->
+      <div class="noise">
+        <p class="noise-head">ТОПЛИВО</p>
+        <p class="item">Количество: 0кг</p>
+        <p class="item">Давление: 0МПа</p>
+        <p class="item">Температура: 0&deg C</p>
+      </div>
+      <div class="noise">
+        <p class="noise-head">ОКИСЛИТЕЛЬ</p>
+        <p class="item">Количество: 0кг</p>
+        <p class="item">Давление: 0МПа</p>
+        <p class="item">Температура: 0&deg C</p>
+      </div>
+      <div class="noise">
+        <p class="item">Плотность атмосферы: {{Math.floor(navigator.noise.q)}}кПа</p>
+        <p class="item">Давление наддува Бак 1: {{navigator.noise.r}}</p>
+        <p class="item">Давление наддува Бак 2: {{navigator.noise.s}}</p>
+        <p class="item">Давление наддува Бак 3: {{navigator.noise.t}}</p>
+      </div>
+      <div class="height-surface">
+        <div class="speed">
+          <div class="speed-label"> Высота над поверхностью: </div>
+          <div class="speed-value">{{Math.floor(navigator.heightSurface)/1000 || '--'}} км</div>
+        </div>
+        <div class="speed">
+          <div class="speed-label"> Высота над усл. уровнем моря: </div>
+          <div class="speed-value">{{Math.floor(navigator.noise.y)/1000 || '--'}} км</div>
+        </div>
+      </div>
+    </div>
+<!--*********************************************************************************************************************    -->
+    <div class="left">
+      <!--      ******************* МАНЕВРОВЫЕ ДВИГАТЕЛИ ********************-->
       <div class="engine-block">
         <p>Маневровые двигатели</p>
         <div class="trigger">
@@ -32,12 +76,12 @@
           <span class="lamp" :class="{lamp_active: navigator.manevr.button_2}"></span>
         </div>
         <div class="arm" :class="{arm_active: navigator.manevr.button_1 && navigator.manevr.button_2}">
-          <span>Ручное управление активировано</span>
+          <span>Ручное управление</span>
         </div>
       </div>
-<!--      ****************** ОСНОВНЫЕ ПОКЗАТЕЛИ ***********************-->
+      <!--      ****************** ОСНОВНЫЕ ПОКЗАТЕЛИ ***********************-->
       <div class="speed" :class="{speed_overload: navigator.alarm.speed_over || navigator.alarm.speed_less}">
-        <div class="speed-label"> Скорость относительно поверхности: </div>
+        <div class="speed-label"> Скорость отн. поверхности: </div>
         <div class="speed-value">
           {{Math.round(navigator.speedSurface) || '--'}} м/с
           <span class="marker marker__over" v-if="navigator.alarm.speed_over">высокая</span>
@@ -48,10 +92,6 @@
         <div class="speed-label"> Оптимальная скорость посадки: </div>
         <div class="speed-value">{{Math.round(navigator.speedSurfaceOptimal) || '--'}} м/с</div>
       </div>
-      <div class="speed" :class="{speed_overload: navigator.alarm.speed}">
-        <div class="speed-label"> Вектор ускорения: </div>
-        <div class="speed-value">{{Math.round(navigator.acceleration) || '--'}} м/с^2</div>
-      </div>
       <div class="thrust">
         <div>Тяга маневровых двигателей, % :</div>
         <div class="thrust-area">
@@ -59,39 +99,32 @@
         </div>
       </div>
       <div class="speed">
-        <div class="speed-label"> Скорость относительно центра системы: </div>
-        <div class="speed-value">{{shipSpeed}} м/с</div>
+        <div class="speed-label"> Вектор ускорения: </div>
+        <div class="speed-value">{{Math.round(navigator.acceleration) || '--'}} м/с^2</div>
       </div>
-      <div class="thrust">
-        <div>Тяга ядерного двигателя, % :</div>
-        <div class="thrust-area">
-          <div class="thrust-value" :style="{width: navigator.nuclear.thrust +'%'}"></div>
-        </div>
+      <p class="item">Ускорение продольное: {{navigator.noise.u}} g</p>
+      <p class="item">Ускорение поперечное: {{navigator.noise.v}} g</p>
+      <p class="item">Ускорение вертикальное: {{navigator.noise.w}} g</p>
+    <!--*** НОИЗ ***-->
+      <div class="noise">
+        <p class="item">Температура сопла 1-2: {{Math.floor(navigator.noise.aa)}}&deg C</p>
+        <p class="item">Температура сопла 3-4: {{Math.floor(navigator.noise.bb)}}&deg C</p>
+        <p class="item">Температура сопла 5-6: {{Math.floor(navigator.noise.cc)}}&deg C</p>
+        <p class="item">Температура сопла 7-8: {{Math.floor(navigator.noise.dd)}}&deg C</p>
       </div>
-      <!--**************** ВЫСОТА и ТРИГГЕРЫ ********************-->
-      <div class="surface">
-        <div class="surface-cell">
-          <div class="trigger">
-            <span :class="{active: !navigator.chassis && navigator.heightSurface < 2000}">Шасси: </span>
-            <span class="lamp" :class="{lamp_active: navigator.chassis}"></span>
-          </div>
-          <div class="trigger">
-            <span :class="{active: !navigator.brakeSystem && navigator.stage === 3}">Тормозная система: </span>
-            <span class="lamp" :class="{lamp_active: navigator.brakeSystem}"></span>
-          </div>
-        </div>
-        <div class="surface-cell">
-          <div class="speed">
-            <div class="speed-label"> Высота над поверхностью: </div>
-            <div class="speed-value">{{Math.floor(navigator.heightSurface)/1000 || '--'}} км</div>
-          </div>
-          <div class="speed" v-if="navigator.distance !== null">
-            <div class="speed-label"> Дистанция до места посадки: </div>
-            <div class="speed-value">{{Math.floor(navigator.distance)/1000}} км</div>
-          </div>
+      <div class="noise">
+        <p class="item">Обороты гиродина: {{navigator.noise.l}}</p>
+        <p class="item">Давление в системе точного маневрирования (правый борт):<br/> {{navigator.noise.j}}МПа</p>
+        <p class="item">Давление в системе точного маневрирования (левый борт):<br/> {{navigator.noise.k}}МПа</p>
+      </div>
+      <div class="distance">
+        <div class="speed" v-if="navigator.distance !== null">
+          <div class="speed-label"> Дистанция до места посадки: </div>
+          <div class="speed-value">{{Math.floor(navigator.distance)/1000}} км</div>
         </div>
       </div>
     </div>
+<!--*********************************************************************************************************************    -->
     <div class="right">
 <!--    ***************** УГОЛ КРЕНА *****************-->
       <div class="wind-area">
@@ -107,18 +140,38 @@
         </div>
       </div>
 <!--      **************** КОНТРОЛЛЕРЫ СНИЗУ ***************-->
-      <div class="temperature">
-        <div class="speed">
-          <div class="speed-label"> Оптимальный уровень крена: </div>
-          <div class="speed-value">{{navigator.rollOptimal[0]}}&deg / {{navigator.rollOptimal[1]}}&deg</div>
+      <div class="bottom">
+        <div class="flex flex-center">
+          <div class="speed">
+            <div class="speed-label"> Оптимальный уровень крена: </div>
+            <div class="speed-value">{{navigator.rollOptimal[0]}}&deg / {{navigator.rollOptimal[1]}}&deg</div>
+          </div>
+            <div class="speed">
+              <div class="speed-label"> Угол крена: </div>
+              <div class="speed-value">{{Math.round(navigator.roll)}}&deg</div>
+          </div>
         </div>
-        <div class="speed">
-          <div class="speed-label"> Угол крена: </div>
-          <div class="speed-value">{{Math.round(navigator.roll)}}&deg</div>
-        </div>
-        <div class="speed" :class="{speed_overload: navigator.alarm.temperature}">
-          <div class="speed-label"> Температура внешней обшивки: </div>
-          <div class="speed-value">{{Math.round(navigator.temperature)}}&degC</div>
+        <div class="flex">
+          <div class="flex-col">
+            <div class="speed" :class="{speed_overload: navigator.alarm.temperature}">
+              <div class="speed-label"> Температура внешней обшивки: </div>
+              <div class="speed-value">{{Math.round(navigator.temperature)}}&deg C</div>
+            </div>
+            <div class="speed">
+              <div class="speed-label"> Температура внутреннего корпуса: </div>
+              <div class="speed-value">{{Math.floor(navigator.noise.b)}}&deg C</div>
+            </div>
+          </div>
+          <div class="flex-col">
+            <div class="trigger">
+              <span :class="{active: !navigator.chassis && navigator.heightSurface < 2000}">Шасси: </span>
+              <span class="lamp" :class="{lamp_active: navigator.chassis}"></span>
+            </div>
+            <div class="trigger">
+              <span :class="{active: !navigator.brakeSystem && navigator.stage === 3}">Тормозная система: </span>
+              <span class="lamp" :class="{lamp_active: navigator.brakeSystem}"></span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -130,6 +183,11 @@
 
   export default {
     name: "Pilot2",
+    data() {
+      return {
+
+      };
+    },
     mounted() {
       document.title = 'Штурман';
       this.$socket.emit('conn', 'nav');
@@ -163,7 +221,7 @@
     font-family: "Microsoft Sans Serif", sans-serif;
   }
   .left {
-    width: 50%;
+    width: 25%;
     box-sizing: border-box;
     border-right: 2px solid #444444;
   }
@@ -219,14 +277,12 @@
     opacity: 1;
   }
   .speed {
-    display: flex;
-    align-items: center;
-    padding: 20px 10px 10px 20px;
+    padding: 5px 10px;
+    text-align: center;
   }
   .speed-value {
-    margin-left: 10px;
-    font-size: 1.2rem;
-    padding: 5px;
+    /*margin-left: 5px;*/
+    font-size: 1rem;
     border-radius: 10px;
   }
   .speed_overload .speed-value {
@@ -258,11 +314,12 @@
     background-color: #00ac00;
   }
   .thrust {
+    margin-top: 10px;
     text-align: center;
   }
   .thrust-area {
     height: 30px;
-    width: 300px;
+    width: 220px;
     border: 1px solid #ce6e00;
     margin: 10px auto;
   }
@@ -270,32 +327,35 @@
     height: 100%;
     background-color: #aa5500;
   }
-  .temperature {
+  .distance {
+    border-top: 2px solid #444444;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
+    justify-content: center;
+  }
+  .height-surface {
+    border-top: 2px solid #444444;
+    text-align: center;
+  }
+  .bottom {
     position: absolute;
+    width: 100%;
     bottom: 0;
+    left: 0;
     border-top: 2px solid #444444;
     padding-bottom: 10px;
   }
-  .temperature .speed {
-    padding-top: 10px;
-  }
-  .surface {
+  .flex {
     display: flex;
-    margin-top: 20px;
-    border-top: 2px solid #444444;
-    padding-top: 10px;
-    justify-content: space-around;
   }
-  .surface-cell>.trigger {
+  .flex-center {
     justify-content: center;
   }
-  .surface-cell>.speed {
-    padding-top: 5px;
-    padding-bottom: 5px;
+  .flex-col {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
   .wind-area {
     position: relative;
@@ -355,5 +415,19 @@
     display: flex;
     justify-content: space-between;
     animation: speedwarning 1s infinite;
+  }
+  .noise {
+    border-top: 2px solid #444444;
+    padding-top: 10px;
+  }
+  .noise-head {
+    text-align: center;
+    text-transform: uppercase;
+    margin-top: 0;
+  }
+  .item {
+    margin-top: 0;
+    margin-bottom: 10px;
+    padding-left: 10px;
   }
 </style>

@@ -132,6 +132,7 @@
             items.cc = this.navigator.temperature /2 + this.getRandom(-10, 10);
             items.dd = this.navigator.temperature /2 + this.getRandom(-10, 10);
           }
+          this.$socket.emit('changeNoise', this.noise)
         },
         setControllers(items) {
           items.l = 0;
@@ -142,7 +143,8 @@
           items.bb = this.navigator.temperature + this.getRandom(-10, 100);
           items.cc = this.navigator.temperature + this.getRandom(-10, 10);
           items.dd = this.navigator.temperature + this.getRandom(-10, 10);
-          if (this.navigator.heightSurface === '--') items.y = '--'
+          if (this.navigator.heightSurface === '--') items.y = '--';
+          this.$socket.emit('changeNoise', this.noise)
         }
       },
       mounted() {

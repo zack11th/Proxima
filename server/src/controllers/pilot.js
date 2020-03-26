@@ -109,7 +109,31 @@ let navigator = {
     },
     liftOff: false, // флаг взлета с поверхности
     on_surface: false, // флаг окончания приземления Аврооры
-    noise: {}
+    noise: {
+        b: 20,
+        c: 9.1,
+        d: 63,
+        e: 9.3,
+        f: 68,
+        g: 9.1,
+        h: 64,
+        i: 'открыто',
+        j: 8.1,
+        k: 7.9,
+        l: 0,
+        q: 0,
+        r: 10.1,
+        s: 12.5,
+        t: 11.3,
+        u: 0,
+        v: 0,
+        w: 0,
+        y: '--',
+        aa: -270,
+        bb: -270,
+        cc: -270,
+        dd: -270
+    }
 };
 
 let log = console.log;
@@ -370,6 +394,10 @@ function pilot(io, socket) {
         } else {
             navigator.rollOptimal = ['--', '--'];
         }
+    });
+
+    socket.on('changeNoise', (data) => {
+        navigator.noise = data;
     });
 
     socket.on('endLanding', (data) => {
