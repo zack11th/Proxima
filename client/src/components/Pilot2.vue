@@ -227,6 +227,7 @@
   .fullscreen {
     width: 100%;
     min-height: 100vh;
+    overflow: hidden;
     display: flex;
     background-color: #272727;
     color: #ce6e00;
@@ -374,10 +375,10 @@
   }
   .roll-area {
     background-color: #272727;
-    width: 450px;
-    height: 450px;
+    width: 400px;
+    height: 400px;
     position: absolute;
-    top: 50px;
+    top: 70px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -385,7 +386,7 @@
     align-items: center;
   }
   .rolled-ship {
-    width: 400px;
+    width: 360px;
     height: 100px;
     background-color: #ce6e00;
   }
