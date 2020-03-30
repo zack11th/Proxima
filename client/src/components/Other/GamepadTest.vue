@@ -54,9 +54,13 @@
         window.addEventListener("gamepadconnected", (e) => {
           this.gpIndex = e.gamepad.index;
           setInterval(() => {
-            this.gamepad = navigator.getGamepads()[this.gpIndex];
+            // navigator.getGamepads()[this.gpIndex] = "standart";
+            this.gamepad = navigator.getGamepads ? navigator.getGamepads()[this.gpIndex] : (navigator.webkitGetGamepads[this.gpIndex] ? navigator.webkitGetGamepads[this.gpIndex] : []);
             this.connectGamepad = this.gamepad.connected;
-            // console.log(this.gamepad)
+            console.clear();
+            // console.log(this.gamepad);
+            console.log(this.gamepad.axes[0]," / ", this.gamepad.axes[1]);
+            console.log(this.gamepad.buttons[4]," / ", this.gamepad.buttons[6]);
           }, 100);
         });
       }

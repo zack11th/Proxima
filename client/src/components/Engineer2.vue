@@ -39,7 +39,7 @@
       window.addEventListener("gamepadconnected", (e) => {
         this.genGpIndex = e.gamepad.index;
         let interval = setInterval(() => {
-          this.genGamepad = navigator.getGamepads()[this.genGpIndex];
+          this.genGamepad = navigator.getGamepads ? navigator.getGamepads()[this.genGpIndex] : (navigator.webkitGetGamepads[this.genGpIndex] ? navigator.webkitGetGamepads[this.genGpIndex] : []);
           this.genGamepad.buttons.forEach((item, i) => {
             this.genGamepadButtons[i] = item.value
           });

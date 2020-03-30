@@ -229,7 +229,7 @@
     min-height: 100vh;
     overflow: hidden;
     display: flex;
-    background-color: #272727;
+    background-color: #070707;
     color: #22c325;
   }
   .left {
@@ -373,7 +373,7 @@
     position: relative;
   }
   .roll-area {
-    background-color: #272727;
+    background-color: #070707;
     width: 400px;
     height: 400px;
     position: absolute;
