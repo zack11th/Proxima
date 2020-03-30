@@ -384,6 +384,9 @@
   * {
     box-sizing: border-box;
   }
+  body {
+    font-family: Arial, sans-serif;
+  }
   p {
     margin: 0
   }

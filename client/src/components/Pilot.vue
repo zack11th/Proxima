@@ -56,13 +56,13 @@
     .orbit-area {
       width: 960px;
       height: 100vh;
-      background-color: #000;
+      background-color: #070707;
     }
     .camera-area {
       /*width: calc(100% - 960px);*/
       width: 960px;
       height: 100vh;
-      background-color: #000;
+      background-color: #070707;
     }
     .controllers {
       background-color: transparent;

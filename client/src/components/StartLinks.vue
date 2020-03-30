@@ -24,3 +24,9 @@
     name: "StartLinks"
   }
 </script>
+
+<style scoped>
+  div {
+    font-family: Arial, sans-serif;
+  }
+</style>

@@ -224,6 +224,7 @@
     width: 100%;
     color: #ce6e00;
     text-align: center;
+    font-family: Verdana, sans-serif;
     font-size: 14px;
     transform: rotate(20deg);
   }

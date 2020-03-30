@@ -16,12 +16,16 @@ export default {
 </script>
 
 <style>
+  @font-face {
+    font-family: '17320';
+    src: local('17320'), url('./assets/font/17320.woff') format('woff');
+  }
   body {
     margin: 0;
     padding: 0;
   }
   html {
-    font-size: 14px;
-    font-family: "Microsoft Sans Serif", sans-serif;
+    font-size: 16px;
+    font-family: "17320", sans-serif;
   }
 </style>

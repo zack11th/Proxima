@@ -28,7 +28,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: #ce6e00;
+    color: #22c325;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -56,18 +56,18 @@
 
   .button {
     padding: 5px 15px;
-    border: 5px solid #ce6e00;
+    border: 5px solid #22c325;
     margin-top: 10px;
     cursor: pointer;
   }
 
   @keyframes miganie {
     0%, 100% {
-      box-shadow: 0 0 0 10px #ce6e00, 0 0 10px 20px #990000;
+      box-shadow: 0 0 0 10px #22c325, 0 0 10px 20px #990000;
       background-color: #990000;
     }
     50% {
-      box-shadow: 0 0 0 10px #ce6e00;
+      box-shadow: 0 0 0 10px #22c325;
       background-color: #000000;
     }
   }

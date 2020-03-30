@@ -291,7 +291,7 @@
     position: absolute;
     top: calc(50% - 5px);
     left: calc(50% + 20px);
-    color: #ce6e00;
+    color: #6fe4ee;
     text-shadow: 0 0 1px black;
   }
   .aim {
@@ -303,7 +303,7 @@
     height: 50px;
   }
   .success-landing {
-    color: #ce6e00;
+    color: #22c325;
     font-size: 2rem;
     position: absolute;
     top: 130px;
@@ -326,7 +326,7 @@
     bottom: 0;
     display: flex;
     flex-direction: row-reverse;
-    color: #ce6e00;
+    color: #22c325;
     padding: 10px 30px 10px 10px;
   }
   .flex {
@@ -348,7 +348,7 @@
   .thrust {
     width: 30px;
     height: 150px;
-    border: 2px solid #ce6e00;
+    border: 2px solid #22c325;
     position: relative;
   }
   .other-col {
@@ -360,7 +360,7 @@
   }
   .thrust-value {
     width: 100%;
-    background-color: #aa5500;
+    background-color: #22c325;
     position: absolute;
     bottom: 0;
   }

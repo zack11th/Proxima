@@ -28,6 +28,7 @@
 <style scoped>
   .landing-master {
     text-align: center;
+    font-family: Arial, sans-serif;
   }
   button {
     padding: 10px;

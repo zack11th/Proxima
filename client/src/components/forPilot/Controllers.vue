@@ -177,7 +177,7 @@
     width: 100vw;
     height: 100vh;
     position: relative;
-    color: #ce6e00;
+    color: #22c325;
   }
   .time {
     width: 850px;

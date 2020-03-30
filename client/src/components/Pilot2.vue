@@ -230,8 +230,7 @@
     overflow: hidden;
     display: flex;
     background-color: #272727;
-    color: #ce6e00;
-    font-family: "Microsoft Sans Serif", sans-serif;
+    color: #22c325;
   }
   .left {
     width: 25%;
@@ -310,7 +309,7 @@
     50% {
       background-color: transparent;
       box-shadow: none;
-      color: #ce6e00;
+      color: #22c325;
     }
   }
   .marker {
@@ -333,12 +332,12 @@
   .thrust-area {
     height: 30px;
     width: 220px;
-    border: 1px solid #ce6e00;
+    border: 1px solid #22c325;
     margin: 10px auto;
   }
   .thrust-value {
     height: 100%;
-    background-color: #aa5500;
+    background-color: #22c325;
   }
   .distance {
     border-top: 2px solid #444444;
@@ -388,7 +387,7 @@
   .rolled-ship {
     width: 360px;
     height: 100px;
-    background-color: #ce6e00;
+    background-color: #22c325;
   }
   .wind {
     position: absolute;
