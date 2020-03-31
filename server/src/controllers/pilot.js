@@ -228,6 +228,7 @@ function calcLanding(n) { // вызывается при старте видео
     if (n.stage !== 3) {
         // ускорение корабля фактическое
         n.acceleration = n.accelerationSystem[n.stage] + Math.abs(n.accelerationSystem[n.stage] / 1.7) * n.manevr.thrust / 100;
+        n.acceleration = n.acceleration+((Math.random()+Math.random()+Math.random()+Math.random()+Math.random())*4/5-2)*n.acceleration/100;
     }
     // фактическая скорость корабля
     n.speedSurface = n.speedSurface + n.acceleration / 10;
@@ -390,6 +391,7 @@ function pilot(io, socket) {
                 navigator.speedSurface = 0;
                 navigator.distance = 0;
                 navigator.acceleration = 0;
+
                 return false;
             }
             checkStageLanding(navigator)

@@ -2,14 +2,14 @@
     <div class="controllers">
       <div class="top">
         <div class="flex-col first-col">
-          <div class="item">Давление гидравлики (правый борт): {{noise.c}}МПа</div>
-          <div class="item">Температура гидравлической жидкости (правый борт): {{noise.d}}&deg C</div>
-          <div class="item">Давление гидравлики (левый борт): {{noise.e}}МПа</div>
-          <div class="item">Температура гидравлической жидкости (левый борт): {{noise.f}}&deg C</div>
-          <div class="item">Давление гидравлики (резервное): {{noise.g}}МПа</div>
-          <div class="item">Температура гидравлической жидкости (резервное): {{noise.h}}&deg C</div>
-          <div class="item">Высота над условным уровнем моря: {{noise.y}}м</div>
-          <div class="item">Высота над поверхностью: {{Math.round(navigator.heightSurface) || '--'}}м</div>
+          <div class="item"><span>Давление гидравлики (правый борт):</span> <span>{{noise.c}}МПа</span></div>
+          <div class="item"><span>Температура гидравлической жидкости (правый борт):</span> <span> {{noise.d}}&deg C</span></div>
+          <div class="item"><span>Давление гидравлики (левый борт):</span> <span> {{noise.e}}МПа</span></div>
+          <div class="item"><span>Температура гидравлической жидкости (левый борт):</span> <span> {{noise.f}}&deg C</span></div>
+          <div class="item"><span>Давление гидравлики (резервное):</span> <span> {{noise.g}}МПа</span></div>
+          <div class="item"><span>Температура гидравлической жидкости (резервное):</span> <span> {{noise.h}}&deg C</span></div>
+          <div class="item"><span>Высота над условным уровнем моря:</span> <span> {{noise.y}}м</span></div>
+          <div class="item"><span>Высота над поверхностью:</span> <span> {{Math.round(navigator.heightSurface) || '--'}}м</span></div>
         </div>
         <div class="flex-col other-col">
           <div class="item">Температура внешней обшивки: {{Math.round(navigator.temperature)}}&deg C</div>
@@ -37,7 +37,7 @@
           <div class="item">Ускорение продольное: {{noise.u}} g</div>
           <div class="item">Ускорение поперечное: {{noise.v}} g</div>
           <div class="item">Ускорение вертикальное: {{noise.w}} g</div>
-          <div class="item">Модуль ускорения: {{Math.round(navigator.acceleration) || '--'}} м/с^2</div>
+          <div class="item">Модуль ускорения: {{(Math.round(navigator.acceleration*10))/10 || '--'}} м/с^2</div>
         </div>
       </div>
       <div class="time">
@@ -47,6 +47,8 @@
 </template>
 
 <script>
+  let log = console.log;
+
     export default {
       name: "Controllers",
       data() {
@@ -118,6 +120,8 @@
           items.u = Math.floor(this.navigator.acceleration + this.GaussRandom(-0.3, 0.3)*100)/100;
           items.v = Math.floor(this.GaussRandom(-0.2, 0.2)*100)/100;
           items.w = Math.floor(this.GaussRandom(-0.5, 0.5)*100)/100;
+
+          log(this.navigator)
 
           items.y = Math.floor(this.navigator.heightSurface + 1173 + this.GaussRandom(-750, 750));
 
@@ -227,5 +231,7 @@
   }
   .item {
     margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
   }
 </style>

@@ -100,7 +100,7 @@
       </div>
       <div class="speed">
         <div class="speed-label"> Модуль ускорения: </div>
-        <div class="speed-value">{{(Math.round((navigator.acceleration+(Math.random()+Math.random()+Math.random()+Math.random()+Math.random())*4/5-2)*navigator.acceleration/100*10))/10 || '--'}} м/с^2</div>
+        <div class="speed-value">{{(Math.round(navigator.acceleration*10))/10 || '--'}} м/с^2</div>
       </div>
       <p class="item">Ускорение продольное: {{navigator.noise.u}} g</p>
       <p class="item">Ускорение поперечное: {{navigator.noise.v}} g</p>
@@ -198,6 +198,10 @@
       };
     },
     mounted() {
+      // setInterval(()=>{
+      //   console.log(`a: ${this.navigator.acceleration}, K: ${((Math.random()+Math.random()+Math.random()+Math.random()+Math.random())*4/5-2)*this.navigator.acceleration/100}`)
+      //   console.log(`sum: ${Math.floor(this.navigator.acceleration*10)/10}`)
+      // }, 1000);
       document.title = 'Штурман';
       this.$socket.emit('conn', 'nav');
     },
