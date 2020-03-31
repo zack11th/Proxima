@@ -37,7 +37,7 @@
           <div class="item">Ускорение продольное: {{noise.u}} g</div>
           <div class="item">Ускорение поперечное: {{noise.v}} g</div>
           <div class="item">Ускорение вертикальное: {{noise.w}} g</div>
-          <div class="item">Вектор ускорения: {{Math.round(navigator.acceleration) || '--'}} м/с^2</div>
+          <div class="item">Модуль ускорения: {{Math.round(navigator.acceleration) || '--'}} м/с^2</div>
         </div>
       </div>
       <div class="time">
@@ -90,47 +90,51 @@
         getRandom(min, max) {
           return Math.random() * (max - min) + min;
         },
+        GaussRandom(min, max) {
+          return (Math.random()+Math.random()+Math.random()+Math.random()+Math.random())*(max-min)/5  +min;
+        },
         changeControllers(items) {
-          if (this.navigator.stage === 1 && items.b < 110) items.b += Math.random() / 3;
-          if (this.navigator.stage > 1 && items.b > 20) items.b -= Math.random() / 5;
+          if (this.navigator.temperature > items.b &&  items.b < 110) items.b += Math.random() * ((110-items.b)/50);
+          if (this.navigator.temperature < items.b &&  items.b > 0) items.b -= Math.random() * ((110-items.b)/50);
+          if (this.navigator.stage === 4 && items.b < 20 ) items.b += 0.1;
 
-          items.c = Math.floor(this.getRandom(8, 16)*10)/10;
-          items.d = Math.floor(this.getRandom(60, 120));
-          items.e = Math.floor(this.getRandom(8, 16)*10)/10;
-          items.f = Math.floor(this.getRandom(60, 120));
-          items.g = Math.floor(this.getRandom(9, 11)*10)/10;
-          items.h = Math.floor(this.getRandom(65, 75));
+          items.c = Math.floor(this.GaussRandom(8, 16)*10)/10;
+          items.d = Math.floor(this.GaussRandom(60, 120));
+          items.e = Math.floor(this.GaussRandom(8, 16)*10)/10;
+          items.f = Math.floor(this.GaussRandom(60, 120));
+          items.g = Math.floor(this.GaussRandom(9, 11)*10)/10;
+          items.h = Math.floor(this.GaussRandom(65, 75));
 
-          items.j = Math.floor(this.getRandom(6, 10)*10)/10;
-          items.k = Math.floor(this.getRandom(6, 10)*10)/10;
-          items.l = Math.floor(this.getRandom(10000, 12000));
+          items.j = Math.floor(this.GaussRandom(6, 10)*10)/10;
+          items.k = Math.floor(this.GaussRandom(6, 10)*10)/10;
+          items.l = Math.floor(this.GaussRandom(10000, 12000));
 
           if(this.navigator.stage === 1 || this.navigator.stage === 2) items.q += 0.06;
           if(this.navigator.stage === 3) items.q -= 0.07;
 
-          items.r = Math.floor(this.getRandom(6, 18)*10)/10;
-          items.s = Math.floor(this.getRandom(6, 18)*10)/10;
-          items.t = Math.floor(this.getRandom(6, 18)*10)/10;
-          items.u = Math.floor(this.getRandom(-6, -0.5)*10)/10;
-          items.v = Math.floor(this.getRandom(-0.2, 0.2)*10)/10;
-          items.w = Math.floor(this.getRandom(-6, -0.5)*10)/10;
+          items.r = Math.floor(this.GaussRandom(6, 18)*10)/10;
+          items.s = Math.floor(this.GaussRandom(6, 18)*10)/10;
+          items.t = Math.floor(this.GaussRandom(6, 18)*10)/10;
+          items.u = Math.floor(this.navigator.acceleration + this.GaussRandom(-0.3, 0.3)*100)/100;
+          items.v = Math.floor(this.GaussRandom(-0.2, 0.2)*100)/100;
+          items.w = Math.floor(this.GaussRandom(-0.5, 0.5)*100)/100;
 
-          items.y = Math.floor(this.navigator.heightSurface + 1173 + this.getRandom(-750, 750));
+          items.y = Math.floor(this.navigator.heightSurface + 1173 + this.GaussRandom(-750, 750));
 
           if (this.navigator.stage !== 3) {
-            items.aa += this.getRandom(0.6, 0.9);
-            items.bb += this.getRandom(0.6, 0.9);
+            items.aa += this.GaussRandom(0.6, 0.9);
+            items.bb += this.GaussRandom(0.6, 0.9);
           }else {
-            items.aa -= this.getRandom(0.6, 0.9);
-            items.bb -= this.getRandom(0.6, 0.9);
+            items.aa -= this.GaussRandom(0.6, 0.9);
+            items.bb -= this.GaussRandom(0.6, 0.9);
           }
 
           if (this.navigator.temperature < 0){
-            items.cc = this.navigator.temperature + this.getRandom(-3, 3);
-            items.dd = this.navigator.temperature + this.getRandom(-3, 3);
+            items.cc = this.navigator.temperature + this.GaussRandom(-3, 3);
+            items.dd = this.navigator.temperature + this.GaussRandom(-3, 3);
           }else {
-            items.cc = this.navigator.temperature /2 + this.getRandom(-10, 10);
-            items.dd = this.navigator.temperature /2 + this.getRandom(-10, 10);
+            items.cc = this.navigator.temperature /2 + this.GaussRandom(-10, 10);
+            items.dd = this.navigator.temperature /2 + this.GaussRandom(-10, 10);
           }
           this.$socket.emit('changeNoise', this.noise)
         },

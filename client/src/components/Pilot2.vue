@@ -99,8 +99,8 @@
         </div>
       </div>
       <div class="speed">
-        <div class="speed-label"> Вектор ускорения: </div>
-        <div class="speed-value">{{Math.round(navigator.acceleration) || '--'}} м/с^2</div>
+        <div class="speed-label"> Модуль ускорения: </div>
+        <div class="speed-value">{{(Math.round((navigator.acceleration+(Math.random()+Math.random()+Math.random()+Math.random()+Math.random())*4/5-2)*navigator.acceleration/100*10))/10 || '--'}} м/с^2</div>
       </div>
       <p class="item">Ускорение продольное: {{navigator.noise.u}} g</p>
       <p class="item">Ускорение поперечное: {{navigator.noise.v}} g</p>
@@ -157,7 +157,7 @@
               <div class="speed-label"> Температура внешней обшивки: </div>
               <div class="speed-value">{{Math.round(navigator.temperature)}}&deg C</div>
             </div>
-            <div class="speed">
+            <div class="speed" :class="{speed_overload: navigator.alarm.innerHullTemp}">
               <div class="speed-label"> Температура внутреннего корпуса: </div>
               <div class="speed-value">{{Math.floor(navigator.noise.b)}}&deg C</div>
             </div>

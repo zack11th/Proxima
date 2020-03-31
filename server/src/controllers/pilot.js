@@ -83,7 +83,8 @@ let navigator = {
     alarm: { // подсвечивание не оптимальных параметров
         speed_less: false,
         speed_over: false,
-        temperature: false
+        temperature: false,
+        innerHullTemp: false
     },
     speedSurface: 0, // скорость относительно поверхности
     speedSurfaceOptimal: 0, // оптимальная скорость относительно поверхности
@@ -264,6 +265,7 @@ function calcLanding(n) { // вызывается при старте видео
     n.temperature = n.temperature + n.speedSurface * n.K_temp;
     // проверка на превышение температуры
     n.alarm.temperature = n.temperature > 800;
+    n.alarm.innerHullTemp = n.noise.b > 50 || n.noise.b < 10;
 }
 
 function takeOffPlanet(n, io) {
@@ -289,6 +291,7 @@ function takeOffPlanet(n, io) {
         n.speedSurface = n.speedSurface + n.acceleration / 10;
         n.temperature = n.temperature + deltaTemp / 10;
         n.alarm.temperature = n.temperature > 800;
+        n.alarm.innerHullTemp = n.noise.b > 50 || n.noise.b < 10;
         if (count / 10 < time / 2 + 1 && count / 10 > time / 2 - 1) {
             deltaTemp = -1 * (n.temperature + 261) / (time / 2);
         }
