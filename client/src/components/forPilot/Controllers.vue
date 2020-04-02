@@ -12,32 +12,32 @@
           <div class="item"><span>Высота над поверхностью:</span> <span> {{Math.round(navigator.heightSurface) || '--'}}м</span></div>
         </div>
         <div class="flex-col other-col">
-          <div class="item">Температура внешней обшивки: {{Math.round(navigator.temperature)}}&deg C</div>
-          <div class="item">Температура внутреннего корпуса: {{Math.floor(noise.b)}}&deg C</div>
-          <div class="item">Температура сопла 1-2: {{Math.floor(noise.aa)}}&deg C</div>
-          <div class="item">Температура сопла 3-4: {{Math.floor(noise.bb)}}&deg C</div>
-          <div class="item">Температура сопла 5-6: {{Math.floor(noise.cc)}}&deg C</div>
-          <div class="item">Температура сопла 7-8: {{Math.floor(noise.dd)}}&deg C</div>
+          <div class="item"><span>Температура внешней обшивки:</span> <span> {{Math.round(navigator.temperature)}}&deg C</span></div>
+          <div class="item"><span>Температура внутреннего корпуса:</span> <span> {{Math.floor(noise.b)}}&deg C</span></div>
+          <div class="item"><span>Температура сопла 1-2:</span> <span> {{Math.floor(noise.aa)}}&deg C</span></div>
+          <div class="item"><span>Температура сопла 3-4:</span> <span> {{Math.floor(noise.bb)}}&deg C</span></div>
+          <div class="item"><span>Температура сопла 5-6:</span> <span> {{Math.floor(noise.cc)}}&deg C</span></div>
+          <div class="item"><span>Температура сопла 7-8:</span> <span> {{Math.floor(noise.dd)}}&deg C</span></div>
         </div>
         <div class="flex-col">
-          <div class="item">Плотность атмосферы: {{Math.floor(noise.q)}}кПа</div>
-          <div class="item">Давление наддува Бак 1: {{noise.r}}</div>
-          <div class="item">Давление наддува Бак 2: {{noise.s}}</div>
-          <div class="item">Давление наддува Бак 3: {{noise.t}}</div>
+          <div class="item"><span>Плотность атмосферы:</span> <span> {{Math.floor(noise.q)}}кПа</span></div>
+          <div class="item"><span>Давление наддува Бак 1:</span> <span> {{noise.r}}</span></div>
+          <div class="item"><span>Давление наддува Бак 2:</span> <span> {{noise.s}}</span></div>
+          <div class="item"><span>Давление наддува Бак 3:</span> <span> {{noise.t}}</span></div>
         </div>
       </div>
       <div class="bottom">
         <div class="flex-col down-col">
-          <div class="item">Обороты гиродина: {{noise.l}}</div>
-          <div class="item">Давление в системе точного маневрирования (правый борт): {{noise.j}}МПа</div>
-          <div class="item">Давление в системе точного маневрирования (левый борт): {{noise.k}}МПа</div>
-          <div class="item">Состояние заслонки сопла: {{noise.i}}</div>
+          <div class="item"><span>Обороты гиродина:</span> <span> {{noise.l}}</span></div>
+          <div class="item"><span>Давление в системе точного маневрирования (правый борт):</span> <span> {{noise.j}}МПа</span></div>
+          <div class="item"><span>Давление в системе точного маневрирования (левый борт):</span> <span> {{noise.k}}МПа</span></div>
+          <div class="item"><span>Состояние заслонки сопла:</span> <span> {{noise.i}}</span></div>
         </div>
-        <div class="flex-col">
-          <div class="item">Ускорение продольное: {{noise.u}} g</div>
-          <div class="item">Ускорение поперечное: {{noise.v}} g</div>
-          <div class="item">Ускорение вертикальное: {{noise.w}} g</div>
-          <div class="item">Модуль ускорения: {{(Math.round(navigator.acceleration*10))/10 || '--'}} м/с^2</div>
+        <div class="flex-col other-col">
+          <div class="item"><span>Ускорение продольное:</span> <span> {{noise.u}} g</span></div>
+          <div class="item"><span>Ускорение поперечное:</span> <span> {{noise.v}} g</span></div>
+          <div class="item"><span>Ускорение вертикальное:</span> <span> {{noise.w}} g</span></div>
+          <div class="item"><span>Модуль ускорения:</span> <span> {{(Math.round(navigator.acceleration*10))/10 || '--'}} м/с^2</span></div>
         </div>
       </div>
       <div class="time">
@@ -216,18 +216,21 @@
   .flex-col {
     display: flex;
     flex-direction: column;
+    width: 20%;
+    padding-right: 40px;
   }
   .bottom .flex-col {
     justify-content: flex-end;
   }
   .first-col {
-    width: 45%;
+    width: 42%;
   }
   .other-col {
     width: 30%;
   }
   .down-col {
-    width: 70%;
+    width: 55%;
+    padding-right: 60px;
   }
   .item {
     margin-bottom: 20px;

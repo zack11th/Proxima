@@ -55,15 +55,15 @@
             {{Math.round(navigator.speedSurface) || '--'}} м/с
           </p>
         </div>
-        <div class="item">Отклонение курса: крен {{Math.round(gamepad.axes[0]*100)/100 || '0.00'}}</div>
-        <div class="item">Отклонение курса: тангаж {{Math.round(gamepad.axes[1]*100)/100 || '0.00'}}</div>
-        <div class="item">Отклонение курса: рыскание {{Math.round(gamepad.axes[5]*100)/100 || '0.00'}}</div>
+        <div class="item"><span>Отклонение курса: крен </span><span>{{Math.round(gamepad.axes[0]*100)/100 || '0.00'}}</span></div>
+        <div class="item"><span>Отклонение курса: тангаж </span><span>{{Math.round(gamepad.axes[1]*100)/100 || '0.00'}}</span></div>
+        <div class="item"><span>Отклонение курса: рыскание </span><span>{{Math.round(gamepad.axes[5]*100)/100 || '0.00'}}</span></div>
       </div>
       <div class="flex-col other-col">
-        <div class="item">Состояние предкрылков: {{flaps}}</div>
-        <div class="item">Состояние закрылков: {{flaps}}</div>
-        <div class="item">Тензодатчик правого крыла: {{Math.round(gamepad.axes[0]*7000) || '0'}}</div>
-        <div class="item">Тензодатчик левого крыла: {{-1 * Math.round(gamepad.axes[0]*7000) || '0'}}</div>
+        <div class="item"><span>Состояние предкрылков:</span><span> {{flaps}}</span></div>
+        <div class="item"><span>Состояние закрылков:</span><span> {{flaps}}</span></div>
+        <div class="item"><span>Тензодатчик правого крыла:</span><span> {{Math.round(gamepad.axes[0]*7000) || '0'}}</span></div>
+        <div class="item"><span>Тензодатчик левого крыла:</span><span> {{-1 * Math.round(gamepad.axes[0]*7000) || '0'}}</span></div>
       </div>
     </div>
   </div>
@@ -338,6 +338,8 @@
   }
   .item {
     margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
   }
   .center {
     text-align: center;
@@ -354,9 +356,13 @@
   .other-col {
     width: 30%;
     justify-content: flex-end;
+    padding-right: 30px;
+    box-sizing: border-box;
   }
   .big {
     font-size: 1.5rem;
+    display: block;
+    text-align: center;
   }
   .thrust-value {
     width: 100%;
