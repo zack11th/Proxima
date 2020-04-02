@@ -35,21 +35,21 @@
       <!--*** НОИЗ ***-->
       <div class="noise">
         <p class="noise-head">ТОПЛИВО</p>
-        <p class="item">Количество: {{fuel.quantity}}кг</p>
-        <p class="item">Давление: {{fuel.pressure}}МПа</p>
-        <p class="item">Температура: {{fuel.temperature}}&deg C</p>
+        <p class="item"><span>Количество:</span><span> {{fuel.quantity}}кг</span></p>
+        <p class="item"><span>Давление:</span><span> {{fuel.pressure}}МПа</span></p>
+        <p class="item"><span>Температура:</span><span> {{fuel.temperature}}&deg C</span></p>
       </div>
       <div class="noise">
         <p class="noise-head">ОКИСЛИТЕЛЬ</p>
-        <p class="item">Количество: {{oxygen.quantity}}кг</p>
-        <p class="item">Давление: {{oxygen.pressure}}МПа</p>
-        <p class="item">Температура: {{oxygen.temperature}}&deg C</p>
+        <p class="item"><span>Количество:</span><span> {{oxygen.quantity}}кг</span></p>
+        <p class="item"><span>Давление:</span><span> {{oxygen.pressure}}МПа</span></p>
+        <p class="item"><span>Температура:</span><span> {{oxygen.temperature}}&deg C</span></p>
       </div>
       <div class="noise">
-        <p class="item">Плотность атмосферы: {{Math.floor(navigator.noise.q)}}кПа</p>
-        <p class="item">Давление наддува Бак 1: {{navigator.noise.r}}</p>
-        <p class="item">Давление наддува Бак 2: {{navigator.noise.s}}</p>
-        <p class="item">Давление наддува Бак 3: {{navigator.noise.t}}</p>
+        <p class="item"><span>Плотность атмосферы:</span><span> {{Math.floor(navigator.noise.q)}}кПа</span></p>
+        <p class="item"><span>Давление наддува Бак 1:</span><span> {{navigator.noise.r}}</span></p>
+        <p class="item"><span>Давление наддува Бак 2:</span><span> {{navigator.noise.s}}</span></p>
+        <p class="item"><span>Давление наддува Бак 3:</span><span> {{navigator.noise.t}}</span></p>
       </div>
       <div class="height-surface">
         <div class="speed">
@@ -102,20 +102,20 @@
         <div class="speed-label"> Модуль ускорения: </div>
         <div class="speed-value">{{(Math.round(navigator.acceleration*10))/10 || '--'}} м/с^2</div>
       </div>
-      <p class="item">Ускорение продольное: {{navigator.noise.u}} g</p>
-      <p class="item">Ускорение поперечное: {{navigator.noise.v}} g</p>
-      <p class="item">Ускорение вертикальное: {{navigator.noise.w}} g</p>
+      <p class="item"><span>Ускорение продольное:</span><span> {{navigator.noise.u}} g</span></p>
+      <p class="item"><span>Ускорение поперечное:</span><span> {{navigator.noise.v}} g</span></p>
+      <p class="item"><span>Ускорение вертикальное:</span><span> {{navigator.noise.w}} g</span></p>
     <!--*** НОИЗ ***-->
       <div class="noise">
-        <p class="item">Температура сопла 1-2: {{Math.floor(navigator.noise.aa)}}&deg C</p>
-        <p class="item">Температура сопла 3-4: {{Math.floor(navigator.noise.bb)}}&deg C</p>
-        <p class="item">Температура сопла 5-6: {{Math.floor(navigator.noise.cc)}}&deg C</p>
-        <p class="item">Температура сопла 7-8: {{Math.floor(navigator.noise.dd)}}&deg C</p>
+        <p class="item"><span>Температура сопла 1-2:</span><span> {{Math.floor(navigator.noise.aa)}}&deg C</span></p>
+        <p class="item"><span>Температура сопла 3-4:</span><span> {{Math.floor(navigator.noise.bb)}}&deg C</span></p>
+        <p class="item"><span>Температура сопла 5-6:</span><span> {{Math.floor(navigator.noise.cc)}}&deg C</span></p>
+        <p class="item"><span>Температура сопла 7-8:</span><span> {{Math.floor(navigator.noise.dd)}}&deg C</span></p>
       </div>
       <div class="noise">
-        <p class="item">Обороты гиродина: {{navigator.noise.l}}</p>
-        <p class="item">Давление в системе точного маневрирования (правый борт):<br/> {{navigator.noise.j}}МПа</p>
-        <p class="item">Давление в системе точного маневрирования (левый борт):<br/> {{navigator.noise.k}}МПа</p>
+        <p class="item"><span>Обороты гиродина:</span><span> {{navigator.noise.l}}</span></p>
+        <p class="item"><span>Давление в системе точного маневрирования (правый борт):</span><span> {{navigator.noise.j}}МПа</span></p>
+        <p class="item"><span>Давление в системе точного маневрирования (левый борт):</span><span> {{navigator.noise.k}}МПа</span></p>
       </div>
       <div class="distance">
         <div class="speed" v-if="navigator.distance !== null">
@@ -258,6 +258,8 @@
   .trigger {
     padding: 5px 0;
     display: flex;
+    justify-content: space-between;
+    padding-right: 30px;
   }
   .trigger>.active {
     animation: speedwarning 1s infinite;
@@ -445,5 +447,14 @@
     margin-top: 0;
     margin-bottom: 10px;
     padding-left: 10px;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 30px;
+    align-items: center;
+  }
+  .flex-col>.trigger {
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: 50px;
   }
 </style>
