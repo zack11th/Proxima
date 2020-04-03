@@ -353,22 +353,22 @@ function pilot(io, socket) {
 
     // ЗАДАНИЕ КНОПОК ОБЩЕГО ГЕЙМПАДА navigator
     socket.on('setGamepad', (data) => {
-        navigator.nuclear.button_1 = !!data.buttons[4]; // тумблер 1 ядерного двигателя
-        navigator.nuclear.button_2 = !!data.buttons[6]; // тумблер 2 ядерного двигателя
+        navigator.nuclear.button_1 = !!data.buttons[0]; // тумблер 1 ядерного двигателя
+        navigator.nuclear.button_2 = !!data.buttons[1]; // тумблер 2 ядерного двигателя
         if(navigator.nuclear.button_1 && navigator.nuclear.button_2){
-            navigator.nuclear.thrust = (+data.axes[1] < 0) ? -1 * parseInt(+data.axes[1] * 100) : parseInt(+data.axes[1] * 100);
+            navigator.nuclear.thrust = (+data.axes[0] < 0) ? -1 * parseInt(+data.axes[0] * 100) : parseInt(+data.axes[0] * 100);
         } else {
             navigator.nuclear.thrust = 0;
         }
-        navigator.manevr.button_1 = !!data.buttons[5]; // тумблер 1 маневрового двигателя
-        navigator.manevr.button_2 = !!data.buttons[7]; // тумблер 2 маневрового двигателя
+        navigator.manevr.button_1 = !!data.buttons[2]; // тумблер 1 маневрового двигателя
+        navigator.manevr.button_2 = !!data.buttons[3]; // тумблер 2 маневрового двигателя
         if(navigator.manevr.button_1 && navigator.manevr.button_2) {
-            navigator.manevr.thrust = (+data.axes[3] < 0) ? 0 : parseInt(+data.axes[3] * 100);
+            navigator.manevr.thrust = (+data.axes[1] < 0) ? 0 : parseInt(+data.axes[1] * 100);
         } else {
             navigator.manevr.thrust = 0;
         }
-        navigator.chassis = !!data.buttons[2]; // шасси
-        navigator.brakeSystem = !!data.buttons[1]; // тормозная система
+        navigator.chassis = !!data.buttons[4]; // шасси
+        navigator.brakeSystem = !!data.buttons[5]; // тормозная система
     });
 
     socket.on('hardLanding', () => {
