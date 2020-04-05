@@ -5,7 +5,8 @@ export default {
     clients: {
       pilot: false,
       nav: false,
-      eng_2: false
+      eng_2: false,
+      eng: false
     },
     time: 0,
     timeMission: 4684

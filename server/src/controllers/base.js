@@ -1,7 +1,8 @@
 const clients = {
     pilot: false,
     nav: false,
-    eng_2: false
+    eng_2: false,
+    eng: false
 };
 
 let time = 0;
@@ -21,6 +22,7 @@ function base(io, socket) {
         clients.pilot = io.sockets.adapter.rooms.hasOwnProperty('pilot');
         clients.nav = io.sockets.adapter.rooms.hasOwnProperty('nav');
         clients.eng_2 = io.sockets.adapter.rooms.hasOwnProperty('eng_2');
+        clients.eng = io.sockets.adapter.rooms.hasOwnProperty('eng');
 
         io.to('master').emit('alive', clients);
     });
