@@ -253,6 +253,7 @@ function calcLanding(n) { // вызывается при старте видео
         n.difficult = 5;
     }
     // проверка на смену стадии
+    if(n.heightSurface >= 200000 ) n.stage = 0;
     if(n.heightSurface < 200000 && n.heightSurface >= 40000) n.stage = 1;
     if(n.heightSurface < 40000 && n.heightSurface >= 5000) n.stage = 2;
     if(n.heightSurface < 5000 && n.heightSurface > 0) n.stage = 3;
@@ -422,7 +423,8 @@ function pilot(io, socket) {
     });
 
     socket.on('changeStage', data => {
-        navigator.heightSurface = data;
+        navigator.heightSurface = data.height;
+        navigator.speedSurface = data.speed;
     })
 }
 

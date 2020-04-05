@@ -210,10 +210,10 @@
           </div>
           <hr>
           <div>
-            <button @click="changeStage(500000)">стадия 0</button>
-            <button @click="changeStage(199999)">стадия 1</button>
-            <button @click="changeStage(39999)">стадия 2</button>
-            <button @click="changeStage(4999)">стадия 3</button>
+            <button @click="changeStage(500000, 3929)">стадия 0</button>
+            <button @click="changeStage(199999, 8000)">стадия 1</button>
+            <button @click="changeStage(39999, 6000)">стадия 2</button>
+            <button @click="changeStage(4999, 500)">стадия 3</button>
           </div>
         </div>
         <!--************** end PILOT ************-->
@@ -376,8 +376,8 @@
         liftOff() {
           this.$socket.emit('liftOff');
         },
-        changeStage(height) {
-          this.$socket.emit('changeStage', height);
+        changeStage(height, speed) {
+          this.$socket.emit('changeStage', {height, speed});
         }
         // *** УЧЕНЫЙ *****************************
         // *** КОМАНДОР ***************************
