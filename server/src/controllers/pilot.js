@@ -420,6 +420,10 @@ function pilot(io, socket) {
         navigator.liftOff = true;
         takeOffPlanet(navigator, io);
     });
+
+    socket.on('changeStage', data => {
+        navigator.heightSurface = data;
+    })
 }
 
 module.exports = pilot;

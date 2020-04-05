@@ -11,7 +11,7 @@
         <h2>Перезагрузка</h2>
         <button @click="reboot('pilot')" :class="{down: !clients.pilot}">Пилот</button>
         <button @click="reboot('nav')" :class="{down: !clients.nav}">Штурман</button>
-        <button @click="">Инженер</button>
+        <button @click="reboot('eng')" :class="{down: !clients.eng}">Инженер</button>
         <button @click="reboot('eng_2')" :class="{down: !clients.eng_2}">Инженер_2</button>
         <button @click="">Медики</button>
         <button @click="">Командир</button>
@@ -208,6 +208,13 @@
             <button @click="liftOff">Взлетаем!</button>
             <span>LiftOff: {{navigator.liftOff}}</span>
           </div>
+          <hr>
+          <div>
+            <button @click="changeStage(500000)">стадия 0</button>
+            <button @click="changeStage(199999)">стадия 1</button>
+            <button @click="changeStage(39999)">стадия 2</button>
+            <button @click="changeStage(4999)">стадия 3</button>
+          </div>
         </div>
         <!--************** end PILOT ************-->
         <div class="scientist flex-row">
@@ -368,6 +375,9 @@
         },
         liftOff() {
           this.$socket.emit('liftOff');
+        },
+        changeStage(height) {
+          this.$socket.emit('changeStage', height);
         }
         // *** УЧЕНЫЙ *****************************
         // *** КОМАНДОР ***************************
