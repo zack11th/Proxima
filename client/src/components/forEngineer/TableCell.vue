@@ -1,10 +1,13 @@
 <template>
-  <div class="main">
-    <div class="cell"
-         v-for="(item, index) in warning"
-         :key="index"
-         :class="{warning: item}"
-    >
+  <div class="table">
+    <h2>Состояние ячеек термоэлектрических генераторов</h2>
+    <div class="main">
+      <div class="cell"
+           v-for="(item, index) in warning"
+           :key="index"
+           :class="{warning: item}"
+      >
+      </div>
     </div>
   </div>
 </template>
@@ -26,9 +29,12 @@
 </script>
 
 <style scoped>
+  h2 {
+    text-align: center;
+  }
   .main {
     width: 100%;
-    height: 100%;
+    height: calc(100% - 29px);
     background-color: #070707;
     display: flex;
     flex-wrap: wrap;
