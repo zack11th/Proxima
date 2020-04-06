@@ -22,7 +22,7 @@ const glossaryBound = { // сопоставление кол-во словаре
     10: 50
 };
 
-const allienLang = ['@', '#', '$', '^', '&', '*', '{}', '?'];
+const alienLang = ['@', '#', '$', '^', '&', '*', '{}', '?'];
 
 function getRandom(min, max) {
     return Math.random() * (max - min) + min;
@@ -36,7 +36,7 @@ function getAlienWord() {
     let length = Math.round(getRandom(3, 10));
     let word = '';
     for(let i = 1; i <= length; i++) {
-        word += allienLang[Math.floor(getRandom(0, allienLang.length))];
+        word += alienLang[Math.floor(getRandom(0, alienLang.length))];
     }
     return word;
 }
