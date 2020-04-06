@@ -218,9 +218,17 @@
           </div>
         </div>
         <!--************** end PILOT ************-->
+        <!--************** УЧЕНЫЙ ***************-->
         <div class="scientist flex-row">
           <h3>Ученый</h3>
+          <div class="input-block">
+            <span>Словари</span>
+            <span>{{glossary}}</span>
+            <input type="number" ref="glossary">
+            <button @click="changeGlossary">ok</button>
+          </div>
         </div>
+        <!--************** end УЧЕНЫЙ ************-->
         <div class="commander flex-row">
           <h3>Командир</h3>
         </div>
@@ -323,6 +331,9 @@
         },
         onSurface() {
           return this.$store.getters.get_surface;
+        },
+        glossary() {
+          return this.$store.getters.get_glossary;
         }
       },
       methods: {
@@ -379,8 +390,12 @@
         },
         changeStage(height, speed) {
           this.$socket.emit('changeStage', {height, speed});
-        }
+        },
         // *** УЧЕНЫЙ *****************************
+        changeGlossary() {
+          let glossary = this.$refs.glossary.valueAsNumber;
+          this.$socket.emit('setGlossary', glossary);
+        }
         // *** КОМАНДОР ***************************
         // *** ОБЩИЙ КОМП *************************
       },
@@ -458,6 +473,9 @@
   .input-block {
     display: flex;
     justify-content: space-between;
+  }
+  input[type="number"] {
+    width: 50px;
   }
   button {
     cursor: pointer;

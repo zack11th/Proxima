@@ -1,3 +1,6 @@
+// ненужный файл - работал без сокетов на роутах
+
+/*
 const express = require('express');
 const controller = require('../controllers/orbit');
 const router = express.Router();
@@ -9,3 +12,5 @@ router.post('/canvas', controller.canvas);
 router.get('/start', controller.startLARPorbit);
 
 module.exports = router;
+
+*/

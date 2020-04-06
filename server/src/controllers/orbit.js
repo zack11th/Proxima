@@ -1,3 +1,6 @@
+// ненужный файл - работал без сокетов на роутах
+
+/*
 let planet = {
     angle: Math.PI / 2.4,
     center: {
@@ -58,3 +61,4 @@ module.exports.set_planet = function (req, res) {
         console.error('ERROR!!!')
     }
 };
+*/

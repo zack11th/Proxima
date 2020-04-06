@@ -5,7 +5,7 @@
       <li><router-link to="/commander">Командир</router-link></li>
       <li><router-link to="/pilot">Пилот</router-link></li>
       <li><router-link to="/pilot2">Пилот-Штурман</router-link></li>
-      <li><router-link to="/scientist">Ученый</router-link></li>
+      <li><router-link to="/scientist/0">Ученый</router-link></li>
       <li><router-link to="/medic">Медик</router-link></li>
       <li><router-link to="/engineer">Инженер</router-link></li>
       <li><router-link to="/engineer2">Инженер 2</router-link></li>

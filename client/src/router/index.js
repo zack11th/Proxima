@@ -39,7 +39,8 @@ export default new Router({
       component: Medic
     },
     {
-      path: '/scientist',
+      path: '/scientist/:id',
+      props: true,
       name: 'Scientist',
       component: Scientist
     },

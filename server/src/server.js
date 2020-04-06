@@ -10,6 +10,7 @@ const pilot = require('./controllers/pilot');
 const alerts = require('./controllers/alerts');
 const gamepad = require('./controllers/gamepad');
 const base = require('./controllers/base');
+const scientist = require('./controllers/scientist');
 
 
 // routes import
@@ -35,6 +36,7 @@ io.on('connection', socket => {
     pilot(io, socket);
     alerts(io, socket);
     gamepad(io, socket);
+    scientist(io, socket);
 });
 
 app.get("*", (req, res) => {

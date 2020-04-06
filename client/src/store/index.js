@@ -7,12 +7,13 @@ import pilot from './pilot';
 import gamepad from './gamepad';
 import base from './base';
 import engineer from './engineer';
+import scientist from './scientist';
 
 Vue.use(Vuex);
 Vue.use(axios);
 
 export default new Vuex.Store({
   modules: {
-    pilot, alert, gamepad, base, engineer
+    pilot, alert, gamepad, base, engineer, scientist
   }
 });
