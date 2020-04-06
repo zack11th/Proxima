@@ -4,7 +4,11 @@
 
 <script>
     export default {
-        name: "Scientist"
+      name: "Scientist",
+      mounted() {
+        document.title = 'Ученый';
+        this.$socket.emit('conn', 'scient');
+      },
     }
 </script>
 
