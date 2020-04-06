@@ -26,6 +26,7 @@
         this.$socket.emit('conn', 'scient');
       },
       created() {
+        this.$socket.emit('setGlossary', null);
         this.$socket.emit('getHistory', this.id);
       }
     }
@@ -54,6 +55,7 @@
     background-color: #333333;
     overflow: scroll;
     padding: 10px;
+    text-align: justify;
 
   }
 </style>
