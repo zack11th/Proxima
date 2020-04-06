@@ -106,11 +106,17 @@
       <p class="item"><span>Ускорение поперечное:</span><span> {{navigator.noise.v}} g</span></p>
       <p class="item"><span>Ускорение вертикальное:</span><span> {{navigator.noise.w}} g</span></p>
     <!--*** НОИЗ ***-->
-      <div class="noise">
-        <p class="item"><span>Температура сопла 1-2:</span><span> {{Math.floor(navigator.noise.aa)}}&deg C</span></p>
-        <p class="item"><span>Температура сопла 3-4:</span><span> {{Math.floor(navigator.noise.bb)}}&deg C</span></p>
-        <p class="item"><span>Температура сопла 5-6:</span><span> {{Math.floor(navigator.noise.cc)}}&deg C</span></p>
-        <p class="item"><span>Температура сопла 7-8:</span><span> {{Math.floor(navigator.noise.dd)}}&deg C</span></p>
+      <div class="speed" :class="{speed_overload: navigator.alarm.thruster1}">
+        <p class="item"><span>Температура сопла 1-2:</span><span><div class="speed-value"> {{Math.floor(navigator.noise.aa)}}&deg C</div></span></p>
+      </div>
+      <div class="speed" :class="{speed_overload: navigator.alarm.thruster2}">
+        <p class="item"><span>Температура сопла 3-4:</span><span><div class="speed-value"> {{Math.floor(navigator.noise.bb)}}&deg C</div></span></p>
+      </div>
+      <div class="speed" :class="{speed_overload: navigator.alarm.thruster3}">
+        <p class="item"><span>Температура сопла 5-6:</span><span><div class="speed-value"> {{Math.floor(navigator.noise.cc)}}&deg C</div></span></p>
+      </div>
+      <div class="speed" :class="{speed_overload: navigator.alarm.thruster4}">
+        <p class="item"><span>Температура сопла 7-8:</span><span><div class="speed-value"> {{Math.floor(navigator.noise.dd)}}&deg C</div></span></p>
       </div>
       <div class="noise">
         <p class="item"><span>Обороты гиродина:</span><span> {{navigator.noise.l}}</span></p>

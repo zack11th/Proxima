@@ -96,6 +96,7 @@
           return (Math.random()+Math.random()+Math.random()+Math.random()+Math.random())*(max-min)/5  +min;
         },
         changeControllers(items) {
+          if (navigator.stage ===0){this.setControllers(items)}
           if (this.navigator.temperature > items.b &&  items.b < 110) items.b += Math.random() * ((110-items.b)/50);
           if (this.navigator.temperature < items.b &&  items.b > 0) items.b -= Math.random() * ((110-items.b)/50);
           if (this.navigator.stage === 4 && items.b < 20 ) items.b += 0.1;
@@ -117,38 +118,56 @@
           items.r = Math.floor(this.GaussRandom(6, 18)*10)/10;
           items.s = Math.floor(this.GaussRandom(6, 18)*10)/10;
           items.t = Math.floor(this.GaussRandom(6, 18)*10)/10;
-          items.u = Math.floor(this.navigator.acceleration + this.GaussRandom(-0.3, 0.3)*100)/100;
+          items.u = Math.floor(this.navigator.acceleration + this.GaussRandom(-0.3, 0.3)*10)/10;
           items.v = Math.floor(this.GaussRandom(-0.2, 0.2)*100)/100;
           items.w = Math.floor(this.GaussRandom(-0.5, 0.5)*100)/100;
 
-          log(this.navigator)
+          // log(this.navigator.stage);
 
           items.y = Math.floor(this.navigator.heightSurface + 1173 + this.GaussRandom(-750, 750));
 
-          if (this.navigator.stage !== 3) {
-            items.aa += this.GaussRandom(0.6, 0.9);
-            items.bb += this.GaussRandom(0.6, 0.9);
+          if (this.navigator.stage !== 5) {
+            let target_temp1 = this.navigator.temperature+this.navigator.manevr.thrust*4+this.GaussRandom(-30, 30);
+            let target_temp2 = this.navigator.temperature+this.navigator.manevr.thrust*4+this.GaussRandom(-30, 30);
+            let k1 = (this.navigator.temperature - items.aa)/2;
+            let k2 = (this.navigator.temperature - items.bb)/2;
+            if(this.navigator.manevr.thrust>0) {
+              if (items.aa < target_temp1) {items.aa=items.aa+k1+this.GaussRandom(0.5, 1.5)}else{items.aa=items.aa+k1-this.GaussRandom(0.5, 1.5)}
+              if (items.bb < target_temp2) {items.bb=items.bb+k2+this.GaussRandom(0.5, 1.5)}else{items.bb=items.bb+k2-this.GaussRandom(0.5, 1.5)}
+            }else{
+              if (items.aa < this.navigator.temperature) {items.aa=items.aa+k1+this.GaussRandom(0.5, 1.5)}else{items.aa=items.aa+k1-this.GaussRandom(0.5, 1.5)}
+              if (items.bb < this.navigator.temperature) {items.bb=items.bb+k2+this.GaussRandom(0.5, 1.5)}else{items.bb=items.bb+k2-this.GaussRandom(0.5, 1.5)}
+            };
+
           }else {
-            items.aa -= this.GaussRandom(0.6, 0.9);
-            items.bb -= this.GaussRandom(0.6, 0.9);
+            items.aa = this.navigator.temperature;
+            items.bb = this.navigator.temperature;
           }
 
-          if (this.navigator.temperature < 0){
+          // console.clear();
+          // console.log(this.navigator.alarm.thruster1);
+
+          if (this.navigator.stage !== 5){
             items.cc = this.navigator.temperature + this.GaussRandom(-3, 3);
             items.dd = this.navigator.temperature + this.GaussRandom(-3, 3);
           }else {
-            items.cc = this.navigator.temperature /2 + this.GaussRandom(-10, 10);
-            items.dd = this.navigator.temperature /2 + this.GaussRandom(-10, 10);
+            let target_temp1 = 850+this.GaussRandom(-30, 30);
+            let target_temp2 = 850+this.GaussRandom(-30, 30);
+            let k1 = (this.navigator.temperature - target_temp1)/10;
+            let k2 = (this.navigator.temperature - target_temp2)/10;
+            if (items.cc < this.navigator.temperature) {items.cc=items.cc+k1+this.GaussRandom(0.5, 1.5)}else{items.cc=items.cc+k1-this.GaussRandom(0.5, 1.5)}
+            if (items.dd < this.navigator.temperature) {items.dd=items.dd+k2+this.GaussRandom(0.5, 1.5)}else{items.dd=items.dd+k2-this.GaussRandom(0.5, 1.5)}
           }
-          this.$socket.emit('changeNoise', this.noise)
+          this.$socket.emit('changeNoise', this.noise);
         },
         setControllers(items) {
+          this.navigator.temperature = -270;
           items.l = 0;
           items.u = 0;
           items.v = 0;
           items.w = 0;
-          items.aa = this.navigator.temperature + this.getRandom(-10, 100);
-          items.bb = this.navigator.temperature + this.getRandom(-10, 100);
+          items.aa = this.navigator.temperature + this.getRandom(-10, 10);
+          items.bb = this.navigator.temperature + this.getRandom(-10, 10);
           items.cc = this.navigator.temperature + this.getRandom(-10, 10);
           items.dd = this.navigator.temperature + this.getRandom(-10, 10);
           if (this.navigator.heightSurface === '--') items.y = '--';

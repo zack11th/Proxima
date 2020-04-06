@@ -84,7 +84,11 @@ let navigator = {
         speed_less: false,
         speed_over: false,
         temperature: false,
-        innerHullTemp: false
+        innerHullTemp: false,
+        thruster1: false,
+        thruster2: false,
+        thruster3: false,
+        thruster4: false
     },
     speedSurface: 0, // скорость относительно поверхности
     speedSurfaceOptimal: 0, // оптимальная скорость относительно поверхности
@@ -264,10 +268,20 @@ function calcLanding(n) { // вызывается при старте видео
     n.alarm.speed_less = n.speedSurface < n.speedSurfaceOptimal - n.deltaVmin;
     n.alarm.speed_over = n.speedSurface > n.speedSurfaceOptimal + n.deltaVmax;
     // температура
-    n.temperature = n.temperature + n.speedSurface * n.K_temp;
+    if (n.stage === 0){n.temperature=-270}else{
+        n.temperature = n.temperature + n.speedSurface * n.K_temp;
+    }
+    if (n.temperature>1221){n.temperature=1215}
+    if (n.temperature<-270){n.temperature=-269}
     // проверка на превышение температуры
     n.alarm.temperature = n.temperature > 800;
     n.alarm.innerHullTemp = n.noise.b > 50 || n.noise.b < 10;
+    n.alarm.thruster1 = n.noise.aa > 850;
+    n.alarm.thruster2 = n.noise.bb > 850;
+    n.alarm.thruster3 = n.noise.cc > 850;
+    n.alarm.thruster4 = n.noise.dd > 850;
+    // console.clear();
+    // console.log(n.alarm.thruster1);
 }
 
 function takeOffPlanet(n, io) {
@@ -294,6 +308,10 @@ function takeOffPlanet(n, io) {
         n.temperature = n.temperature + deltaTemp / 10;
         n.alarm.temperature = n.temperature > 800;
         n.alarm.innerHullTemp = n.noise.b > 50 || n.noise.b < 10;
+        n.alarm.thruster1 = n.noise.aa > 850;
+        n.alarm.thruster2 = n.noise.bb > 850;
+        n.alarm.thruster3 = n.noise.cc > 850;
+        n.alarm.thruster4 = n.noise.dd > 850;
         if (count / 10 < time / 2 + 1 && count / 10 > time / 2 - 1) {
             deltaTemp = -1 * (n.temperature + 261) / (time / 2);
         }
@@ -317,7 +335,8 @@ function pilot(io, socket) {
             item.shift = item.a - item.b
         });
         orbit.ship.cys = orbit.center.cy * 2;
-
+        // navigator.stage=0;
+        navigator.temperature=-270;
         setInterval(() => {
             calcSpeed(orbit.planets);
             calcSpeedShip(orbit.ship);
