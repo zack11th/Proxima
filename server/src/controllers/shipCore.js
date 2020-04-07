@@ -26,8 +26,6 @@ module.exports.init_ship = function(){
 
 module.exports.recalc_state = function(){
     powerCore.recalc_electricity(Aurora);
-    console.log('Calculatig power...'+ Aurora.PowerConsumption);
-    // console.log('Calculatig power...')
 };
 
 module.exports.shipCore = function (io, socket) {

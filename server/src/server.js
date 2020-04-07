@@ -11,6 +11,7 @@ const alerts = require('./controllers/alerts');
 const gamepad = require('./controllers/gamepad');
 const base = require('./controllers/base');
 const scientist = require('./controllers/scientist');
+const shipCore = require('./controllers/shipCore');
 
 
 // routes import
@@ -37,7 +38,7 @@ io.on('connection', socket => {
     alerts(io, socket);
     gamepad(io, socket);
     scientist(io, socket);
-    shipCore(io, socket);
+    // shipCore(io, socket);
 });
 
 app.get("*", (req, res) => {
@@ -49,3 +50,9 @@ app.get("*", (req, res) => {
 const port = 3010;
 // app.listen(port, () => console.log(`Server has been started on ${port}`));
 server.listen(port, () => console.log(`Server has been started on ${port}`));
+
+shipCore.init_ship();
+
+setInterval(function () {
+    shipCore.recalc_state();
+},1000);
