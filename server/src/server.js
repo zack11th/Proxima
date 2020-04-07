@@ -37,6 +37,7 @@ io.on('connection', socket => {
     alerts(io, socket);
     gamepad(io, socket);
     scientist(io, socket);
+    shipCore(io, socket);
 });
 
 app.get("*", (req, res) => {
