@@ -11,6 +11,7 @@ const alerts = require('./controllers/alerts');
 const gamepad = require('./controllers/gamepad');
 const base = require('./controllers/base');
 const scientist = require('./controllers/scientist');
+const shipIO = require('./controllers/shipIO');
 const shipCore = require('./controllers/shipCore');
 
 
@@ -38,7 +39,7 @@ io.on('connection', socket => {
     alerts(io, socket);
     gamepad(io, socket);
     scientist(io, socket);
-    // shipCore(io, socket);
+    shipIO(io, socket, Aurora);
 });
 
 app.get("*", (req, res) => {

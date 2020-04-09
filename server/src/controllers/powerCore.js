@@ -1,23 +1,3 @@
-let PowerCore = {
-      Capacity: 1000000,
-      PowerProduction: 0,
-      PowerCons: 0,
-      TEG: [0],
-      SolarBatt:{
-        Online: false,
-        PowerProduction: 6000
-      }
-    };
-
-let ThermalCore={
-      Radiator: {
-        Online: false,
-        Eff: 1000
-      },
-      PowerCons: 100,
-      Temp: 0
-    };
-
 module.exports.recalc_electricity = function(Aurora){
 
   PowerProduction=0;
@@ -25,14 +5,22 @@ module.exports.recalc_electricity = function(Aurora){
 
   //console.log(Aurora);
   Aurora.SubSystems.forEach(function(item,i,arr) {
-    PowerConsumption = PowerConsumption + item.PowerCons;
+    if (item.State == true){PowerConsumption = PowerConsumption + item.PowerCons};
   });
 
-  Aurora.PowerProduction = PowerProduction;
-  Aurora.PowerConsumption = PowerConsumption;
+  let K =Math.log(Aurora.Reactor.Temp/300)/2.1; //нелинейная характеристика работы ячеек. При Т=2400 выдает 1 кВт
+
+  for (let i = 0; i < 1600; i++) {
+    if (Aurora.Power.PowerCells[i]===true&&K>0){PowerProduction = PowerProduction+1000*K}
+   }
+
+  Aurora.Power.PowerProduction = PowerProduction;
+  Aurora.Power.PowerConsumption = PowerConsumption;
+  // console.log(PowerProduction);
 
 };
 
 module.exports.recalc_heat = function(time_scale) {
+
 };
 

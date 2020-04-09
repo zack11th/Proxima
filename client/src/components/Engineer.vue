@@ -7,6 +7,10 @@
         <table-cell></table-cell>
       </div>
       <div class="down">
+        <div class="indicator">
+          <span><div class="indicator-header">Выработка энергии:</div></span><span></span><div class="indicator-value">{{Math.round(AuroraPower.PowerProduction/100)/10 || '--'}} кВт</div></span>
+          <span><div class="indicator-header">Потребление энергии:</div></span><span></span><div class="indicator-value">{{Math.round(AuroraPower.PowerConsumption/100)/10 || '--'}} кВт</div></span>
+        </div>
         <button @click="changeCell">Ячейки других цветов</button>
       </div>
     </div>
@@ -26,7 +30,11 @@
       document.title = 'Инженер';
       this.$socket.emit('conn', 'eng');
     },
-    computed: {},
+    computed: {
+      AuroraPower(){
+        return this.$store.getters.get_AuroraPower;
+      }
+    },
     methods: {
       changeCell() {
         this.$store.commit('changeCell'); // для теста наполняет массив warningCell случайными значениями

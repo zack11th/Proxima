@@ -3,9 +3,15 @@ powerCore = require("./powerCore.js");
 class SubSystem{
     constructor(index,state,name,powerCons){
         this.Index = index;
-        this.name  = name;
+        this.Name  = name;
         this.State = state;
         this.PowerCons = powerCons;
+    }
+}
+class ControlRod {
+    constructor() {
+        this.State = true;
+        this.Position = 50;
     }
 }
 
@@ -18,9 +24,27 @@ module.exports.init_ship = function(){
     Aurora.SubSystems.push(new SubSystem(0,true,"Бортовой компьютер",500));
     Aurora.SubSystems.push(new SubSystem(0,false,"Магнитная ловушка ТМ",120000));
     Aurora.SubSystems.push(new SubSystem(0,false,"Фокусирующий магнит",400000));
-    Aurora.SubSystems.push(new SubSystem(0,false,"Климат-контрль кают",12000));
+    Aurora.SubSystems.push(new SubSystem(0,false,"Климат-контроль кают",12000));
     Aurora.SubSystems.push(new SubSystem(0,false,"Система генерации топлива",200000));
 
+    Aurora.Reactor = {
+        Temp : 700,
+        ControlRods:[]
+    };
+
+    for (let r = 0; r < 5; r++) {
+        Aurora.Reactor.ControlRods.push(new ControlRod);
+    }
+
+    Aurora.Power = {
+        PowerCells : [],
+        PowerConsumption:0,
+        PowerProduction:0
+    };
+
+    for (let i = 0; i < 1599; i++) {
+        Aurora.Power.PowerCells[i]=true;
+    }
     console.log(`Aurora system online`);
 };
 
@@ -28,9 +52,4 @@ module.exports.recalc_state = function(){
     powerCore.recalc_electricity(Aurora);
 };
 
-module.exports.shipCore = function (io, socket) {
-    socket.on('switch', (data) => {
-        let test;
-        test = data;
-    });
-};
+
