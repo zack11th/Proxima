@@ -5,7 +5,7 @@
       <div class="cell"
            v-for="(item, index) in warning"
            :key="index"
-           :class="{warning: item}"
+           :class="{warning: !item}"
       >
       </div>
     </div>
@@ -17,7 +17,7 @@
       name: "TableCell",
       mounted() {
         // setInterval(() => {
-        //   console.log(this.warning[2])
+        //   console.log(this.warning)
         // }, 1000)
       },
       computed: {

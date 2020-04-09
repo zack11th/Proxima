@@ -42,7 +42,7 @@ module.exports.init_ship = function(){
         PowerProduction:0
     };
 
-    for (let i = 0; i < 1599; i++) {
+    for (let i = 0; i < 1600; i++) {
         Aurora.Power.PowerCells[i]=true;
     }
     console.log(`Aurora system online`);
