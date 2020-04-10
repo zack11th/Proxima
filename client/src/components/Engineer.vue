@@ -10,8 +10,42 @@
         <div class="indicator">
           <span><div class="indicator-header">Выработка энергии:</div></span><span></span><div class="indicator-value">{{Math.round(AuroraPower.PowerProduction/100)/10 || '--'}} кВт</div></span>
           <span><div class="indicator-header">Потребление энергии:</div></span><span></span><div class="indicator-value">{{Math.round(AuroraPower.PowerConsumption/100)/10 || '--'}} кВт</div></span>
+          <span><div class="indicator-header">Текущая температура камеры реактора   :</div></span><span></span><div class="indicator-value">{{Math.round(AuroraPower.ReactorTemp) || '--'}} К</div></span>
+          <span><div class="indicator-header">Рассчетная температура камеры реактора:</div></span><span></span><div class="indicator-value">{{Math.round(AuroraPower.TargetTemp) || '--'}} К</div></span>
         </div>
-        <button @click="changeCell">Ячейки других цветов</button>
+        <div class="input-block">
+          <span>Стержень 1</span>
+          <span>{{Math.round(AuroraPower.ControlRods.Rod1)}}</span>
+          <input type="number" ref="rod0">
+        </div>
+        <div class="input-block">
+          <span>Стержень 2</span>
+          <span>{{Math.round(AuroraPower.ControlRods.Rod2)}}</span>
+          <input type="number" ref="rod1">
+        </div>
+        <div class="input-block">
+          <span>Стержень 3</span>
+          <span>{{Math.round(AuroraPower.ControlRods.Rod3)}}</span>
+          <input type="number" ref="rod2">
+        </div>
+        <div class="input-block">
+          <span>Стержень 4</span>
+          <span>{{Math.round(AuroraPower.ControlRods.Rod4)}}</span>
+          <input type="number" ref="rod3">
+        </div>
+        <div class="input-block">
+          <span>Стержень 5</span>
+          <span>{{Math.round(AuroraPower.ControlRods.Rod5)}}</span>
+          <input type="number" ref="rod4">
+        </div>
+        <div class="input-block">
+          <span>Стержень 6</span>
+          <span>{{Math.round(AuroraPower.ControlRods.Rod6)}}</span>
+          <input type="number" ref="rod5">
+        </div>
+        <div class="action">
+          <button @click="changeRods">Задать значения</button>
+        </div>
       </div>
     </div>
 </template>
@@ -36,9 +70,16 @@
       }
     },
     methods: {
-      changeCell() {
-        this.$store.commit('changeCell'); // для теста наполняет массив warningCell случайными значениями
-      }
+      changeRods() {
+        let rod0 = (!isNaN(this.$refs.rod0.valueAsNumber)) ? this.$refs.rod0.valueAsNumber : this.AuroraPower.ControlRods[0];
+        let rod1 = (!isNaN(this.$refs.rod1.valueAsNumber)) ? this.$refs.rod1.valueAsNumber : this.AuroraPower.ControlRods[1];
+        let rod2 = (!isNaN(this.$refs.rod2.valueAsNumber)) ? this.$refs.rod2.valueAsNumber : this.AuroraPower.ControlRods[2];
+        let rod3 = (!isNaN(this.$refs.rod3.valueAsNumber)) ? this.$refs.rod3.valueAsNumber : this.AuroraPower.ControlRods[3];
+        let rod4 = (!isNaN(this.$refs.rod4.valueAsNumber)) ? this.$refs.rod4.valueAsNumber : this.AuroraPower.ControlRods[4];
+        let rod5 = (!isNaN(this.$refs.rod5.valueAsNumber)) ? this.$refs.rod5.valueAsNumber : this.AuroraPower.ControlRods[5];
+        console.log(rod0);
+        this.$store.commit('changeRods', {rod0, rod1, rod2, rod3, rod4, rod5, socket: this.$socket});
+       }
     }
   }
 </script>

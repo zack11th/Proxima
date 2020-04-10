@@ -11,7 +11,7 @@ class SubSystem{
 class ControlRod {
     constructor() {
         this.State = true;
-        this.Position = 50;
+        this.Position = 80;
     }
 }
 
@@ -28,18 +28,20 @@ module.exports.init_ship = function(){
     Aurora.SubSystems.push(new SubSystem(0,false,"Система генерации топлива",200000));
 
     Aurora.Reactor = {
-        Temp : 700,
+        Temp : 1400,
+        TargetTemp : 1400,
         ControlRods:[]
     };
 
-    for (let r = 0; r < 5; r++) {
+    for (let r = 0; r < 6; r++) {
         Aurora.Reactor.ControlRods.push(new ControlRod);
     }
 
     Aurora.Power = {
         PowerCells : [],
         PowerConsumption:0,
-        PowerProduction:0
+        PowerProduction:0,
+        Ticker:0
     };
 
     for (let i = 0; i < 1600; i++) {
@@ -50,6 +52,9 @@ module.exports.init_ship = function(){
 
 module.exports.recalc_state = function(){
     powerCore.recalc_electricity(Aurora);
+    powerCore.recalc_ReactorTemp(Aurora);
 };
 
-
+module.exports.breakTEG = function(percent){
+    powerCore.breakTEG(Aurora,percent);
+};
