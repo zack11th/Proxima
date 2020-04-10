@@ -1,11 +1,11 @@
 module.exports.recalc_electricity = function(Aurora){
 
-  PowerProduction=0;
-  PowerConsumption=0;
+  let PowerProduction=0;
+  let PowerConsumption=0;
 
   //console.log(Aurora);
   Aurora.SubSystems.forEach(function(item,i,arr) {
-    if (item.State === true){PowerConsumption = PowerConsumption + item.PowerCons};
+    if (item.State === true){PowerConsumption = PowerConsumption + item.PowerCons}
   });
 
   let K =Math.log(Aurora.Reactor.Temp/300)/2.1; //нелинейная характеристика работы ячеек. При Т=2400 выдает 1 кВт
@@ -55,25 +55,38 @@ module.exports.recalc_heat = function(Aurora) {
 
 };
 
-testTEG = function(Aurora){
+let testTEG = function(Aurora){
   Aurora.Power.Ticker++;
   if (Aurora.Power.Ticker==20){
       // console.log("tick!");
-      for(i=Math.round(getRandom(0,1599)); i<1600;i++){
+      for(let i=Math.round(getRandom(0,1599)); i<1600;i++){
 
           if(!Aurora.Power.PowerCells[i]){continue}
           let DiceRoll=0;
-          while(DiceRoll<100){DiceRoll=GaussRandom(0,200)};
+          while(DiceRoll<100){DiceRoll=GaussRandom(0,200)}
           DiceRoll=DiceRoll-100;
-          DeltaTemp=Aurora.Reactor.Temp-1400;
+          let DeltaTemp=Aurora.Reactor.Temp-1400;
           // console.log(DiceRoll*DeltaTemp);
           if(DiceRoll*DeltaTemp>1000){
               Aurora.Power.PowerCells[i]=false;
               break;
           }
-      };
+      }
       Aurora.Power.Ticker=0;
   }
+};
+
+function notBroken(Aurora) {
+  let working = [];
+  let start = 0;
+  let current = Aurora.Power.PowerCells.indexOf(true, start);
+
+  while(current !== -1) {
+    working.push(current);
+    start = current + 1;
+    current = Aurora.Power.PowerCells.indexOf(true, start);
+  }
+  return working;
 }
 
 module.exports.breakTEG = function(Aurora,percent) {
@@ -81,14 +94,33 @@ module.exports.breakTEG = function(Aurora,percent) {
   let num = 1600*percent/100;
   let broken = 0;
 
+  let working = notBroken(Aurora);
+
+  if(num > working.length) {
+    Aurora.Power.PowerCells.forEach((item, i) => {
+      Aurora.Power.PowerCells[i] = false;
+    });
+    return false;
+  }
+
   while (broken<num){
-    index = Math.round(Math.random()*1600);
-    if (Aurora.Power.PowerCells[index]){
-        Aurora.Power.PowerCells[index]=false;
+    let index = Math.round(Math.random()*working.length);
+    if (Aurora.Power.PowerCells[working[index]]){
+        Aurora.Power.PowerCells[working[index]]=false;
         broken++;
     }
   }
 
+};
+
+module.exports.recoverTEG = function(Aurora,value) {
+  let cnt = value;
+  while(cnt !== 0) {
+    let i = Aurora.Power.PowerCells.indexOf(false);
+    if(i === -1) return false;
+    Aurora.Power.PowerCells[i] = true;
+    cnt--;
+  }
 };
 
 GaussRandom = function(min, max){

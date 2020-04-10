@@ -229,9 +229,31 @@
           </div>
         </div>
         <!--************** end УЧЕНЫЙ ************-->
-        <div class="commander flex-row">
-          <h3>Командир</h3>
+        <!--*************** ИНЖЕНЕР ***************-->
+        <div class="engineer flex-row">
+          <h3>Инженер</h3>
+          <div class="power flex">
+            <div class="power-cell">
+              <div class="cell"
+                   v-for="(item, index) in warningCell"
+                   :key="index"
+                   :class="{warning: !item}"
+              ></div>
+            </div>
+            <div class="kill-cell">
+              <input type="number" v-model="percentKillCell">
+              <span> %</span>
+              <br>
+              <button @click="killCell">убить</button>
+              <br><br>
+              <input type="number" v-model="recoveringCell">
+              <span> шт</span>
+              <br>
+              <button @click="recoverCell">починить</button>
+            </div>
+          </div>
         </div>
+        <!--************** end ИНЖЕНЕР ************-->
         <div class="all-chat flex-row">
           <h3>Общий чат</h3>
         </div>
@@ -283,7 +305,9 @@
             message: '',
             button: false,
             inProcess: false
-          }
+          },
+          percentKillCell: 0,
+          recoveringCell: 0
         }
       },
       computed: {
@@ -334,6 +358,9 @@
         },
         glossary() {
           return this.$store.getters.get_glossary;
+        },
+        warningCell() {
+          return this.$store.getters.get_warningCell;
         }
       },
       methods: {
@@ -395,8 +422,14 @@
         changeGlossary() {
           let glossary = this.$refs.glossary.valueAsNumber;
           this.$socket.emit('setGlossary', glossary);
+        },
+        // *** ИНЖЕНЕР ***************************
+        killCell() {
+          this.$socket.emit('breakTEG', this.percentKillCell);
+        },
+        recoverCell() {
+          this.$socket.emit('recoverTEG', this.recoveringCell);
         }
-        // *** КОМАНДОР ***************************
         // *** ОБЩИЙ КОМП *************************
       },
       mounted() {
@@ -501,5 +534,24 @@
   }
   .on_surface {
     background-color: #008d00;
+  }
+  .power-cell {
+    display: flex;
+    flex-wrap: wrap;
+    width: 60%;
+    padding-left: 10px;
+  }
+  .cell {
+    width: 4px;
+    height: 4px;
+    margin: 0;
+    background-color: #22c325;
+    box-sizing: border-box;
+  }
+  .warning {
+    background-color: #990000;
+  }
+  .kill-cell {
+    width: 30%;
   }
 </style>

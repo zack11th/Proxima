@@ -1,6 +1,8 @@
 const G = 6.67408*Math.pow(10,-11);
 const M = 6.4171*Math.pow(10,23);
 
+const breakTEG = require('./powerCore').breakTEG;
+
 let orbit = {
     landing: false, // флаг начала приземления Авроры
     scale: 10000,
@@ -319,7 +321,7 @@ function takeOffPlanet(n, io) {
     }, 100);
 }
 
-function pilot(io, socket) {
+function pilot(io, socket, Aurora) {
 
     socket.on('canvas', (data) => {
         orbit.center.cx = data.width / 2;
@@ -397,6 +399,10 @@ function pilot(io, socket) {
 
     socket.on('startVideoLanding', () => {
         console.log('******* start VideoLanding *******');
+        setTimeout(breakTEG, 120000, Aurora, 2);
+        setTimeout(breakTEG, 140000, Aurora, 2);
+        setTimeout(breakTEG, 165000, Aurora, 2);
+
         navigator.stage = 0;
         navigator.speedSurface = 3929;
         navigator.speedSurfaceOptimal = 3929;

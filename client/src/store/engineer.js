@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 export default {
   state: {
-    warningCell: [], // массив из 1600 элементов. true - вышел из строя, false - работает ячейка
+    warningCell: [], // массив из 1600 элементов. true - работает ячейка, false - вышел из строя
     AuroraPower: {
       PowerProduction: 0,
       PowerConsumption: 0,

@@ -23,7 +23,10 @@ function shipIO(io, socket, Aurora) {
         Aurora.Reactor.ControlRods[5].Position = data.ControlRods.Rod6;
     });
     socket.on('breakTEG', (data) => {
-        shipCore.breakTEG(data)
+        shipCore.breakTEG(data);
+    });
+    socket.on('recoverTEG', (data) => {
+        shipCore.recoverTEG(data);
     });
 }
 

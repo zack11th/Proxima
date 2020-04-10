@@ -6,8 +6,7 @@
            v-for="(item, index) in warning"
            :key="index"
            :class="{warning: !item}"
-      >
-      </div>
+      ></div>
     </div>
   </div>
 </template>

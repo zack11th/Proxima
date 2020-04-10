@@ -58,3 +58,7 @@ module.exports.recalc_state = function(){
 module.exports.breakTEG = function(percent){
     powerCore.breakTEG(Aurora,percent);
 };
+
+module.exports.recoverTEG = function(percent){
+    powerCore.recoverTEG(Aurora,percent);
+};
