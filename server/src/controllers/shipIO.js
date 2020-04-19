@@ -28,6 +28,9 @@ function shipIO(io, socket, Aurora) {
     socket.on('recoverTEG', (data) => {
         shipCore.recoverTEG(data);
     });
+    socket.on('auroraBoxMaster', (data) => {
+        io.emit('auroraBox', data);
+    });
 }
 
 module.exports = shipIO;
