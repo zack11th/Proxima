@@ -132,7 +132,7 @@
             this.landing_success) || this.navigator.hardLanding) { // включен режим ручного управления тягой маневрогого двигателя в первый раз
 
             if(this.cameraSpace) {
-              console.log(this.cameraSpace)
+              console.log(this.cameraSpace);
               this.cameraSpace = false;
               this.$store.commit('clearAlert', {socket: this.$socket, alert: 'alertPilot'});
               let countDown = 10; // обратный отсчет перед запуском ручного режима посадки
