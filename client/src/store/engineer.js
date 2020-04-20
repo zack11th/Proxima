@@ -18,7 +18,31 @@ class Batterie {
 
 export default {
   state: {
-    warningCell: [], // массив из 1600 элементов. true - вышел из строя, false - работает ячейка
+    fire: { // объект для классов подсветки горящих модулей Авроры
+      l01: false,
+      l02: false,
+      l03: false,
+      l04: false,
+      r01: false,
+      r02: false,
+      r03: false,
+      r04: false,
+      oxy: false,
+      ch4: false
+    },
+    probit: { // объект для классов подсветки пробитыых модулей Авроры
+      l01: false,
+      l02: false,
+      l03: false,
+      l04: false,
+      r01: false,
+      r02: false,
+      r03: false,
+      r04: false,
+      oxy: false,
+      ch4: false
+    },
+    warningCell: [], // массив из 1600 элементов. true - работает ячейка, false - вышел из строя
     AuroraPower: {
       PowerProduction: 0,
       PowerConsumption: 0,
@@ -43,6 +67,10 @@ export default {
       //   // state.warningCell[i] = !!Math.round(Math.random());
       //   Vue.set(state.warningCell, i, !!Math.round(Math.random())); // такая конструкция, так как Vue не видит изменения внутри массива, возможно, когда эти данные будут прилетать с сервера, такое не понадобится
       // }
+    },
+    SOCKET_auroraBox(state, data) {
+      state.fire = data.fire;
+      state.probit = data.probit;
     },
     SOCKET_EmitPower(state, data) {
       state.AuroraPower.PowerProduction = data.Power.PowerProduction;
@@ -116,6 +144,12 @@ export default {
     },
     get_AuroraPower(state) {
       return state.AuroraPower;
+    },
+    get_fire(state) {
+      return state.fire;
+    },
+    get_probit(state) {
+      return state.probit;
     }
   }
 }

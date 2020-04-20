@@ -229,9 +229,76 @@
           </div>
         </div>
         <!--************** end УЧЕНЫЙ ************-->
-        <div class="commander flex-row">
-          <h3>Командир</h3>
+        <!--*************** ИНЖЕНЕР ***************-->
+        <div class="engineer flex-row">
+          <h3>Инженер</h3>
+          <div class="power flex">
+            <div class="power-cell">
+              <div class="cell"
+                   v-for="(item, index) in warningCell"
+                   :key="index"
+                   :class="{warning: !item}"
+              ></div>
+            </div>
+            <div class="kill-cell">
+              <input type="number" v-model="percentKillCell">
+              <span> %</span>
+              <br>
+              <button @click="killCell">убить</button>
+              <br><br>
+              <input type="number" v-model="recoveringCell">
+              <span> шт</span>
+              <br>
+              <button @click="recoverCell">починить</button>
+            </div>
+          </div>
+          <hr>
+          <div class="aurora-box">
+            <p><b>Проблемы в модулях корабля при посадке</b></p>
+            <p>Отсеки экипажа: левый
+              <input type="checkbox" v-model="fire.l01"> огонь
+              <input type="checkbox" v-model="probit.l01"> дыра
+            </p>
+            <p>Отсеки экипажа: правый
+              <input type="checkbox" v-model="fire.r01"> огонь
+              <input type="checkbox" v-model="probit.r01"> дыра
+            </p>
+            <p>Шлюз:
+              <input type="checkbox" v-model="fire.l02"> огонь
+              <input type="checkbox" v-model="probit.l02"> дыра
+            </p>
+            <p>Медпункт:
+              <input type="checkbox" v-model="fire.r02"> огонь
+              <input type="checkbox" v-model="probit.r02"> дыра
+            </p>
+            <p>Хранилие 1-1
+              <input type="checkbox" v-model="fire.l03"> огонь
+              <input type="checkbox" v-model="probit.l03"> дыра
+            </p>
+            <p>Хранилие 1-2
+              <input type="checkbox" v-model="fire.r03"> огонь
+              <input type="checkbox" v-model="probit.r03"> дыра
+            </p>
+            <p>Хранилие 2-1
+              <input type="checkbox" v-model="fire.l04"> огонь
+              <input type="checkbox" v-model="probit.l04"> дыра
+            </p>
+            <p>Хранилие 2-2
+              <input type="checkbox" v-model="fire.r04"> огонь
+              <input type="checkbox" v-model="probit.r04"> дыра
+            </p>
+            <p>Кислород:
+              <input type="checkbox" v-model="fire.oxy"> огонь
+              <input type="checkbox" v-model="probit.oxy"> дыра
+            </p>
+            <p>CH4:
+              <input type="checkbox" v-model="fire.ch4"> огонь
+              <input type="checkbox" v-model="probit.ch4"> дыра
+            </p>
+            <button @click="auroraBox">Задать</button>
+          </div>
         </div>
+        <!--************** end ИНЖЕНЕР ************-->
         <div class="all-chat flex-row">
           <h3>Общий чат</h3>
         </div>
@@ -283,6 +350,32 @@
             message: '',
             button: false,
             inProcess: false
+          },
+          percentKillCell: 0,
+          recoveringCell: 0,
+          fire: { // объект для классов подсветки горящих модулей Авроры
+            l01: false,
+            l02: false,
+            l03: false,
+            l04: false,
+            r01: false,
+            r02: false,
+            r03: false,
+            r04: false,
+            oxy: false,
+            ch4: false
+          },
+          probit: { // объект для классов подсветки пробитыых модулей Авроры
+            l01: false,
+            l02: false,
+            l03: false,
+            l04: false,
+            r01: false,
+            r02: false,
+            r03: false,
+            r04: false,
+            oxy: false,
+            ch4: false
           }
         }
       },
@@ -334,6 +427,9 @@
         },
         glossary() {
           return this.$store.getters.get_glossary;
+        },
+        warningCell() {
+          return this.$store.getters.get_warningCell;
         }
       },
       methods: {
@@ -395,8 +491,17 @@
         changeGlossary() {
           let glossary = this.$refs.glossary.valueAsNumber;
           this.$socket.emit('setGlossary', glossary);
+        },
+        // *** ИНЖЕНЕР ***************************
+        killCell() {
+          this.$socket.emit('breakTEG', this.percentKillCell);
+        },
+        recoverCell() {
+          this.$socket.emit('recoverTEG', this.recoveringCell);
+        },
+        auroraBox() {
+          this.$socket.emit('auroraBoxMaster', {fire: this.fire, probit: this.probit});
         }
-        // *** КОМАНДОР ***************************
         // *** ОБЩИЙ КОМП *************************
       },
       mounted() {
@@ -501,5 +606,24 @@
   }
   .on_surface {
     background-color: #008d00;
+  }
+  .power-cell {
+    display: flex;
+    flex-wrap: wrap;
+    width: 60%;
+    padding-left: 10px;
+  }
+  .cell {
+    width: 4px;
+    height: 4px;
+    margin: 0;
+    background-color: #22c325;
+    box-sizing: border-box;
+  }
+  .warning {
+    background-color: #990000;
+  }
+  .kill-cell {
+    width: 30%;
   }
 </style>

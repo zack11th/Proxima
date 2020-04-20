@@ -35,7 +35,7 @@ io.on('connection', socket => {
     // socket.join('game'); // создание общего id для всех подключенных клиентов
 
     base(io, socket);
-    pilot(io, socket);
+    pilot(io, socket, Aurora);
     alerts(io, socket);
     gamepad(io, socket);
     scientist(io, socket);

@@ -22,6 +22,8 @@ const glossaryBound = { // сопоставление кол-во словаре
     10: 50
 };
 
+let oldHistory = {};
+
 const alienLang = ['@', '#', '$', '^', '&', '*', '{}', '?'];
 
 function getRandom(min, max) {
@@ -70,10 +72,14 @@ function* getWords(id) {
 }
 
 function getHistoryWithGlosssary(id) {
+    if(oldHistory.hasOwnProperty(id)) {
+        return oldHistory[id]
+    }
     let history = '';
     for(let word of getWords(id)){
         history += word + ' ';
     }
+    oldHistory[id] = history;
     return history;
 }
 
@@ -88,7 +94,10 @@ function scientist(io, socket) {
     });
 
     socket.on('setGlossary', data => {
-        if(data !== null) glossary = data;
+        if(data !== null) {
+            glossary = data;
+            oldHistory = {};
+        }
         io.emit('getGlossary', glossary);
     })
 }
