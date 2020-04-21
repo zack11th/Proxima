@@ -18,11 +18,29 @@
     <div class="rods" :style="{transform: `rotate(300deg)`}">
       <div class="rod-6" :style="{transform: `translate(${AuroraPower.ControlRods.Rod6}%, -50%)`}"></div>
     </div>
+    <div class="target-rods">
+      <div class="targetrod-1" :style="{transform: `translate(${AuroraPower.TargetControlRods.Rod1}%, -50%)`}"></div>
+    </div>
+    <div class="target-rods" :style="{transform: `rotate(60deg)`}">
+      <div class="targetrod-2" :style="{transform: `translate(${AuroraPower.TargetControlRods.Rod2}%, -50%)`}"></div>
+    </div>
+    <div class="target-rods" :style="{transform: `rotate(120deg)`}">
+      <div class="targetrod-3" :style="{transform: `translate(${AuroraPower.TargetControlRods.Rod3}%, -50%)`}"></div>
+    </div>
+    <div class="target-rods" :style="{transform: `rotate(180deg)`}">
+      <div class="targetrod-4" :style="{transform: `translate(${AuroraPower.TargetControlRods.Rod4}%, -50%)`}"></div>
+    </div>
+    <div class="target-rods" :style="{transform: `rotate(240deg)`}">
+      <div class="targetrod-5" :style="{transform: `translate(${AuroraPower.TargetControlRods.Rod5}%, -50%)`}"></div>
+    </div>
+    <div class="target-rods" :style="{transform: `rotate(300deg)`}">
+      <div class="targetrod-6" :style="{transform: `translate(${AuroraPower.TargetControlRods.Rod6}%, -50%)`}"></div>
+    </div>
     <div class="center">
       <div class="temp">
-        <p>{{Math.round(AuroraPower.ReactorTemp) || '--'}} К</p>
+        <p><span style="text-align: left">Текущая:</span><span style="text-align: right">{{Math.round(AuroraPower.ReactorTemp) || '--'}}&deg К</span></p>
         <hr>
-        <p>{{Math.round(AuroraPower.TargetTemp) || '--'}} К</p>
+        <p><span>Расчетная:</span><span>{{Math.round(AuroraPower.TargetTemp) || '--'}}&deg К</span></p>
       </div>
     </div>
   </div>
@@ -61,9 +79,17 @@
     height: 100%;
     border-radius: 50%;
     background-color: rgba(255, 0, 0, 0.5);
-    z-index: 11;
+    z-index: 14;
   }
   .rods {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform-origin: center;
+    z-index: 2;
+    text-align: center;
+  }
+  .target-rods {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -75,18 +101,31 @@
   .rod-4,
   .rod-5,
   .rod-6 {
+     position: absolute;
+     right: 99%;
+     top: 50%;
+     width: 110px;
+     height: 50px;
+     background-color: #22FF25;
+   }
+  .targetrod-1,
+  .targetrod-2,
+  .targetrod-3,
+  .targetrod-4,
+  .targetrod-5,
+  .targetrod-6 {
     position: absolute;
-    right: 100%;
+    right: 99%;
     top: 50%;
-    width: 100px;
-    height: 40px;
-    background-color: #22c325;
+    width: 112px;
+    height: 56px;
+    background-color: #292929;
     z-index: 1;
   }
   .temp {
     box-sizing: border-box;
     position: absolute;
-    width: 25%;
+    width: 35%;
     height: 25%;
     top: 50%;
     left: 50%;

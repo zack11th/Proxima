@@ -57,6 +57,14 @@ export default {
         Rod5: 0,
         Rod6: 0
       },
+      TargetControlRods: {
+        Rod1: 0,
+        Rod2: 0,
+        Rod3: 0,
+        Rod4: 0,
+        Rod5: 0,
+        Rod6: 0
+      },
       Batteries:[new Batterie, new Batterie,new Batterie,new Batterie,new Batterie,new Batterie]
     }
 
@@ -91,6 +99,13 @@ export default {
       state.AuroraPower.ControlRods.Rod4 = data.Reactor.ControlRods[3].Position;
       state.AuroraPower.ControlRods.Rod5 = data.Reactor.ControlRods[4].Position;
       state.AuroraPower.ControlRods.Rod6 = data.Reactor.ControlRods[5].Position;
+
+      state.AuroraPower.TargetControlRods.Rod1 = data.Reactor.ControlRods[0].TargetPosition;
+      state.AuroraPower.TargetControlRods.Rod2 = data.Reactor.ControlRods[1].TargetPosition;
+      state.AuroraPower.TargetControlRods.Rod3 = data.Reactor.ControlRods[2].TargetPosition;
+      state.AuroraPower.TargetControlRods.Rod4 = data.Reactor.ControlRods[3].TargetPosition;
+      state.AuroraPower.TargetControlRods.Rod5 = data.Reactor.ControlRods[4].TargetPosition;
+      state.AuroraPower.TargetControlRods.Rod6 = data.Reactor.ControlRods[5].TargetPosition;
 
       for (let i=0; i<=5; i++){
         //state.AuroraPower.Batteries[i] = data.Power.Batteries[i];
@@ -127,12 +142,12 @@ export default {
        // console.log(state.AuroraPower.Batteries[0]);
     },
     changeRods(state, data) {
-      state.AuroraPower.ControlRods.Rod1 = data.rod0;
-      state.AuroraPower.ControlRods.Rod2 = data.rod1;
-      state.AuroraPower.ControlRods.Rod3 = data.rod2;
-      state.AuroraPower.ControlRods.Rod4 = data.rod3;
-      state.AuroraPower.ControlRods.Rod5 = data.rod4;
-      state.AuroraPower.ControlRods.Rod6 = data.rod5;
+      state.AuroraPower.TargetControlRods.Rod1 = data.rod0;
+      state.AuroraPower.TargetControlRods.Rod2 = data.rod1;
+      state.AuroraPower.TargetControlRods.Rod3 = data.rod2;
+      state.AuroraPower.TargetControlRods.Rod4 = data.rod3;
+      state.AuroraPower.TargetControlRods.Rod5 = data.rod4;
+      state.AuroraPower.TargetControlRods.Rod6 = data.rod5;
 
       data.socket.emit('changeRods', state.AuroraPower);
     },

@@ -12,6 +12,7 @@ class ControlRod {
     constructor() {
         this.State = true;
         this.Position = 80;
+        this.TargetPosition = 80;
     }
 }
 

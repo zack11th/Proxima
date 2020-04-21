@@ -15,12 +15,12 @@ function shipIO(io, socket, Aurora) {
 
     socket.on('changeRods', (data) => {
         //console.log(data.ControlRods);
-        Aurora.Reactor.ControlRods[0].Position = data.ControlRods.Rod1;
-        Aurora.Reactor.ControlRods[1].Position = data.ControlRods.Rod2;
-        Aurora.Reactor.ControlRods[2].Position = data.ControlRods.Rod3;
-        Aurora.Reactor.ControlRods[3].Position = data.ControlRods.Rod4;
-        Aurora.Reactor.ControlRods[4].Position = data.ControlRods.Rod5;
-        Aurora.Reactor.ControlRods[5].Position = data.ControlRods.Rod6;
+        Aurora.Reactor.ControlRods[0].TargetPosition = data.TargetControlRods.Rod1;
+        Aurora.Reactor.ControlRods[1].TargetPosition = data.TargetControlRods.Rod2;
+        Aurora.Reactor.ControlRods[2].TargetPosition = data.TargetControlRods.Rod3;
+        Aurora.Reactor.ControlRods[3].TargetPosition = data.TargetControlRods.Rod4;
+        Aurora.Reactor.ControlRods[4].TargetPosition = data.TargetControlRods.Rod5;
+        Aurora.Reactor.ControlRods[5].TargetPosition = data.TargetControlRods.Rod6;
     });
     socket.on('breakTEG', (data) => {
         shipCore.breakTEG(data);

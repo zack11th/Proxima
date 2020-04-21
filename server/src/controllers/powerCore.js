@@ -28,7 +28,11 @@ module.exports.recalc_ReactorTemp = function(Aurora){
     let TargetTemp = 0;
     let num=0;
     let CoolEff=10;
+
     for (let r = 0; r < 6; r++) {
+        if(Aurora.Reactor.ControlRods[r].Position>Aurora.Reactor.ControlRods[r].TargetPosition){Aurora.Reactor.ControlRods[r].Position=Aurora.Reactor.ControlRods[r].Position-0.5}
+        if(Aurora.Reactor.ControlRods[r].Position<Aurora.Reactor.ControlRods[r].TargetPosition){Aurora.Reactor.ControlRods[r].Position=Aurora.Reactor.ControlRods[r].Position+0.5}
+        // console.log()
         if(Aurora.Reactor.ControlRods[r].State){
           Ttl = Ttl+Aurora.Reactor.ControlRods[r].Position*Aurora.Reactor.ControlRods[r].Position;
           num=num+1;

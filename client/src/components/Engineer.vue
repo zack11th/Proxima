@@ -30,32 +30,32 @@
 
               <div class="input-block">
                 <span>Стержень 1</span>
-                <span>{{Math.round(AuroraPower.ControlRods.Rod1)}}</span>
+                <span>{{Math.round(AuroraPower.TargetControlRods.Rod1)}}/{{Math.round(AuroraPower.ControlRods.Rod1)}}</span>
                 <input type="number" ref="rod0">
               </div>
               <div class="input-block">
                 <span>Стержень 2</span>
-                <span>{{Math.round(AuroraPower.ControlRods.Rod2)}}</span>
+                <span>{{Math.round(AuroraPower.TargetControlRods.Rod2)}}/{{Math.round(AuroraPower.ControlRods.Rod2)}}</span>
                 <input type="number" ref="rod1">
               </div>
               <div class="input-block">
                 <span>Стержень 3</span>
-                <span>{{Math.round(AuroraPower.ControlRods.Rod3)}}</span>
+                <span>{{Math.round(AuroraPower.TargetControlRods.Rod3)}}/{{Math.round(AuroraPower.ControlRods.Rod3)}}</span>
                 <input type="number" ref="rod2">
               </div>
               <div class="input-block">
                 <span>Стержень 4</span>
-                <span>{{Math.round(AuroraPower.ControlRods.Rod4)}}</span>
+                <span>{{Math.round(AuroraPower.TargetControlRods.Rod4)}}/{{Math.round(AuroraPower.ControlRods.Rod4)}}</span>
                 <input type="number" ref="rod3">
               </div>
               <div class="input-block">
                 <span>Стержень 5</span>
-                <span>{{Math.round(AuroraPower.ControlRods.Rod5)}}</span>
+                <span>{{Math.round(AuroraPower.TargetControlRods.Rod5)}}/{{Math.round(AuroraPower.ControlRods.Rod5)}}</span>
                 <input type="number" ref="rod4">
               </div>
               <div class="input-block">
                 <span>Стержень 6</span>
-                <span>{{Math.round(AuroraPower.ControlRods.Rod6)}}</span>
+                <span>{{Math.round(AuroraPower.TargetControlRods.Rod6)}}/{{Math.round(AuroraPower.ControlRods.Rod6)}}</span>
                 <input type="number" ref="rod5">
               </div>
               <div class="action">
