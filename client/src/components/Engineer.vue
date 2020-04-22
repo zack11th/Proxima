@@ -63,7 +63,14 @@
               </div>
             </td>
             <td width="200">
-
+              <div class="batery">
+                <div class="batery-cell" :class="{full: AuroraPower.Batteries[0].CurrCapacity > 1}"></div>
+                <div class="batery-cell" :class="{full: AuroraPower.Batteries[0].CurrCapacity > 20}"></div>
+                <div class="batery-cell" :class="{full: AuroraPower.Batteries[0].CurrCapacity > 40}"></div>
+                <div class="batery-cell" :class="{full: AuroraPower.Batteries[0].CurrCapacity > 60}"></div>
+                <div class="batery-cell" :class="{full: AuroraPower.Batteries[0].CurrCapacity > 80}"></div>
+                <div class="batery-cell small" :class="{full: AuroraPower.Batteries[0].CurrCapacity > 95}"></div>
+              </div>
               <div class="header">
                 <h2>Батарея 1</h2>
               </div>
@@ -75,6 +82,14 @@
               <div class="indicator"><span>{{AuroraPower.Batteries[0].ChargeOnly}}</span></div>
             </td>
             <td width="200">
+              <div class="batery">
+                <div class="batery-cell" :class="{full: AuroraPower.Batteries[1].CurrCapacity > 1}"></div>
+                <div class="batery-cell" :class="{full: AuroraPower.Batteries[1].CurrCapacity > 20}"></div>
+                <div class="batery-cell" :class="{full: AuroraPower.Batteries[1].CurrCapacity > 40}"></div>
+                <div class="batery-cell" :class="{full: AuroraPower.Batteries[1].CurrCapacity > 60}"></div>
+                <div class="batery-cell" :class="{full: AuroraPower.Batteries[1].CurrCapacity > 80}"></div>
+                <div class="batery-cell small" :class="{full: AuroraPower.Batteries[1].CurrCapacity > 95}"></div>
+              </div>
               <div class="header">
                 <h2>Батарея 2</h2>
                 <div class="indicator"><span>Состояние: </span><span>{{AuroraPower.Batteries[1].State}}</span></div>
@@ -86,6 +101,14 @@
               </div>
             </td>
             <td width="200">
+              <div class="batery">
+                <div class="batery-cell" :class="{full: AuroraPower.Batteries[2].CurrCapacity > 1}"></div>
+                <div class="batery-cell" :class="{full: AuroraPower.Batteries[2].CurrCapacity > 20}"></div>
+                <div class="batery-cell" :class="{full: AuroraPower.Batteries[2].CurrCapacity > 40}"></div>
+                <div class="batery-cell" :class="{full: AuroraPower.Batteries[2].CurrCapacity > 60}"></div>
+                <div class="batery-cell" :class="{full: AuroraPower.Batteries[2].CurrCapacity > 80}"></div>
+                <div class="batery-cell small" :class="{full: AuroraPower.Batteries[2].CurrCapacity > 95}"></div>
+              </div>
               <div class="header">
                 <h2>Батарея 3</h2>
                 <div class="indicator"><span>Состояние: </span><span>{{AuroraPower.Batteries[2].State}}</span></div>
@@ -97,6 +120,14 @@
               </div>
             </td>
             <td width="200">
+              <div class="batery">
+                <div class="batery-cell" :class="{full: AuroraPower.Batteries[3].CurrCapacity > 1}"></div>
+                <div class="batery-cell" :class="{full: AuroraPower.Batteries[3].CurrCapacity > 20}"></div>
+                <div class="batery-cell" :class="{full: AuroraPower.Batteries[3].CurrCapacity > 40}"></div>
+                <div class="batery-cell" :class="{full: AuroraPower.Batteries[3].CurrCapacity > 60}"></div>
+                <div class="batery-cell" :class="{full: AuroraPower.Batteries[3].CurrCapacity > 80}"></div>
+                <div class="batery-cell small" :class="{full: AuroraPower.Batteries[3].CurrCapacity > 95}"></div>
+              </div>
               <div class="header">
                 <h2>Батарея 4</h2>
                 <div class="indicator"><span>Состояние: </span><span>{{AuroraPower.Batteries[3].State}}</span></div>
@@ -108,6 +139,14 @@
               </div>
             </td>
             <td width="200">
+              <div class="batery">
+                <div class="batery-cell" :class="{full: AuroraPower.Batteries[4].CurrCapacity > 1}"></div>
+                <div class="batery-cell" :class="{full: AuroraPower.Batteries[4].CurrCapacity > 20}"></div>
+                <div class="batery-cell" :class="{full: AuroraPower.Batteries[4].CurrCapacity > 40}"></div>
+                <div class="batery-cell" :class="{full: AuroraPower.Batteries[4].CurrCapacity > 60}"></div>
+                <div class="batery-cell" :class="{full: AuroraPower.Batteries[4].CurrCapacity > 80}"></div>
+                <div class="batery-cell small" :class="{full: AuroraPower.Batteries[4].CurrCapacity > 95}"></div>
+              </div>
               <div class="header">
                 <h2>Батарея 5</h2>
                 <div class="indicator"><span>Состояние: </span><span>{{AuroraPower.Batteries[4].State}}</span></div>
@@ -119,6 +158,14 @@
               </div>
             </td>
             <td width="200">
+              <div class="batery">
+                <div class="batery-cell" :class="{full: AuroraPower.Batteries[5].CurrCapacity > 1}"></div>
+                <div class="batery-cell" :class="{full: AuroraPower.Batteries[5].CurrCapacity > 20}"></div>
+                <div class="batery-cell" :class="{full: AuroraPower.Batteries[5].CurrCapacity > 40}"></div>
+                <div class="batery-cell" :class="{full: AuroraPower.Batteries[5].CurrCapacity > 60}"></div>
+                <div class="batery-cell" :class="{full: AuroraPower.Batteries[5].CurrCapacity > 80}"></div>
+                <div class="batery-cell small" :class="{full: AuroraPower.Batteries[5].CurrCapacity > 95}"></div>
+              </div>
               <div class="header">
                 <h2>Батарея 6</h2>
                 <div class="indicator"><span>Состояние: </span><span>{{AuroraPower.Batteries[5].State}}</span></div>
@@ -202,5 +249,25 @@
       box-shadow: none;
       color: #ce6e00;
     }
+  }
+  .batery {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+
+  }
+  .batery-cell {
+    height: 100%;
+    width: 20px;
+    border: 1px solid #ce6e00;
+    margin-right: 5px;
+  }
+  .batery-cell.small {
+    height: 50%;
+    width: 10px;
+  }
+  .full {
+    background-color: #22c325;
   }
 </style>
