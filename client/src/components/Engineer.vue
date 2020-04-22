@@ -156,12 +156,12 @@
     },
     methods: {
       changeRods() {
-        let rod0 = (!isNaN(this.$refs.rod0.valueAsNumber)) ? this.$refs.rod0.valueAsNumber : this.AuroraPower.ControlRods[0];
-        let rod1 = (!isNaN(this.$refs.rod1.valueAsNumber)) ? this.$refs.rod1.valueAsNumber : this.AuroraPower.ControlRods[1];
-        let rod2 = (!isNaN(this.$refs.rod2.valueAsNumber)) ? this.$refs.rod2.valueAsNumber : this.AuroraPower.ControlRods[2];
-        let rod3 = (!isNaN(this.$refs.rod3.valueAsNumber)) ? this.$refs.rod3.valueAsNumber : this.AuroraPower.ControlRods[3];
-        let rod4 = (!isNaN(this.$refs.rod4.valueAsNumber)) ? this.$refs.rod4.valueAsNumber : this.AuroraPower.ControlRods[4];
-        let rod5 = (!isNaN(this.$refs.rod5.valueAsNumber)) ? this.$refs.rod5.valueAsNumber : this.AuroraPower.ControlRods[5];
+        let rod0 = (!isNaN(this.$refs.rod0.valueAsNumber)) ? this.$refs.rod0.valueAsNumber : this.AuroraPower.ControlRods.Rod1;
+        let rod1 = (!isNaN(this.$refs.rod1.valueAsNumber)) ? this.$refs.rod1.valueAsNumber : this.AuroraPower.ControlRods.Rod2;
+        let rod2 = (!isNaN(this.$refs.rod2.valueAsNumber)) ? this.$refs.rod2.valueAsNumber : this.AuroraPower.ControlRods.Rod3;
+        let rod3 = (!isNaN(this.$refs.rod3.valueAsNumber)) ? this.$refs.rod3.valueAsNumber : this.AuroraPower.ControlRods.Rod4;
+        let rod4 = (!isNaN(this.$refs.rod4.valueAsNumber)) ? this.$refs.rod4.valueAsNumber : this.AuroraPower.ControlRods.Rod5;
+        let rod5 = (!isNaN(this.$refs.rod5.valueAsNumber)) ? this.$refs.rod5.valueAsNumber : this.AuroraPower.ControlRods.Rod6;
         //console.log(rod0);
         this.$store.commit('changeRods', {rod0, rod1, rod2, rod3, rod4, rod5, socket: this.$socket});
        }
