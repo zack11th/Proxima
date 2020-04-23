@@ -2,21 +2,27 @@
   <div class="reactor" ref="reactorRef">
     <div class="rods">
       <div class="rod-1" :style="{transform: `translate(${AuroraPower.ControlRods.Rod1}%, -50%)`}"></div>
+      <div class="text-rod t-rod-1">{{Math.round(AuroraPower.ControlRods.Rod1)}} %</div>
     </div>
     <div class="rods" :style="{transform: `rotate(60deg)`}">
       <div class="rod-2" :style="{transform: `translate(${AuroraPower.ControlRods.Rod2}%, -50%)`}"></div>
+      <div class="text-rod t-rod-2" :style="{transform: `rotate(-60deg)`}">{{Math.round(AuroraPower.ControlRods.Rod2)}} %</div>
     </div>
     <div class="rods" :style="{transform: `rotate(120deg)`}">
       <div class="rod-3" :style="{transform: `translate(${AuroraPower.ControlRods.Rod3}%, -50%)`}"></div>
+      <div class="text-rod t-rod-3" :style="{transform: `rotate(-120deg)`}">{{Math.round(AuroraPower.ControlRods.Rod3)}} %</div>
     </div>
     <div class="rods" :style="{transform: `rotate(180deg)`}">
       <div class="rod-4" :style="{transform: `translate(${AuroraPower.ControlRods.Rod4}%, -50%)`}"></div>
+      <div class="text-rod t-rod-4" :style="{transform: `rotate(-180deg)`}">{{Math.round(AuroraPower.ControlRods.Rod4)}} %</div>
     </div>
     <div class="rods" :style="{transform: `rotate(240deg)`}">
       <div class="rod-5" :style="{transform: `translate(${AuroraPower.ControlRods.Rod5}%, -50%)`}"></div>
+      <div class="text-rod t-rod-5" :style="{transform: `rotate(-240deg)`}">{{Math.round(AuroraPower.ControlRods.Rod5)}} %</div>
     </div>
     <div class="rods" :style="{transform: `rotate(300deg)`}">
       <div class="rod-6" :style="{transform: `translate(${AuroraPower.ControlRods.Rod6}%, -50%)`}"></div>
+      <div class="text-rod t-rod-6" :style="{transform: `rotate(-300deg)`}">{{Math.round(AuroraPower.ControlRods.Rod6)}} %</div>
     </div>
     <div class="target-rods">
       <div class="targetrod-1" :style="{transform: `translate(${AuroraPower.TargetControlRods.Rod1}%, -50%)`}"></div>
@@ -38,7 +44,7 @@
     </div>
     <div class="center">
       <div class="temp">
-        <p><span style="text-align: left">Текущая:</span><span style="text-align: right">{{Math.round(AuroraPower.ReactorTemp) || '--'}}&deg К</span></p>
+        <p><span>Текущая:</span><span>{{Math.round(AuroraPower.ReactorTemp) || '--'}}&deg К</span></p>
         <hr>
         <p><span>Расчетная:</span><span>{{Math.round(AuroraPower.TargetTemp) || '--'}}&deg К</span></p>
       </div>
@@ -125,7 +131,7 @@
   .temp {
     box-sizing: border-box;
     position: absolute;
-    width: 35%;
+    width: 120px;
     height: 25%;
     top: 50%;
     left: 50%;
@@ -136,9 +142,14 @@
     align-items: center;
     background-color: rgba(7, 7, 7, 0.5);
     border-radius: 10px;
+    padding: 0 5px;
   }
   .temp > p {
     margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
   }
   .temp > hr {
     box-sizing: border-box;
@@ -147,4 +158,10 @@
     border: 2px solid #22c325;
     border-radius: 2px;
   }
+  .text-rod {
+    position: absolute;
+    top: 50%;
+    left: -150px;
+  }
+
 </style>
