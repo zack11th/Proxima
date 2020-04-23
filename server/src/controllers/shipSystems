@@ -1,0 +1,20 @@
+module.exports.recalc_atmosphere = function(Aurora){
+    let TotalVolume = 0;
+    let TotalCons = 1.2*8;
+    Aurora.Rooms.forEach(function(item,i,arr) {
+        if (item.State === true&&item.Isolated===false){TotalVolume = TotalVolume + item.Vol}
+    });
+}
+
+module.exports.recalc_fuel = function(Aurora,Thrust,Acc){
+    //  F=ma
+    let F=0;
+    let K=1;
+    let ConsFuel=0;
+    let ConsOxyg=0;
+    if (Thrust===0){F=Acc*Aurora.TotalMass/10000}else{F=Thrust};
+    ConsFuel = F*K;
+    ConsOxyg = F*K*4;
+    Aurora.Tanks[0].Vol = Aurora.Tanks[0].Vol-ConsFuel;
+    Aurora.Tanks[1].Vol = Aurora.Tanks[1].Vol-ConsOxyg;
+}

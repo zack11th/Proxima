@@ -25,7 +25,9 @@ module.exports.recalc_electricity = function(Aurora){
 module.exports.recalc_ReactorTemp = function(Aurora){
     let Avg = 0;
     let Ttl = 0;
-    let TargetTemp = 0;
+    let TgtAvg = 0;
+    // let TgtTtl = 0;
+    // let TargetTemp = 0;
     let num=0;
     let CoolEff=10;
 
@@ -34,7 +36,8 @@ module.exports.recalc_ReactorTemp = function(Aurora){
         if(Aurora.Reactor.ControlRods[r].Position<Aurora.Reactor.ControlRods[r].TargetPosition){Aurora.Reactor.ControlRods[r].Position=Aurora.Reactor.ControlRods[r].Position+0.5}
         // console.log()
         if(Aurora.Reactor.ControlRods[r].State){
-          Ttl = Ttl+Aurora.Reactor.ControlRods[r].Position*Aurora.Reactor.ControlRods[r].Position;
+          // Ttl = Ttl+Aurora.Reactor.ControlRods[r].Position*Aurora.Reactor.ControlRods[r].Position;
+          Ttl = Ttl+Aurora.Reactor.ControlRods[r].TargetPosition*Aurora.Reactor.ControlRods[r].TargetPosition;
           num=num+1;
         }
     }
