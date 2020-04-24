@@ -453,4 +453,5 @@ function pilot(io, socket, Aurora) {
     })
 }
 
-module.exports = pilot;
+module.exports.pilot = pilot;
+module.exports.nav = navigator;

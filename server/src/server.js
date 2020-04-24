@@ -6,13 +6,15 @@ const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
-const pilot = require('./controllers/pilot');
+const pilot = require('./controllers/pilot').pilot;
 const alerts = require('./controllers/alerts');
 const gamepad = require('./controllers/gamepad');
 const base = require('./controllers/base');
 const scientist = require('./controllers/scientist');
 const shipIO = require('./controllers/shipIO');
 const shipCore = require('./controllers/shipCore');
+
+const nav = require('./controllers/pilot').nav;
 
 
 // routes import
