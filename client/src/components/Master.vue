@@ -14,7 +14,7 @@
         <button @click="reboot('eng')" :class="{down: !clients.eng}">Инженер</button>
         <button @click="reboot('eng_2')" :class="{down: !clients.eng_2}">Инженер_2</button>
         <button @click="reboot('scient')" :class="{down: !clients.scient}">Ученый</button>
-        <button @click="">Медики</button>
+        <button @click="reboot('med')" :class="{down: !clients.med}">Медики</button>
         <button @click="">Командир</button>
         <button @click="">Общий</button>
       </div>
