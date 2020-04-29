@@ -22,6 +22,10 @@
       alertMedic() {
         return this.$store.getters.alertMedic
       }
+    },
+    mounted() {
+      document.title = 'Медик';
+      this.$socket.emit('conn', 'med');
     }
   }
 </script>
