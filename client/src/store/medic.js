@@ -31,7 +31,7 @@ export default {
         id: 3,
         name: 'Кристина Банделопа',
         gamer: 'Василий3',
-        profile: 'медик',
+        profile: 'Медик',
         img: 'medic.svg',
         puls: 80,
         preassureU: 120,
@@ -57,7 +57,7 @@ export default {
         id: 5,
         name: 'Джон Доу',
         gamer: 'Василий5',
-        profile: 'инженер',
+        profile: 'Инженер',
         img: 'engineer.svg',
         puls: 80,
         preassureU: 120,
@@ -70,7 +70,7 @@ export default {
         id: 6,
         name: 'Джон Доу',
         gamer: 'Василий6',
-        profile: 'инженер',
+        profile: 'Инженер',
         img: 'engineer.svg',
         puls: 80,
         preassureU: 120,
@@ -83,7 +83,7 @@ export default {
         id: 7,
         name: 'Джон Доу',
         gamer: 'Василий',
-        profile: 'ученый',
+        profile: 'Ученый',
         img: 'scient.svg',
         puls: 80,
         preassureU: 120,
@@ -96,7 +96,7 @@ export default {
         id: 8,
         name: 'Джон Доу',
         gamer: 'Василий',
-        profile: 'связист',
+        profile: 'Связист',
         img: 'gps.svg',
         puls: 80,
         preassureU: 120,
@@ -108,6 +108,9 @@ export default {
     ]
   },
   mutations: {
+    SOCKET_recalcMedic(state, data) {
+      state.personal = data;
+    }
   },
   actions:{},
   getters: {

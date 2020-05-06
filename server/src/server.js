@@ -11,6 +11,8 @@ const alerts = require('./controllers/alerts');
 const gamepad = require('./controllers/gamepad');
 const base = require('./controllers/base');
 const scientist = require('./controllers/scientist');
+const medic = require('./controllers/medic');
+const medic_recalc = require('./controllers/medic');
 const shipIO = require('./controllers/shipIO');
 const shipCore = require('./controllers/shipCore');
 
@@ -41,6 +43,7 @@ io.on('connection', socket => {
     alerts(io, socket);
     gamepad(io, socket);
     scientist(io, socket);
+    medic(io, socket, Aurora);
     shipIO(io, socket, Aurora);
 });
 
@@ -58,4 +61,5 @@ shipCore.init_ship();
 
 setInterval(function () {
     shipCore.recalc_state();
+    medic_recalc(io);
 },1000);

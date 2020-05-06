@@ -227,8 +227,66 @@
             <input type="number" ref="glossary">
             <button @click="changeGlossary">ok</button>
           </div>
+          <!--************** end УЧЕНЫЙ ************-->
+          <hr>
+          <!--*************** МЕДИКИ ***************-->
+          <h3>Медик</h3>
+          <div  class="pacient"
+                v-for="person in personal"
+                :key="person.id">
+            <div class="gamer">{{ person.gamer }}</div>
+            <div class="row">
+              <span>{{ person.profile }}:&nbsp </span>
+              <input type="radio" :name="`group${person.id}}`" value="name" checked>
+              <span> {{ person.name }}</span>
+              <input type="text" :ref="`medicInput${person.id}`">
+              <button>ok</button>
+            </div>
+            <div class="row">
+              <div class="col">
+                <input type="radio" :name="`group${person.id}}`" value="puls">
+                <span>пульс</span>
+                <span>{{ person.puls }}</span>
+                <button>up</button>
+                <button>down</button>
+              </div>
+              <div class="col">
+                <span>
+                  <input type="radio" :name="`group${person.id}}`" value="preassureU"> /
+                  <input type="radio" :name="`group${person.id}}`" value="preassureD">
+                </span>
+                <span>Pa</span>
+                <span>{{ person.preassureU }} / {{ person.preassureD }}</span>
+                <button>up</button>
+                <button>down</button>
+              </div>
+              <div class="col">
+                <input type="radio" :name="`group${person.id}}`" value="oxy">
+                <span>O<sub>2</sub></span>
+                <span>{{ person.oxy }}</span>
+                <button>up</button>
+                <button>down</button>
+              </div>
+              <div class="col">
+                <input type="radio" :name="`group${person.id}}`" value="water">
+                <span>H<sub>2</sub>O</span>
+                <span>{{ person.water }}</span>
+                <button>up</button>
+                <button>down</button>
+              </div>
+              <div class="col">
+                <input type="radio" :name="`group${person.id}}`" value="nuclear">
+                <span>rad</span>
+                <span>{{ person.nuclear }}</span>
+                <button>up</button>
+                <button>down</button>
+              </div>
+            </div>
+            <button class="row">Сделать ПЛОХО</button>
+          </div>
+          <!--*************** end МЕДИКИ ***************-->
         </div>
-        <!--************** end УЧЕНЫЙ ************-->
+
         <!--*************** ИНЖЕНЕР ***************-->
         <div class="engineer flex-row">
           <h3>Инженер</h3>
@@ -428,6 +486,9 @@
         glossary() {
           return this.$store.getters.get_glossary;
         },
+        personal() {
+          return this.$store.getters.personal;
+        },
         warningCell() {
           return this.$store.getters.get_warningCell;
         }
@@ -625,5 +686,33 @@
   }
   .kill-cell {
     width: 30%;
+  }
+  .aurora-box > p {
+    text-align: right;
+  }
+  .aurora-box > button {
+    position: relative;
+    width: 50%;
+    left: 50%;
+  }
+  .pacient {
+    margin-bottom: 5px;
+  }
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: space-between;
+  }
+  .col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .gamer {
+    color: black;
+    font-weight: bold;
+    background-color: darkorange;
+    text-align: center;
   }
 </style>
