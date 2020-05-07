@@ -237,14 +237,14 @@
             <div class="gamer">{{ person.gamer }}</div>
             <div class="row">
               <span>{{ person.profile }}:&nbsp </span>
-              <input type="radio" :name="`group${person.id}}`" value="name" checked>
+              <input type="radio" :name="`group${person.id}`" value="name" checked>
               <span> {{ person.name }}</span>
               <input type="text" :ref="`medicInput${person.id}`">
-              <button>ok</button>
+              <button @click="medicChange(person.id)">ok</button>
             </div>
             <div class="row">
               <div class="col">
-                <input type="radio" :name="`group${person.id}}`" value="puls">
+                <input type="radio" :name="`group${person.id}`" value="puls">
                 <span>пульс</span>
                 <span>{{ person.puls }}</span>
                 <button>up</button>
@@ -252,8 +252,8 @@
               </div>
               <div class="col">
                 <span>
-                  <input type="radio" :name="`group${person.id}}`" value="preassureU"> /
-                  <input type="radio" :name="`group${person.id}}`" value="preassureD">
+                  <input type="radio" :name="`group${person.id}`" value="preassureU"> /
+                  <input type="radio" :name="`group${person.id}`" value="preassureD">
                 </span>
                 <span>Pa</span>
                 <span>{{ person.preassureU }} / {{ person.preassureD }}</span>
@@ -261,21 +261,21 @@
                 <button>down</button>
               </div>
               <div class="col">
-                <input type="radio" :name="`group${person.id}}`" value="oxy">
+                <input type="radio" :name="`group${person.id}`" value="oxy">
                 <span>O<sub>2</sub></span>
                 <span>{{ person.oxy }}</span>
                 <button>up</button>
                 <button>down</button>
               </div>
               <div class="col">
-                <input type="radio" :name="`group${person.id}}`" value="water">
+                <input type="radio" :name="`group${person.id}`" value="water">
                 <span>H<sub>2</sub>O</span>
                 <span>{{ person.water }}</span>
                 <button>up</button>
                 <button>down</button>
               </div>
               <div class="col">
-                <input type="radio" :name="`group${person.id}}`" value="nuclear">
+                <input type="radio" :name="`group${person.id}`" value="nuclear">
                 <span>rad</span>
                 <span>{{ person.nuclear }}</span>
                 <button>up</button>
@@ -552,6 +552,15 @@
         changeGlossary() {
           let glossary = this.$refs.glossary.valueAsNumber;
           this.$socket.emit('setGlossary', glossary);
+        },
+        // *** МЕДИКИ ***************************
+        medicChange(id) {
+          let name = null;
+          document.getElementsByName(`group${id}`).forEach(item => {
+            if (item.checked) name = item.value;
+          });
+          let value = this.$refs[`medicInput${id}`][0].value;
+          this.$socket.emit('medicChangeMaster', {id, name, value});
         },
         // *** ИНЖЕНЕР ***************************
         killCell() {

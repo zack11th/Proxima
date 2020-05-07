@@ -11,8 +11,8 @@ const alerts = require('./controllers/alerts');
 const gamepad = require('./controllers/gamepad');
 const base = require('./controllers/base');
 const scientist = require('./controllers/scientist');
-const medic = require('./controllers/medic');
-const medic_recalc = require('./controllers/medic');
+const medic = require('./controllers/medic').medic;
+const medic_recalc = require('./controllers/medic').medic_recalc;
 const shipIO = require('./controllers/shipIO');
 const shipCore = require('./controllers/shipCore');
 

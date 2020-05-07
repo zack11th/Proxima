@@ -5,7 +5,7 @@ let personal = [
     gamer: 'Василий1',
     profile: 'Командор',
     img: 'command.svg',
-    puls: 80,
+    puls: 190,
     preassureU: 120,
     preassureD: 80,
     oxy: 95,
@@ -106,12 +106,16 @@ let personal = [
 ];
 
 function medic(io, socket, Aurora) {
-
+  socket.on('medicChangeMaster', (data) => {
+    if (data.name !== 'name') data.value = Number(data.value);
+    personal.find(person => person.id === data.id)[data.name] = data.value;
+    console.log(typeof data.value)
+  })
 }
 
 function medic_recalc(io) {
   io.emit('recalcMedic', personal)
 }
 
-module.exports = medic;
-module.exports = medic_recalc;
+module.exports.medic = medic;
+module.exports.medic_recalc = medic_recalc;
